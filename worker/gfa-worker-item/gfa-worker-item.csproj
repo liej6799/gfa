@@ -13,4 +13,8 @@
     <ItemGroup>
       <ProjectReference Include="..\gfa-worker-common\gfa-worker-common.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <None Include="BaseItem.json" />
+    </ItemGroup>
 </Project>

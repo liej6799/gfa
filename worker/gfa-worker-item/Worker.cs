@@ -22,12 +22,24 @@ namespace gfa_worker_item
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                string args = "/PR1:3" + CommonHelper.tab + CredsHelper.GetCreds();
-                ProcessHelper processHelper = new ProcessHelper(gfa_worker_common.Worker.ItemWorker, args);
-                BaseItem baseItem =  ParseHelper.BaseItemParser(processHelper.Run());
+                Test();
                 _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
                 await Task.Delay(1000, stoppingToken);
             }
         }
+
+        private void Normal()
+        {
+            string args = "/PR1:3" + CommonHelper.tab + CredsHelper.GetCreds();
+            ProcessHelper processHelper = new ProcessHelper(gfa_worker_common.Worker.ItemWorker, args);
+            BaseItem baseItem =  ParseHelper.BaseItemParser(processHelper.Run());
+        }
+
+        private void Test()
+        {
+            BaseItem baseItem = ParseHelper.TestBaseItemParser();
+        }
+        
+        
     }
 }
