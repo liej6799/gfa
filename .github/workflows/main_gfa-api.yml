@@ -53,5 +53,5 @@ jobs:
       with:
         app-name: 'gfa-api'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_5995f889661645b4b5d82aee6acf0b89 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_8f7cb8672b4e4b7ebb978afe8fd64d83 }}
         package: .
