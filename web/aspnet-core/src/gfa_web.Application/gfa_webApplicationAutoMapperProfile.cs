@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using gfa_web.Items;
 
 namespace gfa_web
 {
@@ -9,6 +10,8 @@ namespace gfa_web
             /* You can configure your AutoMapper mapping configuration here.
              * Alternatively, you can split your mapping configurations
              * into multiple profile classes for a better organization. */
+            CreateMap<Item, ItemDto>();
+            CreateMap<CreateUpdateItemDto, Item>();
         }
     }
 }
