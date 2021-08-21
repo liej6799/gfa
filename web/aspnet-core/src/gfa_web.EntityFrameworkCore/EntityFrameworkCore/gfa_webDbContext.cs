@@ -81,6 +81,7 @@ namespace gfa_web.EntityFrameworkCore
             {
                 b.ToTable("Items");
                 b.ConfigureByConvention(); //auto configure for the base class props
+                
                 b.Property(x => x.Name).IsRequired().HasMaxLength(128);
             });
             

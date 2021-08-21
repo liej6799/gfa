@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using gfa_web.Items;
 
 namespace gfa_web
@@ -11,7 +12,9 @@ namespace gfa_web
              * Alternatively, you can split your mapping configurations
              * into multiple profile classes for a better organization. */
             CreateMap<Item, ItemDto>();
+            CreateMap<Item, CreateUpdateItemDto>();
             CreateMap<CreateUpdateItemDto, Item>();
+            
         }
     }
 }

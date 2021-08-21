@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -16,21 +17,27 @@ namespace gfa_web.Items
             CreateUpdateItemDto>, //Used to create/update a book
         IItemAppService //implement the IBookAppService
     {
+        private IRepository<Item> itemsRepository;
         public ItemAppService(IRepository<Item, Guid> repository)
             : base(repository)
         {
 
         }
-
-        public List<ItemDto> GetCountryListWithoutPaged()
+        
+        public List<CreateUpdateItemDto> GetListNoPaged()
         {
-            //var commonCountry = await Repository.GetListAsync();
-            var item = new List<Item>();
-            item.Add(new Item()
-            {
-                Name = "awd"
-            });
-            return ObjectMapper.Map<List<Item>, List<ItemDto>>(item);
+            return ObjectMapper.Map<List<Item>, List<CreateUpdateItemDto>>(Repository.ToList());
         }
+        
+        public void BatchUpdate(List<CreateUpdateItemDto> createUpdateItemDto)
+        {
+            Repository.UpdateManyAsync(ObjectMapper.Map<List<CreateUpdateItemDto>, List<Item>>(createUpdateItemDto));
+        }
+        
+        public void BatchInsert(List<CreateUpdateItemDto> createUpdateItemDto)
+        {
+            Repository.InsertManyAsync(ObjectMapper.Map<List<CreateUpdateItemDto>, List<Item>>(createUpdateItemDto));
+        }
+    
     }
 }

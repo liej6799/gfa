@@ -4,18 +4,19 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using gfa_worker_common;
+using gfa_worker_common.Network;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-
 namespace gfa_worker_item
 {
     public class Worker : BackgroundService
     {
         private readonly ILogger<Worker> _logger;
-
+        private readonly ItemNetwork _itemNetwork;
         public Worker(ILogger<Worker> logger)
         {
             _logger = logger;
+            _itemNetwork = new ItemNetwork();
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -38,6 +39,7 @@ namespace gfa_worker_item
         private void Test()
         {
             BaseItem baseItem = ParseHelper.TestBaseItemParser();
+            _itemNetwork.Run(baseItem);
         }
         
         

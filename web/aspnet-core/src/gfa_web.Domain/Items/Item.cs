@@ -5,6 +5,7 @@ namespace gfa_web.Items
 {
     public class Item : AuditedAggregateRoot<Guid>
     {
+        public int SourceId { get; set; }
         public string Name { get; set; }
 
         public string Code { get; set; }

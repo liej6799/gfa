@@ -262,3 +262,5 @@ src/gfa_web.Blazor.Server/Logs/*
 src/gfa_web.Blazor.Server.Tiered/Logs/*
 
 web/dist/*
+worker/output/*
+*.jar

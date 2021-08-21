@@ -13,6 +13,8 @@ namespace gfa_web.Items
             PagedAndSortedResultRequestDto, //Used for paging/sorting
             CreateUpdateItemDto> //Used to create/update a book
     {
-        List<ItemDto> GetCountryListWithoutPaged();
+        List<CreateUpdateItemDto> GetListNoPaged();
+        void BatchUpdate(List<CreateUpdateItemDto> createUpdateItemDto);
+        void BatchInsert(List<CreateUpdateItemDto> createUpdateItemDto);
     }
 }

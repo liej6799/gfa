@@ -5,6 +5,8 @@ namespace gfa_web.Items
 {
     public class ItemDto : AuditedEntityDto<Guid>
     {        
+        public int SourceId { get; set; }
+        
         public string Name { get; set; }
 
         public string Code { get; set; }
@@ -12,5 +14,6 @@ namespace gfa_web.Items
         public Double BuyPrice { get; set; }
 
         public Double SellPrice { get; set; }
+        public bool IsUpdated { get; set; }
     }
 }

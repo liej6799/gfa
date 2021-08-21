@@ -7,6 +7,14 @@
 
     <ItemGroup>
       <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+      <PackageReference Include="Polly" Version="7.2.2" />
+      <PackageReference Include="RestSharp" Version="106.12.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Org.OpenAPITools, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\output\src\Org.OpenAPITools\bin\Debug\netstandard2.0\Org.OpenAPITools.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>
