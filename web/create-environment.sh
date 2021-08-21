@@ -15,11 +15,11 @@ az sql server firewall-rule create -g $resourceGroup -s $sqlServerName -n Azure 
 # create database
 sqlName="gfadb"
 
-az sql db update -g $resourceGroup -s $sqlServerName -n $sqlName -e GeneralPurpose -f Gen5 -c 1 --compute-model "Serverless" --backup-storage-redundancy Local
+az sql db create -g $resourceGroup -s $sqlServerName -n $sqlName -e GeneralPurpose -f Gen5 -c 1 --compute-model "Serverless" --backup-storage-redundancy Local
 
 # create app service
 appServicePlan="gfaplan"
 az appservice plan create -n $appServicePlan -g $resourceGroup -l $location --sku Free
 
 appService="gfa-api"
-az webapp create -g $resourceGroup -p $appServicePlan -n $appService
+az webapp create -g $resourceGroup -p $appServicePlan -n $appService --runtime "DOTNET|5.0"

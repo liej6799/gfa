@@ -1,0 +1,49 @@
+version: '3'
+services:
+  db:
+    container_name: snider_sql
+    image: mcr.microsoft.com/mssql/server:2019-CU3-ubuntu-18.04
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Password1!
+    ports:
+      - 1400:1433
+    volumes:
+      - db:/var/opt/mssql
+    restart: unless-stopped
+    networks:
+      - proxy  
+  webapi:
+    container_name: gfaapi
+    image: liej6799/gfaapi
+    labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.gfaapi.rule=Host(`gfaapi.liej6799dev.xyz`)"
+        - "traefik.http.routers.gfaapi.entrypoints=web"
+        - "traefik.http.routers.gfaapi.entrypoints=websecure"
+        - "traefik.http.routers.gfaapi.service=gfaapi-http-service"
+        - "traefik.http.services.gfaapi-http-service.loadbalancer.server.port=80" 
+      
+        - "traefik.http.routers.gfaapi.tls=true"
+        - "traefik.http.routers.gfaapi.tls.certresolver=myresolver"
+
+    environment:
+      - ASPNETCORE_URLS=https://+;http://+
+      - ASPNETCORE_HTTPS_PORT=8001
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=Password1!
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    ports:
+      - 8000:80
+      - 8001:443
+    volumes:
+      - ${HOME}/.aspnet/https:/https/
+    networks:
+      - proxy
+networks:
+  proxy:
+    external:
+      name: traefik-network
+
+
+volumes:
+        db:

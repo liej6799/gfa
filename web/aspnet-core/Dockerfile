@@ -1,0 +1,26 @@
+FROM mcr.microsoft.com/dotnet/sdk AS build
+WORKDIR /app
+
+EXPOSE 44399
+
+COPY ["src/gfa_web.Application/gfa_web.Application.csproj", "src/gfa_web.Application/"]
+COPY ["src/gfa_web.Application.Contracts/gfa_web.Application.Contracts.csproj", "src/gfa_web.Application.Contracts/"]
+COPY ["src/gfa_web.DbMigrator/gfa_web.DbMigrator.csproj", "src/gfa_web.DbMigrator/"]
+COPY ["src/gfa_web.Domain/gfa_web.Domain.csproj", "src/gfa_web.Domain/"]
+COPY ["src/gfa_web.Domain.Shared/gfa_web.Domain.Shared.csproj", "src/gfa_web.Domain.Shared/"]
+COPY ["src/gfa_web.EntityFrameworkCore/gfa_web.EntityFrameworkCore.csproj", "src/gfa_web.EntityFrameworkCore/"]
+COPY ["src/gfa_web.HttpApi/gfa_web.HttpApi.csproj", "src/gfa_web.HttpApi/"]
+COPY ["src/gfa_web.HttpApi.Client/gfa_web.HttpApi.Client.csproj", "src/gfa_web.HttpApi.Client/"]
+COPY ["src/gfa_web.HttpApi.Host/gfa_web.HttpApi.Host.csproj", "src/gfa_web.HttpApi.Host/"]
+
+RUN dotnet restore "src/gfa_web.HttpApi.Host/gfa_web.HttpApi.Host.csproj"
+
+COPY . .
+RUN dotnet publish "src/gfa_web.HttpApi.Host/gfa_web.HttpApi.Host.csproj" -c Release -o out
+
+# Build runtime image
+FROM mcr.microsoft.com/dotnet/aspnet
+WORKDIR /app
+COPY --from=build /app/out .
+COPY ["appsettings/host_appsettings_dev.json", "appsettings.json"]
+ENTRYPOINT ["dotnet", "gfa_web.HttpApi.Host.dll"]

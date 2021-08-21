@@ -1,12 +1,14 @@
 
-# dotnet publish -c Release "aspnet-core\src\gfa_web.DbMigrator" -o ".\dist\Migrator" -r "linux-x64" /p:PublishSingleFile=true
+dotnet publish -c Release "aspnet-core\src\gfa_web.DbMigrator" -o ".\dist\Migrator" -r "linux-x64" /p:PublishSingleFile=true
 
-# cd dist/Migrator
-# ./gfa_web.DbMigrator
+cd dist/Migrator
+./gfa_web.DbMigrator
 
-# cd ../..
-# rm -rf dist/Host
-# dotnet publish -c Release "aspnet-core\src\gfa_web.HttpApi.Host" -o ".\dist\Host" -r "linux-x64" /p:PublishSingleFile=true
+cd ../..
+rm -rf dist/Host
+dotnet publish -c Release "aspnet-core\src\gfa_web.HttpApi.Host" -o ".\dist\Host" -r "win-x64"
+
+cp aspnet-core/web.config dist/Host/web.config
 
 rm -rf dist/Host.zip
 zip -j ./dist/Host.zip ./dist/Host/*
