@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using gfa_web.EntityFrameworkCore;
 using gfa_web.MultiTenancy;
+using Microsoft.AspNetCore.HttpOverrides;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic;
 using Microsoft.OpenApi.Models;
 using Volo.Abp;
@@ -221,9 +222,21 @@ namespace gfa_web
             {
                 app.UseMultiTenancy();
             }
+            var forwardOptions = new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+                RequireHeaderSymmetry = false
+            };
+
+            forwardOptions.KnownNetworks.Clear();
+            forwardOptions.KnownProxies.Clear();
+            
+            // ref: https://github.com/aspnet/Docs/issues/2384
+            app.UseForwardedHeaders(forwardOptions);
 
             app.UseUnitOfWork();
             app.UseIdentityServer();
+            
             app.UseAuthorization();
 
             app.UseSwagger();

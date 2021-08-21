@@ -1,9 +1,9 @@
 {
     "App": {
       "SelfUrl": "https://gfaapi.liej6799dev.xyz",
-      "ClientUrl": "http://gfaapi.liej6799dev.xyz:4200",
-      "CorsOrigins": "https://*.gfa_web.com,http://gfaapi.liej6799dev.xyz:4200,https://gfaapi.liej6799dev.xyz",
-      "RedirectAllowedUrls": "http://gfaapi.liej6799dev.xyz:4200,https://gfaapi.liej6799dev.xyz:44307,https://gfaapi.liej6799dev.xyz"
+      "ClientUrl": "https://gfaweb.liej6799dev.xyz",
+      "CorsOrigins": "https://*.gfa_web.com,https://gfaweb.liej6799dev.xyz,https://gfaapi.liej6799dev.xyz",
+      "RedirectAllowedUrls": "https://gfaweb.liej6799dev.xyz,https://gfaapi.liej6799dev.xyz:44307,https://gfaapi.liej6799dev.xyz"
     },
     "ConnectionStrings": {
       "Default": "Server=gfaapi.liej6799dev.xyz,1400;Database=gfadb;User ID=sa;Password=Password1!;Connection Timeout=30;"

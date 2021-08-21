@@ -12,7 +12,7 @@
         "gfa_web_App": {
           "ClientId": "gfa_web_App",
           "ClientSecret": "1q2w3e*",
-          "RootUrl": "http://gfaapi.liej6799dev.xyz:4200"
+          "RootUrl": "https://gfaweb.liej6799dev.xyz"
         },
         "gfa_web_BlazorServerTiered": {
           "ClientId": "gfa_web_BlazorServerTiered",
