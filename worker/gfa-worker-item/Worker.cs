@@ -23,7 +23,7 @@ namespace gfa_worker_item
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                Test();
+                Normal();
                 _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
                 await Task.Delay(1000, stoppingToken);
             }
@@ -34,6 +34,7 @@ namespace gfa_worker_item
             string args = "/PR1:3" + CommonHelper.tab + CredsHelper.GetCreds();
             ProcessHelper processHelper = new ProcessHelper(gfa_worker_common.Worker.ItemWorker, args);
             BaseItem baseItem =  ParseHelper.BaseItemParser(processHelper.Run());
+            _itemNetwork.Run(baseItem);
         }
 
         private void Test()
@@ -41,7 +42,5 @@ namespace gfa_worker_item
             BaseItem baseItem = ParseHelper.TestBaseItemParser();
             _itemNetwork.Run(baseItem);
         }
-        
-        
     }
 }

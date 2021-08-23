@@ -1,4 +1,6 @@
-﻿using Org.OpenAPITools.Client;
+﻿using System.IO;
+using Newtonsoft.Json;
+using Org.OpenAPITools.Client;
 
 namespace gfa_worker_common
 {
@@ -10,12 +12,18 @@ namespace gfa_worker_common
 
         public static char tab = '\t';
 
-        public static Configuration NetworkConfiguration = new(){
+        public static Configuration NetworkConfiguration = new (){
             BasePath   = "https://gfaapi.liej6799dev.xyz"
         };
         
-        public static Configuration LocalNetworkConfiguration = new(){
-            BasePath   = "https://localhost:44399"
-        };
-}
+        public static void UpdateNetworkConfiguration(string newNetworkConfiguration)
+        {
+            NetworkConfiguration = new Configuration
+            {
+                BasePath   = newNetworkConfiguration
+            };
+        }
+    }
+    
+    
 }
