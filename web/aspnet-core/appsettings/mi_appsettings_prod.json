@@ -1,0 +1,29 @@
+{
+    "ConnectionStrings": {
+      "Default": "Server=gfaapi.liej6799dev.xyz,1400;Database=gfadb;User ID=sa;Password=Password1!;Connection Timeout=30;"
+    },
+    "IdentityServer": {
+      "Clients": {
+        "gfa_web_Web": {
+          "ClientId": "gfa_web_Web",
+          "ClientSecret": "1q2w3e*",
+          "RootUrl": "https://api.gfaweb.xyz"
+        },
+        "gfa_web_App": {
+          "ClientId": "gfa_web_App",
+          "ClientSecret": "1q2w3e*",
+          "RootUrl": "https://web.gfaweb.xyz"
+        },
+        "gfa_web_BlazorServerTiered": {
+          "ClientId": "gfa_web_BlazorServerTiered",
+          "ClientSecret": "1q2w3e*",
+          "RootUrl": "https://api.gfaweb.xyz:44314"
+        },
+        "gfa_web_Swagger": {
+          "ClientId": "gfa_web_Swagger",
+          "ClientSecret": "1q2w3e*",
+          "RootUrl": "https://api.gfaweb.xyz"
+        }
+      }
+    }
+  }

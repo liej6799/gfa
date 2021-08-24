@@ -1,0 +1,20 @@
+{
+    "App": {
+      "SelfUrl": "https://api.gfaweb.xyz",
+      "ClientUrl": "https://web.gfaweb.xyz",
+      "CorsOrigins": "https://*.gfa_web.com,https://web.gfaweb.xyz,https://api.gfaweb.xyz",
+      "RedirectAllowedUrls": "https://web.gfaweb.xyz,https://api.gfaweb.xyz:44307,https://api.gfaweb.xyz"
+    },
+    "ConnectionStrings": {
+      "Default": "Server=gfaapi.liej6799dev.xyz,1400;Database=gfadb;User ID=sa;Password=Password1!;Connection Timeout=30;"
+    },
+    "AuthServer": {
+      "Authority": "https://api.gfaweb.xyz",
+      "RequireHttpsMetadata": "false",
+      "SwaggerClientId": "gfa_web_Swagger",
+      "SwaggerClientSecret": "1q2w3e*"
+    },
+    "StringEncryption": {
+      "DefaultPassPhrase": "jR7P3lGNKRcQB6a7"
+    }
+  }
