@@ -1976,6 +1976,9 @@ namespace gfa_web.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
+                    b.Property<double>("ProfitLoss")
+                        .HasColumnType("float");
+
                     b.Property<double>("SellPrice")
                         .HasColumnType("float");
 

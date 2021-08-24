@@ -29,7 +29,8 @@ namespace gfa_worker_common.Network
                 name: x.Nama,
                 code: x.Kode,
                 buyPrice: x.HargaBeliNilai,
-                sellPrice: x.HargaJual1Nilai
+                sellPrice: x.HargaJual1Nilai,
+                profitLoss: x.HargaJual1Nilai - x.HargaBeliNilai
             )).ToList();
 
             insert.AddRange(baseItem.Records.Where(x => update.FirstOrDefault(y => y.SourceId == x.ID) != null).Select(x => new GfaWebItemsCreateUpdateItemDto(
@@ -37,7 +38,8 @@ namespace gfa_worker_common.Network
                 name: x.Nama,
                 code: x.Kode,
                 buyPrice: x.HargaBeliNilai,
-                sellPrice: x.HargaJual1Nilai
+                sellPrice: x.HargaJual1Nilai,
+                profitLoss: x.HargaJual1Nilai - x.HargaBeliNilai
             )).ToList());
 
             

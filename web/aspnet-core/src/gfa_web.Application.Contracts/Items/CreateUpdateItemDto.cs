@@ -19,7 +19,7 @@ namespace gfa_web.Items
         public Double BuyPrice { get; set; }
         
         public Double SellPrice { get; set; }
-
-        public bool IsUpdated { get; set; }
+        
+        public Double ProfitLoss { get; set; }
     }
 }

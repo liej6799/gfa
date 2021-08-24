@@ -1,6 +1,14 @@
 import { ListService, PagedResultDto } from '@abp/ng.core';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Pipe } from '@angular/core';
 import { ItemService, ItemDto } from '@proxy/items';
+
+@Pipe({name: 'round'})
+export class RoundPipe {
+  transform (input:number) {
+    return Math.floor(input);
+  }
+}
+
 
 @Component({
   selector: 'app-item',
@@ -14,10 +22,11 @@ export class ItemComponent implements OnInit {
   constructor(public readonly list: ListService, private itemService: ItemService) {}
 
   ngOnInit() {
-    const itemStreamCreator = (query) => this.itemService.getList(query);
+    const itemStreamCreator = (query) => this.itemService.getListFilter(query);
 
     this.list.hookToQuery(itemStreamCreator).subscribe((response) => {
       this.item = response;
     });
   }
 }
+

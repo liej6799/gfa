@@ -35,13 +35,32 @@
             <ngx-datatable [rows]="item.items" [count]="item.totalCount" [list]="list" default>
               <ngx-datatable-column [name]="'::Name' | abpLocalization" prop="name"></ngx-datatable-column>
               <ngx-datatable-column [name]="'::Code' | abpLocalization" prop="code"></ngx-datatable-column>
-              <ngx-datatable-column [name]="'::BuyPrice' | abpLocalization" prop="buyPrice"></ngx-datatable-column>
-              <ngx-datatable-column [name]="'::SellPrice' | abpLocalization" prop="sellPrice"></ngx-datatable-column> 
+
+              <ngx-datatable-column [name]="'::BuyPrice' | abpLocalization" prop="buyPrice">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{ row.buyPrice | currency:'IDR'}}
+                  </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column [name]="'::SellPrice' | abpLocalization" prop="sellPrice">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{ row.sellPrice | currency:'IDR'}}
+        
+                  </ng-template>
+              </ngx-datatable-column> 
+
+              <ngx-datatable-column [name]="'::ProfitLoss' | abpLocalization" prop="profitLoss">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+
+                  {{row.profitLoss | currency:'IDR'}}
+                </ng-template>
+              </ngx-datatable-column>
+
             </ngx-datatable>
           </div>
 
     </div>
 
-   
+
   </div>
   

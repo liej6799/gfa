@@ -1,4 +1,4 @@
-import type { CreateUpdateItemDto, ItemDto } from './models';
+import type { CreateUpdateItemDto, GetItemInput, ItemDto } from './models';
 import { RestService } from '@abp/ng.core';
 import type { PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
@@ -13,14 +13,6 @@ export class ItemService {
     this.restService.request<any, void>({
       method: 'POST',
       url: '/api/app/item/batch-insert',
-      body: createUpdateItemDto,
-    },
-    { apiName: this.apiName });
-
-  batchUpdateByCreateUpdateItemDto = (createUpdateItemDto: CreateUpdateItemDto[]) =>
-    this.restService.request<any, void>({
-      method: 'POST',
-      url: '/api/app/item/batch-update',
       body: createUpdateItemDto,
     },
     { apiName: this.apiName });
@@ -52,6 +44,14 @@ export class ItemService {
       method: 'GET',
       url: '/api/app/item',
       params: { skipCount: input.skipCount, maxResultCount: input.maxResultCount, sorting: input.sorting },
+    },
+    { apiName: this.apiName });
+
+  getListFilter = (input: GetItemInput) =>
+    this.restService.request<any, PagedResultDto<ItemDto>>({
+      method: 'GET',
+      url: '/api/app/item/filter',
+      params: { filter: input.filter, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });
 

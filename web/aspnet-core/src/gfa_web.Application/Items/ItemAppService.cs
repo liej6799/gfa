@@ -31,11 +31,6 @@ namespace gfa_web.Items
             return ObjectMapper.Map<List<Item>, List<CreateUpdateItemDto>>(Repository.ToList());
         }
         
-        public void BatchUpdate(List<CreateUpdateItemDto> createUpdateItemDto)
-        {
-            Repository.UpdateManyAsync(ObjectMapper.Map<List<CreateUpdateItemDto>, List<Item>>(createUpdateItemDto));
-        }
-        
         public void BatchInsert(List<CreateUpdateItemDto> createUpdateItemDto)
         {
             Repository.InsertManyAsync(ObjectMapper.Map<List<CreateUpdateItemDto>, List<Item>>(createUpdateItemDto));
@@ -56,9 +51,11 @@ namespace gfa_web.Items
                 input.Filter
             );
 
+            var result = ObjectMapper.Map<List<Item>, List<ItemDto>>(list);
+  
             return new PagedResultDto<ItemDto>(
                 count,
-                ObjectMapper.Map<List<Item>, List<ItemDto>>(list)
+                result
             );
         }
     

@@ -1,4 +1,4 @@
-import type { AuditedEntityDto } from '@abp/ng.core';
+import type { AuditedEntityDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
 
 export interface CreateUpdateItemDto extends AuditedEntityDto<string> {
   sourceId: number;
@@ -6,7 +6,11 @@ export interface CreateUpdateItemDto extends AuditedEntityDto<string> {
   code?: string;
   buyPrice: number;
   sellPrice: number;
-  isUpdated: boolean;
+  profitLoss: number;
+}
+
+export interface GetItemInput extends PagedAndSortedResultRequestDto {
+  filter?: string;
 }
 
 export interface ItemDto extends AuditedEntityDto<string> {
@@ -15,5 +19,5 @@ export interface ItemDto extends AuditedEntityDto<string> {
   code?: string;
   buyPrice: number;
   sellPrice: number;
-  isUpdated: boolean;
+  profitLoss: number;
 }

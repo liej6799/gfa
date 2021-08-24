@@ -14,7 +14,7 @@ namespace gfa_web.Items
             CreateUpdateItemDto> //Used to create/update a book
     {
         List<CreateUpdateItemDto> GetListNoPaged();
-        void BatchUpdate(List<CreateUpdateItemDto> createUpdateItemDto);
         void BatchInsert(List<CreateUpdateItemDto> createUpdateItemDto);
+        Task<PagedResultDto<ItemDto>> GetListFilterAsync(GetItemInput input);
     }
 }
