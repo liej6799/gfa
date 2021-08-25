@@ -13,30 +13,9 @@ namespace gfa_worker_common.Network
             _configApi = new ConfigApi(CommonHelper.NetworkConfiguration);
         }
         
-        public string Run(string workerName)
+        public GfaWebConfigsConfigDto? Run(string workerName)
         {
-            var result =  _configApi.ApiAppConfigGet().Items.FirstOrDefault(x => x.Name.Equals(workerName));
-
-            if (result != null)
-            {
-                if (result.IsAll)
-                {
-                    return CommonHelper.IsAll;
-                }
-                else if (result.IsDaily)
-                {
-                    return CommonHelper.IsDaily;
-                }
-                else if (result.IsMonthly)
-                {
-                    return CommonHelper.IsMonthly;
-                }
-                else if (result.IsYearly)
-                {
-                    return CommonHelper.IsYearly;
-                }
-            }
-            return CommonHelper.IsNone;
+            return  _configApi.ApiAppConfigGet().Items.FirstOrDefault(x => x.Name.Equals(workerName));
         }
     }
 }

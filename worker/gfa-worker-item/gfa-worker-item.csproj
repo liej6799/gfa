@@ -17,4 +17,10 @@
     <ItemGroup>
       <None Include="BaseItem.json" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Org.OpenAPITools, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\output\src\Org.OpenAPITools\bin\Debug\netstandard2.0\Org.OpenAPITools.dll</HintPath>
+      </Reference>
+    </ItemGroup>
 </Project>

@@ -7,6 +7,8 @@ using gfa_worker_common;
 using gfa_worker_common.Network;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Org.OpenAPITools.Model;
+
 namespace gfa_worker_item
 {
     public class Worker : BackgroundService
@@ -14,6 +16,7 @@ namespace gfa_worker_item
         private readonly ILogger<Worker> _logger;
         private readonly ItemNetwork _itemNetwork;
         private readonly ConfigNetwork _configNetwork;
+        private GfaWebConfigsConfigDto _gfaWebConfigsConfigDto;
         public Worker(ILogger<Worker> logger)
         {
             _logger = logger;
@@ -25,22 +28,28 @@ namespace gfa_worker_item
         {
             while (!stoppingToken.IsCancellationRequested)
             {
+                _gfaWebConfigsConfigDto = _configNetwork.Run(gfa_worker_common.Worker.PurchaseWorker);
+                if (_gfaWebConfigsConfigDto == null) return;
+
                 Normal();
                 _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-                await Task.Delay(1000, stoppingToken);
+                await Task.Delay(_gfaWebConfigsConfigDto.TimerInMs, stoppingToken);
             }
         }
 
         private void Normal()
         {
-            var config = _configNetwork.Run(gfa_worker_common.Worker.ItemWorker);
             string args = String.Empty;
-            
-            if (config.Equals(CommonHelper.IsAll))
+            if (_gfaWebConfigsConfigDto.IsAll)
             {
-                args = "/PR1:3" + CommonHelper.tab + CredsHelper.GetCreds();
+                args = "/PR1:3";
             }
-
+            else
+            {
+                return;
+            }
+            
+            args += CommonHelper.tab + CredsHelper.GetCreds();
             ProcessHelper processHelper = new ProcessHelper(gfa_worker_common.Worker.ItemWorkerExe, args);
             BaseItem baseItem =  ParseHelper.BaseItemParser(processHelper.Run());
             _itemNetwork.Run(baseItem);
