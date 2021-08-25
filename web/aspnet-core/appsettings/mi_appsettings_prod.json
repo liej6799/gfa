@@ -1,6 +1,6 @@
 {
     "ConnectionStrings": {
-      "Default": "Server=gfaapi.liej6799dev.xyz,1400;Database=gfadb;User ID=sa;Password=Password1!;Connection Timeout=30;"
+      "Default": "Server=gfaweb.xyz,1400;Database=gfadb;User ID=sa;Password=Password1!;Connection Timeout=30;"
     },
     "IdentityServer": {
       "Clients": {
