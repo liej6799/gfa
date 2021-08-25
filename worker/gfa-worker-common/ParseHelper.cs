@@ -20,5 +20,10 @@ namespace gfa_worker_common
                 return (BaseItem) serializer.Deserialize(file, typeof(BaseItem));
             }
         }
+        
+        public static BasePurchase BasePurchaseParser(string input)
+        {
+            return JsonConvert.DeserializeObject<BasePurchase>(input);
+        }
     }
 }
