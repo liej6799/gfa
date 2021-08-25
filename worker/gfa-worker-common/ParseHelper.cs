@@ -25,5 +25,10 @@ namespace gfa_worker_common
         {
             return JsonConvert.DeserializeObject<BasePurchase>(input);
         }
+        
+        public static BaseVendor BaseVendorParser(string input)
+        {
+            return JsonConvert.DeserializeObject<BaseVendor>(input);
+        }
     }
 }

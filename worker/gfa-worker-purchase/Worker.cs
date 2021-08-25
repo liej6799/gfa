@@ -61,10 +61,10 @@ namespace gfa_worker_purchase
             {
                 return;
             }
-            args += CommonHelper.tab + CredsHelper.GetCreds();
+            args = CommonHelper.tab + CredsHelper.GetCreds();
             ProcessHelper processHelper = new ProcessHelper(gfa_worker_common.Worker.PurchaseWorkerExe, args);
             BasePurchase basePurchase =  ParseHelper.BasePurchaseParser(processHelper.Run());
-            int a = 0;
+
         }
     }
 }

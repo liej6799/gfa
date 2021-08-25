@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <UserSecretsId>dotnet-gfa_worker_vendor-FBA72ABA-46EF-46F9-A434-805BAD3945E4</UserSecretsId>
+        <RootNamespace>gfa_worker_vendor</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\gfa-worker-common\gfa-worker-common.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Org.OpenAPITools, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\output\src\Org.OpenAPITools\bin\Debug\netstandard2.0\Org.OpenAPITools.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+</Project>
