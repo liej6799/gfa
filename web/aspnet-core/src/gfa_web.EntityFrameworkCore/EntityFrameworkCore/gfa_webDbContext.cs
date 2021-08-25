@@ -1,5 +1,6 @@
 ﻿using gfa_web.Configs;
 using gfa_web.Items;
+using gfa_web.Vendors;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
@@ -31,6 +32,8 @@ namespace gfa_web.EntityFrameworkCore
         public DbSet<Item> Items { get; set; }
         
         public DbSet<Config> Configs { get; set; }
+        
+        public DbSet<Vendor> Vendors { get; set; }
 
         #region Entities from the modules
         
@@ -87,15 +90,7 @@ namespace gfa_web.EntityFrameworkCore
                 
                 b.Property(x => x.Name).IsRequired().HasMaxLength(128);
             });
-            
-            builder.Entity<Config>(b =>
-            {
-                b.ToTable("Configs");
-                b.ConfigureByConvention(); //auto configure for the base class props
-                
-                b.Property(x => x.Name).IsRequired().HasMaxLength(128);
-            });
-            
+
             /* Configure your own tables/entities inside here */
 
             //builder.Entity<YourEntity>(b =>

@@ -133,6 +133,15 @@ namespace gfa_web.Data
                 new Config(
                     id:_guidGenerator.Create(),
                     name: "PurchaseWorker",
+                    isDaily:true,
+                    isMonthly:false,
+                    isYearly:false,
+                    isAll:false,
+                    timerInMs:10000
+                ),
+                new Config(
+                    id:_guidGenerator.Create(),
+                    name: "VendorWorker",
                     isDaily:false,
                     isMonthly:false,
                     isYearly:false,

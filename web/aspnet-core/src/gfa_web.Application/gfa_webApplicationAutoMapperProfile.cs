@@ -2,6 +2,7 @@
 using AutoMapper;
 using gfa_web.Configs;
 using gfa_web.Items;
+using gfa_web.Vendors;
 
 namespace gfa_web
 {
@@ -17,6 +18,10 @@ namespace gfa_web
             CreateMap<CreateUpdateItemDto, Item>();
             
             CreateMap<Config, ConfigDto>();
+            
+            CreateMap<Vendor, VendorDto>();
+            CreateMap<Vendor, CreateUpdateVendorDto>();
+            CreateMap<CreateUpdateVendorDto, Vendor>();
         }
     }
 }
