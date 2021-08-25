@@ -10,5 +10,6 @@ namespace gfa_web.Configs
         public bool IsMonthly { get; set; }
         public bool IsYearly { get; set; }
         public bool IsAll { get; set; }
+        public int TimerInMs { get; set; }
     }
 }

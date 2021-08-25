@@ -127,7 +127,8 @@ namespace gfa_web.Data
                     isDaily:false,
                     isMonthly:false,
                     isYearly:false,
-                    isAll:true
+                    isAll:true,
+                    timerInMs:10000
                 ),
                 new Config(
                     id:_guidGenerator.Create(),
@@ -135,7 +136,8 @@ namespace gfa_web.Data
                     isDaily:false,
                     isMonthly:false,
                     isYearly:false,
-                    isAll:true
+                    isAll:true,
+                    timerInMs:10000
                 )
             };
             

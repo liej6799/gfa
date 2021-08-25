@@ -11,14 +11,16 @@ namespace gfa_web.Configs
         public bool IsMonthly { get; set; }
         public bool IsYearly { get; set; }
         public bool IsAll { get; set; }
+        public int TimerInMs { get; set; }
 
-        public Config(Guid id, string name, bool isDaily, bool isMonthly, bool isYearly, bool isAll) : base(id)
+        public Config(Guid id, string name, bool isDaily, bool isMonthly, bool isYearly, bool isAll, int timerInMs) : base(id)
         {
             Name = name;
             IsDaily = isDaily;
             IsMonthly = isMonthly;
             IsYearly = isYearly;
             IsAll = isAll;
+            TimerInMs = timerInMs;
         }
     }
 
