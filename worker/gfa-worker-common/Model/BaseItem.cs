@@ -4,12 +4,12 @@ namespace gfa_worker_common
 {
     public class BaseItem
     {
-        public List<Record> Records { get; set; }
+        public List<ItemRecord> Records { get; set; }
         public int TotalRecords { get; set; }
         public int LastRec { get; set; }
     }
 
-    public class Record
+    public class ItemRecord
     {
         public int ID { get; set; }
         public int Jenis { get; set; }
