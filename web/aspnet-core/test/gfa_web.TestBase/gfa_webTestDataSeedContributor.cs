@@ -27,32 +27,6 @@ namespace gfa_web
         {
             /* Seed additional test data... */
     
-            if (await _configRepository.GetCountAsync() > 0)
-            {
-                return;
-            }
-
-            var configList = new List<Config>
-            {
-                new Config(
-                    id:_guidGenerator.Create(),
-                    name: "ItemWorker",
-                    isDaily:false,
-                    isMonthly:false,
-                    isYearly:false,
-                    isAll:true
-                ),
-                new Config(
-                    id:_guidGenerator.Create(),
-                    name: "PurchaseWorker",
-                    isDaily:false,
-                    isMonthly:false,
-                    isYearly:false,
-                    isAll:true
-                )
-            };
-
-            await _configRepository.InsertManyAsync(configList);
         }
     }
 }
