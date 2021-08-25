@@ -25,7 +25,7 @@ namespace gfa_worker_purchase
                 string args = "/TGL:20210718" + CommonHelper.tab + 
                               "/TGL2:20210718" + CommonHelper.tab + 
                               CredsHelper.GetCreds();
-                ProcessHelper processHelper = new ProcessHelper(gfa_worker_common.Worker.PurchaseWorker, args);
+                ProcessHelper processHelper = new ProcessHelper(gfa_worker_common.Worker.PurchaseWorkerExe, args);
                 BasePurchase basePurchase =  ParseHelper.BasePurchaseParser(processHelper.Run());
                 _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
                 await Task.Delay(10000, stoppingToken);

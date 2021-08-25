@@ -2,7 +2,11 @@
 {
     public static class Worker
     {
-        public static string ItemWorker = "listitemsellprice.exe";
-        public static string PurchaseWorker = "viewpembel.exe";
+        public static string ItemWorkerExe = "listitemsellprice.exe";
+        public static string PurchaseWorkerExe = "viewpembel.exe";
+        
+        public static string ItemWorker = "ItemWorker";
+        public static string PurchaseWorker = "PurchaseWorker";
+        
     }
 }

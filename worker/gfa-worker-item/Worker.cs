@@ -13,10 +13,12 @@ namespace gfa_worker_item
     {
         private readonly ILogger<Worker> _logger;
         private readonly ItemNetwork _itemNetwork;
+        private readonly ConfigNetwork _configNetwork;
         public Worker(ILogger<Worker> logger)
         {
             _logger = logger;
             _itemNetwork = new ItemNetwork();
+            _configNetwork = new ConfigNetwork();
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -31,8 +33,15 @@ namespace gfa_worker_item
 
         private void Normal()
         {
-            string args = "/PR1:3" + CommonHelper.tab + CredsHelper.GetCreds();
-            ProcessHelper processHelper = new ProcessHelper(gfa_worker_common.Worker.ItemWorker, args);
+            var config = _configNetwork.Run(gfa_worker_common.Worker.ItemWorker);
+            string args = String.Empty;
+            
+            if (config.Equals(CommonHelper.IsAll))
+            {
+                args = "/PR1:3" + CommonHelper.tab + CredsHelper.GetCreds();
+            }
+
+            ProcessHelper processHelper = new ProcessHelper(gfa_worker_common.Worker.ItemWorkerExe, args);
             BaseItem baseItem =  ParseHelper.BaseItemParser(processHelper.Run());
             _itemNetwork.Run(baseItem);
         }

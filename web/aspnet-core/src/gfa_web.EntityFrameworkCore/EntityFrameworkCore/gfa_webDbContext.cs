@@ -1,4 +1,5 @@
-﻿using gfa_web.Items;
+﻿using gfa_web.Configs;
+using gfa_web.Items;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
@@ -28,6 +29,8 @@ namespace gfa_web.EntityFrameworkCore
         /* Add DbSet properties for your Aggregate Roots / Entities here. */
         
         public DbSet<Item> Items { get; set; }
+        
+        public DbSet<Config> Configs { get; set; }
 
         #region Entities from the modules
         
@@ -80,6 +83,14 @@ namespace gfa_web.EntityFrameworkCore
             builder.Entity<Item>(b =>
             {
                 b.ToTable("Items");
+                b.ConfigureByConvention(); //auto configure for the base class props
+                
+                b.Property(x => x.Name).IsRequired().HasMaxLength(128);
+            });
+            
+            builder.Entity<Config>(b =>
+            {
+                b.ToTable("Configs");
                 b.ConfigureByConvention(); //auto configure for the base class props
                 
                 b.Property(x => x.Name).IsRequired().HasMaxLength(128);

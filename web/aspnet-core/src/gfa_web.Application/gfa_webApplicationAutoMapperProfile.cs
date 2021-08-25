@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
+using gfa_web.Configs;
 using gfa_web.Items;
 
 namespace gfa_web
@@ -15,6 +16,7 @@ namespace gfa_web
             CreateMap<Item, CreateUpdateItemDto>();
             CreateMap<CreateUpdateItemDto, Item>();
             
+            CreateMap<Config, ConfigDto>();
         }
     }
 }

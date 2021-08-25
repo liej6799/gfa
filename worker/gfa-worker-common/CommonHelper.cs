@@ -23,6 +23,13 @@ namespace gfa_worker_common
                 BasePath   = newNetworkConfiguration
             };
         }
+        
+                
+        public static string IsDaily = "IsDaily";
+        public static string IsMonthly = "IsMonthly";
+        public static string IsYearly = "IsYearly";
+        public static string IsAll = "IsAll";
+        public static string IsNone = "IsNone";
     }
     
     
