@@ -20,7 +20,7 @@ namespace gfa_worker_common.Network
             var update = source.Where(x => baseVendor.Records.FirstOrDefault(y => y.ID == x.SourceId
                 && !(y.Nama == x.Name)) != null).Select(x =>
                 {
-                    var data = baseVendor.Records.FirstOrDefault(y => y.Nama == x.Name);
+                    var data = baseVendor.Records.FirstOrDefault(y => y.ID == x.SourceId);
                     x.Name = data.Nama;
                     return x;
                 })
