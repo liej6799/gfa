@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
@@ -31,7 +30,19 @@ namespace gfa_worker_common.Network
             var update = purchaseList.Where(x => basePurchase.Records.FirstOrDefault(y => y.ID == x.SourceId
                 && !(DateTime.ParseExact(y.TANGGAL + ' ' + y.JAM_INPUT, CommonHelper.YMDHMSDateFormat, CommonHelper.DateProvider) == x.DatePurchase
                                                                       && y.VENDOR == x.VendorSourceId
-                                                                      && Math.Abs(y.TOT_HARGA - x.TotalAmount) == 0)) != null).ToList();
+                                                                      && Math.Abs(y.TOT_HARGA - x.TotalAmount) == 0)) != null).Select(
+                    x =>
+                    {
+                        var data = basePurchase.Records.FirstOrDefault(y => x.SourceId == y.ID);
+                        x.DatePurchase = DateTime.ParseExact(data.TANGGAL + ' ' + data.JAM_INPUT, CommonHelper.YMDHMSDateFormat,
+                            CommonHelper.DateProvider);
+                        x.VendorId = vendorList.FirstOrDefault(y => y.SourceId == data.VENDOR).Id;
+                        x.TotalAmount = data.TOT_HARGA;
+                        return x;
+
+                    })
+                .ToList();
+            
             
             var insert = basePurchase.Records.Where(x => purchaseList.FirstOrDefault(y => y.SourceId == x.ID) == null).Select(x => new GfaWebPurchasesCreateUpdatePurchaseDto(
                 sourceId: x.ID,
@@ -40,22 +51,13 @@ namespace gfa_worker_common.Network
                 totalAmount: x.TOT_HARGA
             
             )).ToList();
-        
-            insert.AddRange(basePurchase.Records.Where(x => update.FirstOrDefault(y => y.SourceId == x.ID) != null).Select(x => new GfaWebPurchasesCreateUpdatePurchaseDto(
-                sourceId: x.ID,
-                datePurchase: DateTime.ParseExact(x.TANGGAL + ' ' + x.JAM_INPUT, CommonHelper.YMDHMSDateFormat, CommonHelper.DateProvider),
-                vendorId: vendorList.FirstOrDefault(y => y.SourceId == x.VENDOR).Id,
-                totalAmount: x.TOT_HARGA
-            )).ToList());
-        
-        
+
             foreach (var item in update)
             {
-                _purchaseApi.ApiAppPurchaseIdDelete(item.Id);
+                _purchaseApi.ApiAppPurchaseIdPut(item.Id, item);
             }
         
             _purchaseApi.ApiAppPurchaseBatchInsertPost(insert);
-            
             
             purchaseList = _purchaseApi.ApiAppPurchaseNoPagedGet();
 
@@ -66,8 +68,16 @@ namespace gfa_worker_common.Network
                 && Math.Abs(x.Price - (y.HARGA / y.JUMLAH)) == 0
                 && Math.Abs(x.Total - y.HARGA) == 0
                 && x.ItemSourceId == y.STOCK_ID
-                && x.PurchaseSourceId == y.PEMBEL_ID) == null).ToList();
-            
+                && x.PurchaseSourceId == y.PEMBEL_ID) == null).Select(x =>
+                {
+                    var data = basePurchaseDetail.FirstOrDefault(y => x.ItemSourceId == y.STOCK_ID &&  x.PurchaseSourceId == y.PEMBEL_ID);
+                    x.Quantity = data.JUMLAH;
+                    x.Total = data.HARGA;
+                    x.Price = (data.HARGA / data.JUMLAH);
+                    return x;
+                });
+
+
             var insertDetail = basePurchaseDetail
                 .Where(x => purchaseItemList.FirstOrDefault(y => 
                         y.ItemSourceId == x.STOCK_ID
@@ -81,22 +91,12 @@ namespace gfa_worker_common.Network
                     purchaseId: purchaseList.FirstOrDefault(y => y.SourceId == x.PEMBEL_ID).Id
                 )).ToList();
             
-            insertDetail.AddRange(basePurchaseDetail.Where(x => updateDetail.FirstOrDefault() != null).Select(x => new GfaWebPurchasesCreateUpdatePurchaseItemDto(
-                quantity: x.JUMLAH,
-                total: x.HARGA,
-                price: (x.HARGA / x.JUMLAH),
-                itemId: itemList.FirstOrDefault(y => y.SourceId == x.STOCK_ID).Id,
-                purchaseId: purchaseList.FirstOrDefault(y => y.SourceId == x.PEMBEL_ID).Id
-            )).ToList());
-
             foreach (var item in updateDetail)
             {
-                _purchaseItemApi.ApiAppPurchaseItemIdDelete(item.Id);
+                _purchaseItemApi.ApiAppPurchaseItemIdPut(item.Id, item);
             }
-        
+            
             _purchaseItemApi.ApiAppPurchaseItemBatchInsertPost(insertDetail);
-
-
         }
     }
 }

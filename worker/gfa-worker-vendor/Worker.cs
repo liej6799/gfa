@@ -32,8 +32,8 @@ namespace gfa_worker_vendor
                 _gfaWebConfigsConfigDto = _configNetwork.Run(gfa_worker_common.Worker.VendorWorker);
                 if (_gfaWebConfigsConfigDto == null) return;
                 
-                //Normal();
-                Test();
+                Normal();
+                //Test();
                 _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
                 await Task.Delay(_gfaWebConfigsConfigDto.TimerInMs, stoppingToken);
             }

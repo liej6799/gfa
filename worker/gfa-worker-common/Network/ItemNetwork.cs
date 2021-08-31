@@ -21,7 +21,18 @@ namespace gfa_worker_common.Network
                                            && !(y.Nama == x.Name
                                            && y.Kode == x.Code
                                            && Math.Abs(y.HargaJual1Nilai - x.SellPrice) == 0
-                                           && Math.Abs(y.HargaBeliNilai - x.BuyPrice) == 0)) != null).ToList();
+                                           && Math.Abs(y.HargaBeliNilai - x.BuyPrice) == 0)) != null).Select(x =>
+                {
+                    var data = baseItem.Records.FirstOrDefault(y => x.SourceId == y.ID);
+                    x.Name = data.Nama;
+                    x.Code = data.Kode;
+                    x.SellPrice = data.HargaJual1Nilai;
+                    x.BuyPrice = data.HargaBeliNilai;
+                    return x;
+
+                })
+                
+                .ToList();
             
             
             var insert = baseItem.Records.Where(x => source.FirstOrDefault(y => y.SourceId == x.ID) == null).Select(x => new GfaWebItemsCreateUpdateItemDto(
@@ -33,19 +44,10 @@ namespace gfa_worker_common.Network
                 profitLoss: x.HargaJual1Nilai - x.HargaBeliNilai
             )).ToList();
 
-            insert.AddRange(baseItem.Records.Where(x => update.FirstOrDefault(y => y.SourceId == x.ID) != null).Select(x => new GfaWebItemsCreateUpdateItemDto(
-                sourceId: x.ID,
-                name: x.Nama,
-                code: x.Kode,
-                buyPrice: x.HargaBeliNilai,
-                sellPrice: x.HargaJual1Nilai,
-                profitLoss: x.HargaJual1Nilai - x.HargaBeliNilai
-            )).ToList());
-
             
             foreach (var item in update)
             {
-                _itemApi.ApiAppItemIdDelete(item.Id);
+                _itemApi.ApiAppItemIdPut(item.Id, item);
             }
 
 

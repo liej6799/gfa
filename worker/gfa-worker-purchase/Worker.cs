@@ -31,8 +31,8 @@ namespace gfa_worker_purchase
                 _gfaWebConfigsConfigDto = _configNetwork.Run(gfa_worker_common.Worker.PurchaseWorker);
                 if (_gfaWebConfigsConfigDto == null) return;
                 
-               // Normal();
-                Test();
+                Normal();
+                //Test();
                 _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
                 await Task.Delay(_gfaWebConfigsConfigDto.TimerInMs, stoppingToken);
             }
