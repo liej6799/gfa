@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Globalization;
+using System.IO;
 using Newtonsoft.Json;
 using Org.OpenAPITools.Client;
 
@@ -14,6 +15,7 @@ namespace gfa_worker_common
 
         public static Configuration NetworkConfiguration = new (){
             BasePath   = "https://gfaapi.liej6799dev.xyz"
+            //BasePath = "https://localhost:44399"
         };
         
         public static void UpdateNetworkConfiguration(string newNetworkConfiguration)
@@ -23,5 +25,9 @@ namespace gfa_worker_common
                 BasePath   = newNetworkConfiguration
             };
         }
+        
+        public static string YMDHMSDateFormat = "yyyy-MM-dd HH:mm:ss";
+        
+        public static CultureInfo DateProvider = CultureInfo.InvariantCulture;
     }
 }

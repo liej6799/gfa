@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using gfa_worker_common;
 using gfa_worker_common.Network;
+using Microsoft.Extensions.FileSystemGlobbing.Internal;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Org.OpenAPITools.Model;
@@ -13,12 +14,14 @@ namespace gfa_worker_purchase
     {
         private readonly ILogger<Worker> _logger;
         private readonly ConfigNetwork _configNetwork;
+        private readonly PurchaseNetwork _purchaseNetwork;
         private GfaWebConfigsConfigDto _gfaWebConfigsConfigDto;
 
         public Worker(ILogger<Worker> logger)
         {
             _logger = logger;
             _configNetwork = new ConfigNetwork();
+            _purchaseNetwork = new PurchaseNetwork();
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -28,10 +31,17 @@ namespace gfa_worker_purchase
                 _gfaWebConfigsConfigDto = _configNetwork.Run(gfa_worker_common.Worker.PurchaseWorker);
                 if (_gfaWebConfigsConfigDto == null) return;
                 
-                Normal();
+               // Normal();
+                Test();
                 _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
                 await Task.Delay(_gfaWebConfigsConfigDto.TimerInMs, stoppingToken);
             }
+        }
+
+        private void Test()
+        {
+            BasePurchase basePurchase =  ParseHelper.TestBasePurchaseParser();
+            _purchaseNetwork.Run(basePurchase);
         }
 
         private void Normal()
@@ -64,7 +74,7 @@ namespace gfa_worker_purchase
             args = CommonHelper.tab + CredsHelper.GetCreds();
             ProcessHelper processHelper = new ProcessHelper(gfa_worker_common.Worker.PurchaseWorkerExe, args);
             BasePurchase basePurchase =  ParseHelper.BasePurchaseParser(processHelper.Run());
-
+            _purchaseNetwork.Run(basePurchase);
         }
     }
 }

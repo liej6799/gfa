@@ -2,6 +2,7 @@
 using AutoMapper;
 using gfa_web.Configs;
 using gfa_web.Items;
+using gfa_web.Purchases;
 using gfa_web.Vendors;
 
 namespace gfa_web
@@ -22,6 +23,16 @@ namespace gfa_web
             CreateMap<Vendor, VendorDto>();
             CreateMap<Vendor, CreateUpdateVendorDto>();
             CreateMap<CreateUpdateVendorDto, Vendor>();
+            
+            CreateMap<Purchase, PurchaseDto>();
+            CreateMap<Purchase, CreateUpdatePurchaseDto>();
+            CreateMap<CreateUpdatePurchaseDto, Purchase>();
+            
+            
+            CreateMap<PurchaseItem, PurchaseItemDto>();
+            CreateMap<PurchaseItem, CreateUpdatePurchaseItemDto>();
+            CreateMap<CreateUpdatePurchaseItemDto, PurchaseItem>();
+            
         }
     }
 }

@@ -26,9 +26,29 @@ namespace gfa_worker_common
             return JsonConvert.DeserializeObject<BasePurchase>(input);
         }
         
+        public static BasePurchase TestBasePurchaseParser()
+        {
+            
+            using (StreamReader file = File.OpenText(Path.Combine(Directory.GetCurrentDirectory(), "BasePurchase.json")))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                return (BasePurchase) serializer.Deserialize(file, typeof(BasePurchase));
+            }
+        }
+        
         public static BaseVendor BaseVendorParser(string input)
         {
             return JsonConvert.DeserializeObject<BaseVendor>(input);
+        }
+        
+        public static BaseVendor TestBaseVendorParser()
+        {
+            
+            using (StreamReader file = File.OpenText(Path.Combine(Directory.GetCurrentDirectory(), "BaseVendor.json")))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                return (BaseVendor) serializer.Deserialize(file, typeof(BaseVendor));
+            }
         }
     }
 }

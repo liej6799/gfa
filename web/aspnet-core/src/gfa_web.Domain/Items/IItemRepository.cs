@@ -7,7 +7,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace gfa_web.Items
 {
-    public interface IItemRepository : IBasicRepository<Item, Guid>
+    public interface IItemRepository : IRepository<Item, Guid>
     {
         Task<List<Item>> GetListAsync(
             string sorting = null,

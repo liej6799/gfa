@@ -32,10 +32,17 @@ namespace gfa_worker_vendor
                 _gfaWebConfigsConfigDto = _configNetwork.Run(gfa_worker_common.Worker.VendorWorker);
                 if (_gfaWebConfigsConfigDto == null) return;
                 
-                Normal();
+                //Normal();
+                Test();
                 _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
                 await Task.Delay(_gfaWebConfigsConfigDto.TimerInMs, stoppingToken);
             }
+        }
+
+        private void Test()
+        {
+            BaseVendor baseVendor =  ParseHelper.TestBaseVendorParser();
+            _vendorNetwork.Run(baseVendor);
         }
 
         private void Normal()

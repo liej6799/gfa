@@ -1,5 +1,6 @@
 ﻿using gfa_web.Configs;
 using gfa_web.Items;
+using gfa_web.Purchases;
 using gfa_web.Vendors;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
@@ -30,11 +31,11 @@ namespace gfa_web.EntityFrameworkCore
         /* Add DbSet properties for your Aggregate Roots / Entities here. */
         
         public DbSet<Item> Items { get; set; }
-        
         public DbSet<Config> Configs { get; set; }
-        
         public DbSet<Vendor> Vendors { get; set; }
-
+        public DbSet<Purchase> Purchases { get; set; }
+        public DbSet<PurchaseItem> PurchaseItems { get; set; }
+        
         #region Entities from the modules
         
         /* Notice: We only implemented IIdentityDbContext and ITenantManagementDbContext
@@ -90,6 +91,26 @@ namespace gfa_web.EntityFrameworkCore
                 
                 b.Property(x => x.Name).IsRequired().HasMaxLength(128);
             });
+            
+            builder.Entity<Purchase>(b =>
+            {
+                b.ToTable("Purchases");
+                b.ConfigureByConvention(); //auto configure for the base class props
+                b.HasOne<Vendor>().WithMany().HasForeignKey(x => x.VendorId).IsRequired();
+            });
+            
+            
+            builder.Entity<PurchaseItem>(b =>
+            {
+                b.ToTable("PurchaseItems");
+                b.ConfigureByConvention(); //auto configure for the base class props
+                b.HasOne<Purchase>().WithMany().HasForeignKey(x => x.PurchaseId).IsRequired();
+                b.HasOne<Item>().WithMany().HasForeignKey(x => x.ItemId).IsRequired();
+            });
+
+            
+            
+
 
             /* Configure your own tables/entities inside here */
 

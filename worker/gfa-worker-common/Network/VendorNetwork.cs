@@ -30,14 +30,11 @@ namespace gfa_worker_common.Network
                 sourceId: x.ID,
                 name: x.Nama
             )).ToList());
-
             
             foreach (var item in update)
             {
                 _vendorApi.ApiAppVendorIdDelete(item.Id);
             }
-
-
             _vendorApi.ApiAppVendorBatchInsertPost(insert);
         }
     }

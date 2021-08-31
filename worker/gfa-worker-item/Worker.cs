@@ -28,7 +28,7 @@ namespace gfa_worker_item
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                _gfaWebConfigsConfigDto = _configNetwork.Run(gfa_worker_common.Worker.PurchaseWorker);
+                _gfaWebConfigsConfigDto = _configNetwork.Run(gfa_worker_common.Worker.ItemWorker);
                 if (_gfaWebConfigsConfigDto == null) return;
 
                 Normal();
