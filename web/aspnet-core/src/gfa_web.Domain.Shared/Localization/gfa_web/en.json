@@ -20,6 +20,8 @@
     "Quantity": "Quantity",
     "Price": "Price",
     "Total": "Total",
-    "Menu:PurchaseItems": "Purchase Items"
+    "Menu:PurchaseItems": "Purchase Items",
+    "Menu:PurchaseItemHistory": "Purchase Item History",
+    "PurchaseHistory": "Purchase History"
   }
 }

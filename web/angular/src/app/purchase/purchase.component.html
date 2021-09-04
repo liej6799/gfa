@@ -30,7 +30,7 @@
                     </button>
                     <div ngbDropdownMenu>
                       <button ngbDropdownItem (click)="viewItem(row.id)">
-                        {{ '::View' | abpLocalization }}
+                        {{ '::Items' | abpLocalization }}
                       </button>
                     </div>
                   </div>
@@ -64,7 +64,9 @@
           </h3>
     </ng-template>
     <ng-template #abpBody>
-        <ngx-datatable [rows]="purchaseItem.items" [count]="purchaseItem.totalCount" [list]="list" default>
+        <ngx-datatable [rows]="purchaseItem.items" [count]="purchaseItem.totalCount" [list]="list" default    
+        [offset]="tableOffset"
+        (page)="onChange($event)">>
             <ngx-datatable-column [sortable]="false" [name]="'::Quantity' | abpLocalization" prop="quantity"></ngx-datatable-column>
             <ngx-datatable-column [sortable]="false" [name]="'::Name' | abpLocalization" prop="itemName"></ngx-datatable-column>
             <ngx-datatable-column [sortable]="false" [name]="'::Price' | abpLocalization" prop="price">

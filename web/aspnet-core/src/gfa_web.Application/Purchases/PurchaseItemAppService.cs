@@ -31,6 +31,45 @@ namespace gfa_web.Purchases
             _itemRepository = itemRepository;
             _purchaseRepository = purchaseRepository;
         }
+        public async Task<PagedResultDto<PurchaseItemDto>> GetItemPurchaseHistoryListAsync(GetItemPurchaseHistoryInput input)
+        {
+            var queryable = await Repository.GetQueryableAsync();
+            var order = NormalizeSorting(input.Sorting);
+            var query = from purchaseItem in queryable
+                join purchase in _purchaseRepository on purchaseItem.PurchaseId equals purchase.Id
+                join item in _itemRepository on purchaseItem.ItemId equals item.Id
+                select new {purchaseItem, purchase, item};
+
+
+            var filterQuery = query
+                .Where(u => u.item.Id == input.ItemId)           
+                .Skip(input.SkipCount)
+                .Take(input.MaxResultCount);
+        
+            
+            
+            var queryResult = await AsyncExecuter.ToListAsync(filterQuery);
+
+            var purchaseItemDtos = queryResult.Select(x =>
+            {
+                var purchaseItemDto = ObjectMapper.Map<PurchaseItem, PurchaseItemDto>(x.purchaseItem);
+                purchaseItemDto.ItemName = x.item.Name;
+                purchaseItemDto.CurrentBuyPrice = x.item.BuyPrice;
+                purchaseItemDto.DatePurchase = x.purchase.DatePurchase;
+                
+                return purchaseItemDto;
+            }).ToList();
+
+            var countQuery = query
+                .Where(x => x.item.Id == input.ItemId);
+
+            var totalCount = await AsyncExecuter.CountAsync(countQuery);
+
+            return new PagedResultDto<PurchaseItemDto>(
+                totalCount,
+                purchaseItemDtos
+            );
+        }
 
         public async Task<PagedResultDto<PurchaseItemDto>> GetListFilterAsync(GetPurchaseItemInput input)
         {
@@ -55,6 +94,7 @@ namespace gfa_web.Purchases
             {
                 var purchaseItemDto = ObjectMapper.Map<PurchaseItem, PurchaseItemDto>(x.purchaseItem);
                 purchaseItemDto.ItemName = x.item.Name;
+
                 return purchaseItemDto;
             }).ToList();
 

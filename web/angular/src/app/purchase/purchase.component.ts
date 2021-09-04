@@ -11,7 +11,7 @@ import { PurchaseItemService, PurchaseItemDto } from '@proxy/purchases';
 export class PurchaseComponent implements OnInit {
 
   isModalOpen = false;
-
+  tableOffset = 0;
   purchase = { purchases: [], totalCount: 0 } as PagedResultDto<PurchaseDto>;
   purchaseItem = { purchaseItems: [], totalCount: 0 } as PagedResultDto<PurchaseItemDto>;
 
@@ -30,6 +30,7 @@ export class PurchaseComponent implements OnInit {
     const purchaseItemStreamCreator = (query) =>  this.purchaseItemService.getListFilter({...query, purchaseId: id});
 
     this.list.hookToQuery(purchaseItemStreamCreator).subscribe((response) => {
+      this.tableOffset = 0;
       this.purchaseItem = response;
       this.isModalOpen = true;
     });

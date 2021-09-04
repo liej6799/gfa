@@ -8,4 +8,9 @@ namespace gfa_web.Purchases
         public Guid PurchaseId { get; set; }
     }
     
+    public class GetItemPurchaseHistoryInput : PagedAndSortedResultRequestDto
+    {
+        public Guid ItemId { get; set; }
+    }
+    
 }

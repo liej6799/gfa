@@ -19,6 +19,10 @@ export interface CreateUpdatePurchaseItemDto extends AuditedEntityDto<string> {
   purchaseSourceId: number;
 }
 
+export interface GetItemPurchaseHistoryInput extends PagedAndSortedResultRequestDto {
+  itemId?: string;
+}
+
 export interface GetPurchaseItemInput extends PagedAndSortedResultRequestDto {
   purchaseId?: string;
 }
@@ -38,5 +42,7 @@ export interface PurchaseItemDto extends AuditedEntityDto<string> {
   total: number;
   itemId?: string;
   itemName?: string;
+  datePurchase?: string;
+  currentBuyPrice: number;
   purchaseId?: string;
 }
