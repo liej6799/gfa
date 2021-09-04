@@ -15,6 +15,11 @@ namespace gfa_web.Purchases
         
         public Guid ItemId { get; set; }
         
+        public String ItemName { get; set; }
+        
+        public DateTime DatePurchase { get; set; }
+        public Double CurrentBuyPrice { get; set; }
+        
         public Guid PurchaseId { get; set; }
     }
 }

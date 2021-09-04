@@ -18,7 +18,12 @@ function configureRoutes(routesService: RoutesService) {
       {
         path: '/items',
         name: '::Menu:Items',
-        iconClass: 'fas fa-book',
+        order: 2,
+        layout: eLayoutType.application,
+      },
+      {
+        path: '/purchases',
+        name: '::Menu:Purchases',
         order: 2,
         layout: eLayoutType.application,
       }

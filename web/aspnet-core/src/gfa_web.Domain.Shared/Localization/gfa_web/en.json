@@ -10,6 +10,18 @@
     "Code": "Code",
     "BuyPrice": "Buy Price",
     "SellPrice": "Sell Price",
-    "ProfitLoss": "Profit / Loss"
+    "ProfitLoss": "Profit / Loss",
+
+    "Menu:Purchases": "Purchases",
+    "DatePurchase": "Date Purchase",
+    "VendorName": "Vendor Name",
+    "TotalAmount": "Total Amount",
+    "View": "View",
+    "Quantity": "Quantity",
+    "Price": "Price",
+    "Total": "Total",
+    "Menu:PurchaseItems": "Purchase Items",
+    "Menu:PurchaseItemHistory": "Purchase Item History",
+    "PurchaseHistory": "Purchase History"
   }
 }

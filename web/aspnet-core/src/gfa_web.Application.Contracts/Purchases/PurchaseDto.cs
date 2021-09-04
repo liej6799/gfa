@@ -10,6 +10,8 @@ namespace gfa_web.Purchases
         public DateTime DatePurchase { get; set; }
         
         public Guid VendorId { get; set; }
+        
+        public String VendorName { get; set; }
 
         public Double TotalAmount { get; set; }
     }
