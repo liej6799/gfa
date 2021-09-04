@@ -32,8 +32,9 @@ export class ItemComponent implements OnInit {
 
     this.list.hookToQuery(purchaseItemStreamCreator).subscribe((response) => {
       this.purchaseItem = response;
-      this.isModalOpen = true;
     });
+    
+    this.isModalOpen = true;
   }
 }
 
