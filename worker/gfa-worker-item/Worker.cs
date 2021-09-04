@@ -19,6 +19,7 @@ namespace gfa_worker_item
         private GfaWebConfigsConfigDto _gfaWebConfigsConfigDto;
         public Worker(ILogger<Worker> logger)
         {
+            CredsHelper.GetCreds();
             _logger = logger;
             _itemNetwork = new ItemNetwork();
             _configNetwork = new ConfigNetwork();

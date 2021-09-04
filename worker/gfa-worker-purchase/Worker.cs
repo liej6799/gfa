@@ -19,6 +19,7 @@ namespace gfa_worker_purchase
 
         public Worker(ILogger<Worker> logger)
         {
+            CredsHelper.GetCreds();
             _logger = logger;
             _configNetwork = new ConfigNetwork();
             _purchaseNetwork = new PurchaseNetwork();

@@ -20,6 +20,7 @@ namespace gfa_worker_vendor
 
         public Worker(ILogger<Worker> logger)
         {
+            CredsHelper.GetCreds();
             _logger = logger;
             _configNetwork = new ConfigNetwork();
             _vendorNetwork = new VendorNetwork();
