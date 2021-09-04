@@ -82,7 +82,9 @@ namespace gfa_worker_common.Network
                 .Where(x => purchaseItemList.FirstOrDefault(y => 
                         y.ItemSourceId == x.STOCK_ID
                         && y.PurchaseSourceId == x.PEMBEL_ID
-                            ) == null)
+                            ) == null && 
+                            (itemList.FirstOrDefault(y => y.SourceId == x.STOCK_ID) != null 
+                             &&(purchaseList.FirstOrDefault(y => y.SourceId == x.PEMBEL_ID) != null)))
                 .Select(x => new GfaWebPurchasesCreateUpdatePurchaseItemDto(
                     quantity: x.JUMLAH,
                     total: x.HARGA,
