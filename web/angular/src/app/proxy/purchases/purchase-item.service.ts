@@ -1,4 +1,4 @@
-import type { CreateUpdatePurchaseItemDto, PurchaseItemDto } from './models';
+import type { CreateUpdatePurchaseItemDto, GetPurchaseItemInput, PurchaseItemDto } from './models';
 import { RestService } from '@abp/ng.core';
 import type { PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
@@ -44,6 +44,14 @@ export class PurchaseItemService {
       method: 'GET',
       url: '/api/app/purchase-item',
       params: { skipCount: input.skipCount, maxResultCount: input.maxResultCount, sorting: input.sorting },
+    },
+    { apiName: this.apiName });
+
+  getListFilter = (input: GetPurchaseItemInput) =>
+    this.restService.request<any, PagedResultDto<PurchaseItemDto>>({
+      method: 'GET',
+      url: '/api/app/purchase-item/filter',
+      params: { purchaseId: input.purchaseId, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });
 

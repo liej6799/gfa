@@ -35,13 +35,13 @@ namespace gfa_web.Purchases
                 join vendor in _vendorRepository on purchase.VendorId equals vendor.Id
                 select new {purchase, vendor};
             
-            query = query
+            var listQuery = query
                 .OrderBy(NormalizeSorting(input.Sorting))
                 .Skip(input.SkipCount)
                 .Take(input.MaxResultCount);
             
   
-            var queryResult = await AsyncExecuter.ToListAsync(query);
+            var queryResult = await AsyncExecuter.ToListAsync(listQuery);
 
             var purchaseDtos = queryResult.Select(x =>
             {
@@ -49,7 +49,8 @@ namespace gfa_web.Purchases
                 purchaseDto.VendorName = x.vendor.Name;
                 return purchaseDto;
             }).ToList();
-            
+
+
             var totalCount = await Repository.GetCountAsync();
 
             return new PagedResultDto<PurchaseDto>(
