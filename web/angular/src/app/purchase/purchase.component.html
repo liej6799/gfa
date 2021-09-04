@@ -1,0 +1,48 @@
+<div id="wrapper" class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col col-md-6">
+          <h5 class="card-title">
+            {{ '::Menu:Purchases' | abpLocalization }}
+          </h5>
+        </div>
+        <div class="text-right col col-md-6"></div>
+      </div>
+    </div>
+
+    <div class="card-body">
+        <div id="data-tables-table-filter" class="data-tables-filter">
+          <div class="input-group">
+            <input
+              type="search"
+              class="form-control"
+              [placeholder]="'AbpUi::PagerSearch' | abpLocalization"
+              [(ngModel)]="list.filter"
+            />
+          </div>
+        </div>
+        <div class="card-body">
+            <ngx-datatable [rows]="purchase.items" [count]="purchase.totalCount" [list]="list" default>
+                <ngx-datatable-column [name]="'::DatePurchase' | abpLocalization" prop="datePurchase">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{ row.datePurchase | date:'medium'}}
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column [name]="'::VendorName' | abpLocalization" prop="vendorName"></ngx-datatable-column>
+
+                <ngx-datatable-column [name]="'::TotalAmount' | abpLocalization" prop="totalAmount">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{ row.totalAmount | currency:'IDR'}}
+                      </ng-template>
+                  </ngx-datatable-column>
+    
+                
+
+            </ngx-datatable>
+          </div>
+
+    </div>
+
+
+  </div>
+  

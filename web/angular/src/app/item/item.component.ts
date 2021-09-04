@@ -1,13 +1,7 @@
 import { ListService, PagedResultDto } from '@abp/ng.core';
-import { Component, OnInit, Pipe } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ItemService, ItemDto } from '@proxy/items';
 
-@Pipe({name: 'round'})
-export class RoundPipe {
-  transform (input:number) {
-    return Math.floor(input);
-  }
-}
 
 
 @Component({
