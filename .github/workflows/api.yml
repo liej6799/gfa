@@ -33,6 +33,6 @@ jobs:
       - name: Build and Deploy Web Api
         run: |
              cd web/aspnet-core
-             docker build -t liej6799/gfaapi -f Dockerfile.prod .
-             docker push -t liej6799/gfaapi:latest
+             docker build -t liej6799/gfaapi:prod -f Dockerfile.prod .
+             docker push liej6799/gfaapi:prod
        
