@@ -17,6 +17,7 @@ import { NgxValidateCoreModule } from '@ngx-validate/core';
     ThemeSharedModule,
     NgbDropdownModule,
     NgxValidateCoreModule
+    
   ],
   providers: []
 })

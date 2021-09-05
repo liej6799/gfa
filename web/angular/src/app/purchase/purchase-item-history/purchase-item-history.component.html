@@ -1,0 +1,42 @@
+
+  <abp-modal [(visible)]="isModalOpen">
+    <ng-template #abpHeader>
+        <h3 class="card-title">
+            {{ '::Menu:PurchaseItemHistory' | abpLocalization }}
+          </h3>
+    </ng-template>
+    <ng-template #abpBody>
+        <ngx-datatable [rows]="purchaseItem.items" [count]="purchaseItem.totalCount" [list]="list" default    
+        [offset]="tableOffset"
+        (page)="onChange($event)">>
+            <ngx-datatable-column [sortable]="false" [name]="'::DatePurchase' | abpLocalization" prop="datePurchase">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{ row.datePurchase | date:'medium'}}
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column [sortable]="false" [name]="'::Quantity' | abpLocalization" prop="quantity"></ngx-datatable-column>
+            <ngx-datatable-column [sortable]="false" [name]="'::Name' | abpLocalization" prop="itemName"></ngx-datatable-column>
+            <ngx-datatable-column [sortable]="false" [name]="'::Price' | abpLocalization" prop="price">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{ row.price | currency:'IDR'}}
+                  </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column [sortable]="false" [name]="'::CurrentBuyPrice' | abpLocalization" prop="currentBuyPrice">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{ row.currentBuyPrice | currency:'IDR'}}
+                  </ng-template>
+              </ngx-datatable-column>
+        </ngx-datatable>
+        
+    </ng-template>
+    
+  
+    <ng-template #abpFooter>
+      <button type="button" class="btn btn-secondary" abpClose>
+        {{ '::Close' | abpLocalization }}
+      </button>
+  
+    </ng-template>
+  </abp-modal>

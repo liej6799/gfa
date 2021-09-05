@@ -9,3 +9,4 @@ const routes: Routes = [{ path: '', component: PurchaseComponent }];
   exports: [RouterModule]
 })
 export class PurchaseRoutingModule { }
+

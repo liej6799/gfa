@@ -12,10 +12,10 @@ import { PurchaseItemService, PurchaseItemDto } from '@proxy/purchases';
 })
 export class ItemComponent implements OnInit {
 
-  isModalOpen = false;
+  selectedItem = '';
   item = { items: [], totalCount: 0 } as PagedResultDto<ItemDto>;
-  purchaseItem = { purchaseItems: [], totalCount: 0 } as PagedResultDto<PurchaseItemDto>;
-  constructor(public readonly list: ListService, private itemService: ItemService,  private purchaseItemService: PurchaseItemService) {}
+
+  constructor(public readonly list: ListService, private itemService: ItemService) {}
 
   ngOnInit() {
     const itemStreamCreator = (query) => this.itemService.getListFilter(query);
@@ -28,13 +28,7 @@ export class ItemComponent implements OnInit {
 
   viewPuchaseHistory(id: string) {
 
-    const purchaseItemStreamCreator = (query) =>  this.purchaseItemService.getItemPurchaseHistoryList({...query, itemId: id});
-
-    this.list.hookToQuery(purchaseItemStreamCreator).subscribe((response) => {
-      this.purchaseItem = response;
-    });
-    
-    this.isModalOpen = true;
+    this.selectedItem = id;
   }
 }
 
