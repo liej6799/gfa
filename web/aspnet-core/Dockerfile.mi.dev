@@ -1,0 +1,16 @@
+FROM mcr.microsoft.com/dotnet/sdk AS build
+WORKDIR /app
+
+COPY ["src/gfa_web.DbMigrator/gfa_web.DbMigrator.csproj", "src/gfa_web.DbMigrator/"]
+
+RUN dotnet restore "src/gfa_web.DbMigrator/gfa_web.DbMigrator.csproj"
+
+COPY . .
+RUN dotnet publish "src/gfa_web.DbMigrator/gfa_web.DbMigrator.csproj" -c Release -o out
+
+# Build runtime image
+FROM mcr.microsoft.com/dotnet/aspnet
+WORKDIR /app
+COPY --from=build /app/out .
+COPY ["appsettings/mi_appsettings_dev.json", "appsettings.json"]
+ENTRYPOINT ["dotnet", "gfa_web.DbMigrator.dll"]
