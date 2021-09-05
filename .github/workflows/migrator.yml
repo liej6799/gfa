@@ -29,7 +29,10 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
+             ls
+             echo 'Enter '
              cd web/aspnet-core
+             ls
              docker build -t liej6799/gfamigrator -f Dockerfile.mi.dev .
              docker run -t liej6799/gfamigrator
 
