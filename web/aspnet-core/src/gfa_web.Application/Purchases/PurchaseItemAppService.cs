@@ -31,7 +31,7 @@ namespace gfa_web.Purchases
             _itemRepository = itemRepository;
             _purchaseRepository = purchaseRepository;
         }
-        public async Task<PagedResultDto<PurchaseItemDto>> GetItemPurchaseHistoryListAsync(GetItemPurchaseHistoryInput input)
+        public async Task<PagedResultDto<PurchaseItemDto>> GetItemPurchaseHistoryListAsync(GetPurchaseItemInputHistory input)
         {
             var queryable = await Repository.GetQueryableAsync();
             var order = NormalizeSorting(input.Sorting);

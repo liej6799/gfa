@@ -1,4 +1,5 @@
 import type { AuditedEntityDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
+import type { PurchaseGroup } from './purchase-group.enum';
 
 export interface CreateUpdatePurchaseDto extends AuditedEntityDto<string> {
   sourceId: number;
@@ -19,12 +20,18 @@ export interface CreateUpdatePurchaseItemDto extends AuditedEntityDto<string> {
   purchaseSourceId: number;
 }
 
-export interface GetItemPurchaseHistoryInput extends PagedAndSortedResultRequestDto {
-  itemId?: string;
+export interface GetPurchaseInput extends PagedAndSortedResultRequestDto {
+  startDate: string;
+  endDate: string;
+  groupBy: PurchaseGroup;
 }
 
 export interface GetPurchaseItemInput extends PagedAndSortedResultRequestDto {
   purchaseId?: string;
+}
+
+export interface GetPurchaseItemInputHistory extends PagedAndSortedResultRequestDto {
+  itemId?: string;
 }
 
 export interface PurchaseDto extends AuditedEntityDto<string> {

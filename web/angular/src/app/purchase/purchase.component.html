@@ -12,7 +12,38 @@
 
     <div class="card-body">
         <div class="card-body">
-            <ngx-datatable [rows]="purchase.items" [count]="purchase.totalCount" [list]="list" default>
+            <form [formGroup]="form">
+              
+                <div class="form-group">
+                  <label for="start-date">{{ '::StartDate' | abpLocalization }}</label>
+                  <input
+                    id="start-date"
+                    formControlName="startDate"
+                    class="form-control"
+                    type="date"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="end-date">{{ '::EndDate' | abpLocalization }}</label>
+                  <input
+                    id="end-date"
+                    formControlName="endDate"
+                    class="form-control"
+                    type="date"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="group-by">{{ '::GroupBy' | abpLocalization }}</label>
+                  <select class="form-control" id="group-by" formControlName="groupBy">
+                    <option [ngValue]="group.value" *ngFor="let group of purchaseGroups"> {{ group.key }}</option>
+                  </select>
+                </div>
+              
+              
+            </form>
+
+            <ngx-datatable  [offset]="paging" [rows]="purchase.items" [count]="purchase.totalCount" [list]="list" default
+            *ngIf="isNone">
                 <ngx-datatable-column
                 [name]="'::Actions' | abpLocalization"
                 [maxWidth]="150"
@@ -42,6 +73,17 @@
                       {{ row.datePurchase | date:'medium'}}
                     </ng-template>
                 </ngx-datatable-column>
+                <ngx-datatable-column [name]="'::VendorName' | abpLocalization" prop="vendorName"></ngx-datatable-column>
+
+                <ngx-datatable-column [name]="'::TotalAmount' | abpLocalization" prop="totalAmount">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{ row.totalAmount | currency:'IDR'}}
+                      </ng-template>
+                  </ngx-datatable-column>  
+            </ngx-datatable>
+
+            <ngx-datatable [offset]="paging" [rows]="purchase.items" [count]="purchase.totalCount" [list]="list"  default
+            *ngIf="isVendor">
                 <ngx-datatable-column [name]="'::VendorName' | abpLocalization" prop="vendorName"></ngx-datatable-column>
 
                 <ngx-datatable-column [name]="'::TotalAmount' | abpLocalization" prop="totalAmount">

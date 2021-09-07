@@ -1,6 +1,6 @@
-import type { CreateUpdatePurchaseDto, PurchaseDto } from './models';
+import type { CreateUpdatePurchaseDto, GetPurchaseInput, PurchaseDto } from './models';
 import { RestService } from '@abp/ng.core';
-import type { PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
+import type { PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -39,11 +39,11 @@ export class PurchaseService {
     },
     { apiName: this.apiName });
 
-  getList = (input: PagedAndSortedResultRequestDto) =>
+  getList = (input: GetPurchaseInput) =>
     this.restService.request<any, PagedResultDto<PurchaseDto>>({
       method: 'GET',
       url: '/api/app/purchase',
-      params: { skipCount: input.skipCount, maxResultCount: input.maxResultCount, sorting: input.sorting },
+      params: { startDate: input.startDate, endDate: input.endDate, groupBy: input.groupBy, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });
 

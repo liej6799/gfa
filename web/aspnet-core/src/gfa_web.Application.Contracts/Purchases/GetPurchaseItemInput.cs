@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using Volo.Abp.Application.Dtos;
 
 namespace gfa_web.Purchases
@@ -8,9 +9,8 @@ namespace gfa_web.Purchases
         public Guid PurchaseId { get; set; }
     }
     
-    public class GetItemPurchaseHistoryInput : PagedAndSortedResultRequestDto
+    public class GetPurchaseItemInputHistory : PagedAndSortedResultRequestDto
     {
         public Guid ItemId { get; set; }
     }
-    
 }
