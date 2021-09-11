@@ -33,8 +33,8 @@ export class PurchaseComponent implements OnInit {
   constructor(public readonly list: ListService, private purchaseService: PurchaseService, private fb: FormBuilder) {}
 
   ngOnInit() {
-    this.form.controls.startDate.setValue(formatDate(new Date(),'yyyy-MM-dd','en'))
-    this.form.controls.endDate.setValue(formatDate(new Date().setMonth(new Date().getMonth() - 1),'yyyy-MM-dd','en'))
+    this.form.controls.startDate.setValue(formatDate(new Date().setMonth(new Date().getMonth() - 1),'yyyy-MM-dd','en'))
+    this.form.controls.endDate.setValue(formatDate(new Date(),'yyyy-MM-dd','en'))
     this.form.controls.groupBy.setValue(PurchaseGroup.None)
 
     this.onChanges();
