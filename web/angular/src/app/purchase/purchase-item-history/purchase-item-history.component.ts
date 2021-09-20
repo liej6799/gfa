@@ -1,5 +1,6 @@
 import { ListService, PagedResultDto } from '@abp/ng.core';
-import { Component, OnInit, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, OnChanges, SimpleChanges,EventEmitter } from '@angular/core';
+
 import { PurchaseItemService, PurchaseItemDto } from '@proxy/purchases';
 @Component({
   selector: 'app-purchase-item-history',
@@ -9,6 +10,7 @@ import { PurchaseItemService, PurchaseItemDto } from '@proxy/purchases';
 
 export class PurchaseItemHistoryComponent  implements OnChanges {
   @Input() item = ''; 
+  @Output() purchase = new EventEmitter<string>();
   isModalOpen = false;
   purchaseItem = { purchaseItems: [], totalCount: 0 } as PagedResultDto<PurchaseItemDto>;
   
@@ -22,5 +24,8 @@ export class PurchaseItemHistoryComponent  implements OnChanges {
         this.isModalOpen = true;
       });
     }
+  }
+  viewPurchase(id: string) {
+    this.purchase.emit(id);
   }
 }

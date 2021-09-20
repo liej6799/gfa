@@ -84,5 +84,6 @@
           </div>
     </div>
   </div>
-  <app-purchase-item-history [item]="selectedItem"></app-purchase-item-history>
+  <app-purchase-item-history [item]="selectedPurchaseItemHistory" (purchase)="navigatePurchase($event)"></app-purchase-item-history>
   
+  <app-purchase-item [item]="selectedPurchaseItem" ></app-purchase-item>

@@ -14,10 +14,12 @@ export class PurchaseItemComponent  implements OnChanges {
   
   constructor(public readonly list: ListService, private purchaseItemService: PurchaseItemService) {}
   ngOnChanges(changes: SimpleChanges): void {
+    console.log('onchange')
     if(this.item)
     {
       const itemStreamCreator = (query) => this.purchaseItemService.getListFilter({...query, purchaseId: this.item});
       this.list.hookToQuery(itemStreamCreator).subscribe((response) => {
+        console.log('subscrive')
         this.purchaseItem = response;
         this.isModalOpen = true;
       });

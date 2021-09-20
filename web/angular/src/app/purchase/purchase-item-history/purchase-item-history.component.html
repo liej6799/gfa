@@ -8,7 +8,31 @@
     <ng-template #abpBody>
         <ngx-datatable [rows]="purchaseItem.items" [count]="purchaseItem.totalCount" [list]="list" default    
         [offset]="tableOffset"
-        (page)="onChange($event)">>
+        (page)="onChange($event)">
+            <ngx-datatable-column
+                [name]="'::Actions' | abpLocalization"
+                [maxWidth]="150"
+                [sortable]="false"
+                >
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  <div ngbDropdown container="body" class="d-inline-block">
+                    <button
+                      class="btn btn-primary btn-sm dropdown-toggle"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      ngbDropdownToggle
+                    >
+                      <i class="fa fa-cog mr-1"></i>{{ '::Actions' | abpLocalization }}
+                    </button>
+                    <div ngbDropdownMenu>
+                      <button ngbDropdownItem (click)="viewPurchase(row.purchaseId)">
+                        {{ '::Purchase' | abpLocalization }}
+                      </button>
+                    </div>
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+        
             <ngx-datatable-column [sortable]="false" [name]="'::DatePurchase' | abpLocalization" prop="datePurchase">
                 <ng-template let-row="row" ngx-datatable-cell-template>
                   {{ row.datePurchase | date:'medium'}}
@@ -34,9 +58,11 @@
     
   
     <ng-template #abpFooter>
+      
       <button type="button" class="btn btn-secondary" abpClose>
         {{ '::Close' | abpLocalization }}
       </button>
   
     </ng-template>
   </abp-modal>
+

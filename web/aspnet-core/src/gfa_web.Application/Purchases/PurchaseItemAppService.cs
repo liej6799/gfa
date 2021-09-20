@@ -56,7 +56,7 @@ namespace gfa_web.Purchases
                 purchaseItemDto.ItemName = x.item.Name;
                 purchaseItemDto.CurrentBuyPrice = x.item.BuyPrice;
                 purchaseItemDto.DatePurchase = x.purchase.DatePurchase;
-                
+                purchaseItemDto.PurchaseId = x.purchase.Id;
                 return purchaseItemDto;
             }).ToList();
 
@@ -130,7 +130,7 @@ namespace gfa_web.Purchases
             }).ToList();
             return result;
         }
-        
+
         private string NormalizeSorting(string sorting)
         {
             if (sorting.IsNullOrEmpty())

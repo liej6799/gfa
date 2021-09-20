@@ -16,6 +16,7 @@ namespace gfa_web.Purchases
         
         public Guid ItemId { get; set; }
         
+        
         public Guid PurchaseId { get; set; }
         
         public bool IsDeleted { get; set; }

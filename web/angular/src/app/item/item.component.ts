@@ -2,7 +2,7 @@ import { ListService, PagedResultDto } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
 import { ItemService, ItemDto } from '@proxy/items';
 import { PurchaseItemService, PurchaseItemDto } from '@proxy/purchases';
-
+import { Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-item',
@@ -12,7 +12,8 @@ import { PurchaseItemService, PurchaseItemDto } from '@proxy/purchases';
 })
 export class ItemComponent implements OnInit {
 
-  selectedItem = '';
+  selectedPurchaseItemHistory = '';
+  selectedPurchaseItem = '';
   item = { items: [], totalCount: 0 } as PagedResultDto<ItemDto>;
 
   constructor(public readonly list: ListService, private itemService: ItemService) {}
@@ -27,8 +28,12 @@ export class ItemComponent implements OnInit {
 
 
   viewPuchaseHistory(id: string) {
+    this.selectedPurchaseItemHistory = id;
+  }
 
-    this.selectedItem = id;
+  navigatePurchase(id: string)
+  {
+    this.selectedPurchaseItem = id;
   }
 }
 

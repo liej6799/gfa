@@ -1,19 +1,16 @@
 import { NgModule } from '@angular/core';
-import { SharedModule } from '../shared/shared.module';
 
 import { PurchaseRoutingModule } from './purchase-routing.module';
 import { PurchaseComponent } from './purchase.component';
-import { PurchaseItemComponent} from './purchase-item/purchase-item.component';
+import { PurchaseItemModule } from './purchase-item.module';
 
 @NgModule({
   declarations: [
-    PurchaseItemComponent,
-    PurchaseComponent
-    
+    PurchaseComponent,
   ],
   imports: [
-    SharedModule,
-    PurchaseRoutingModule
+    PurchaseRoutingModule,
+    PurchaseItemModule
   ]
 })
 export class PurchaseModule { }
