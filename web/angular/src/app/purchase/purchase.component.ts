@@ -28,7 +28,8 @@ export class PurchaseComponent implements OnInit {
   isNone = true;
   paging = 0;
   purchase = { purchases: [], totalCount: 0 } as PagedResultDto<PurchaseDto>;
-  selectedItem = '';
+  selectedPurchaseItem = '';
+  selectedPurchaseItemFilter = '';
   
   constructor(public readonly list: ListService, private purchaseService: PurchaseService, private fb: FormBuilder) {}
 
@@ -68,6 +69,6 @@ export class PurchaseComponent implements OnInit {
 
 
   viewItem(id: string) {
-    this.selectedItem = id;
+    this.selectedPurchaseItem = id;
   }
 }

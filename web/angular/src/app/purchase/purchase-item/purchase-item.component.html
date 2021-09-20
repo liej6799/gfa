@@ -1,4 +1,4 @@
-<abp-modal [(visible)]="isModalOpen">
+<abp-modal [(visible)]="isModalOpen" [suppressUnsavedChangesWarning]="true">
   <ng-template #abpHeader>
     <h3 class="card-title">
         {{ '::Menu:PurchaseItems' | abpLocalization }}
@@ -6,6 +6,17 @@
   </ng-template>
   
 <ng-template #abpBody>
+  <div id="data-tables-table-filter" class="data-tables-filter">
+    <div class="input-group">
+      <input
+        type="text"
+        class="form-control"
+        [placeholder]="'AbpUi::PagerSearch' | abpLocalization"
+        [(ngModel)]="list.filter"
+      />
+    </div>
+  </div>
+  
   <ngx-datatable [rows]="purchaseItem.items" [count]="purchaseItem.totalCount" [list]="list" default  >
       <ngx-datatable-column [sortable]="false" [name]="'::Quantity' | abpLocalization" prop="quantity"></ngx-datatable-column>
       <ngx-datatable-column [sortable]="false" [name]="'::Name' | abpLocalization" prop="itemName"></ngx-datatable-column>

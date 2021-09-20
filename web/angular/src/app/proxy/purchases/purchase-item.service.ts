@@ -59,7 +59,7 @@ export class PurchaseItemService {
     this.restService.request<any, PagedResultDto<PurchaseItemDto>>({
       method: 'GET',
       url: '/api/app/purchase-item/filter',
-      params: { purchaseId: input.purchaseId, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+      params: { purchaseId: input.purchaseId, filter: input.filter, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });
 

@@ -10,7 +10,7 @@ import { PurchaseItemService, PurchaseItemDto } from '@proxy/purchases';
 
 export class PurchaseItemHistoryComponent  implements OnChanges {
   @Input() item = ''; 
-  @Output() purchase = new EventEmitter<string>();
+  @Output() purchase = new EventEmitter<object>();
   isModalOpen = false;
   purchaseItem = { purchaseItems: [], totalCount: 0 } as PagedResultDto<PurchaseItemDto>;
   
@@ -25,7 +25,7 @@ export class PurchaseItemHistoryComponent  implements OnChanges {
       });
     }
   }
-  viewPurchase(id: string) {
-    this.purchase.emit(id);
+  viewPurchase(id: string, itemName: string) {
+    this.purchase.emit({id, itemName});
   }
 }

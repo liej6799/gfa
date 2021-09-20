@@ -9,17 +9,17 @@ import { PurchaseItemService, PurchaseItemDto } from '@proxy/purchases';
 
 export class PurchaseItemComponent  implements OnChanges {
   @Input() item = ''; 
+  @Input() filter = '';
   isModalOpen = false;
   purchaseItem = { purchaseItems: [], totalCount: 0 } as PagedResultDto<PurchaseItemDto>;
   
   constructor(public readonly list: ListService, private purchaseItemService: PurchaseItemService) {}
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('onchange')
     if(this.item)
     {
+      this.list.filter = this.filter;
       const itemStreamCreator = (query) => this.purchaseItemService.getListFilter({...query, purchaseId: this.item});
       this.list.hookToQuery(itemStreamCreator).subscribe((response) => {
-        console.log('subscrive')
         this.purchaseItem = response;
         this.isModalOpen = true;
       });

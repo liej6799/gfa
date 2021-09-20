@@ -82,7 +82,12 @@ namespace gfa_web.Purchases
 
 
             var filterQuery = query
-                .Where(u => u.purchaseItem.PurchaseId == input.PurchaseId)           
+                .Where(u => u.purchaseItem.PurchaseId == input.PurchaseId)
+                .WhereIf(
+                    !input.Filter.IsNullOrWhiteSpace(),
+                    u =>
+                        (u.item.Name.Contains(input.Filter)))
+                
                 .Skip(input.SkipCount)
                 .Take(input.MaxResultCount);
         
@@ -99,7 +104,12 @@ namespace gfa_web.Purchases
             }).ToList();
 
             var countQuery = query
-                .Where(x => x.purchase.Id == input.PurchaseId);
+                .Where(u => u.purchaseItem.PurchaseId == input.PurchaseId)
+                .WhereIf(
+                    !input.Filter.IsNullOrWhiteSpace(),
+                    u =>
+                        (u.item.Name.Contains(input.Filter)));
+
 
             var totalCount = await AsyncExecuter.CountAsync(countQuery);
 

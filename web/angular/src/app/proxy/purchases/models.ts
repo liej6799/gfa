@@ -28,6 +28,7 @@ export interface GetPurchaseInput extends PagedAndSortedResultRequestDto {
 
 export interface GetPurchaseItemInput extends PagedAndSortedResultRequestDto {
   purchaseId?: string;
+  filter?: string;
 }
 
 export interface GetPurchaseItemInputHistory extends PagedAndSortedResultRequestDto {

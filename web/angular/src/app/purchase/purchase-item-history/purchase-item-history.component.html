@@ -25,7 +25,7 @@
                       <i class="fa fa-cog mr-1"></i>{{ '::Actions' | abpLocalization }}
                     </button>
                     <div ngbDropdownMenu>
-                      <button ngbDropdownItem (click)="viewPurchase(row.purchaseId)">
+                      <button ngbDropdownItem (click)="viewPurchase(row.purchaseId, row.itemName)">
                         {{ '::Purchase' | abpLocalization }}
                       </button>
                     </div>

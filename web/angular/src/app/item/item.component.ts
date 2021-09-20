@@ -14,6 +14,7 @@ export class ItemComponent implements OnInit {
 
   selectedPurchaseItemHistory = '';
   selectedPurchaseItem = '';
+  selectedPurchaseItemFilter = '';
   item = { items: [], totalCount: 0 } as PagedResultDto<ItemDto>;
 
   constructor(public readonly list: ListService, private itemService: ItemService) {}
@@ -31,9 +32,10 @@ export class ItemComponent implements OnInit {
     this.selectedPurchaseItemHistory = id;
   }
 
-  navigatePurchase(id: string)
+  navigatePurchase(input)
   {
-    this.selectedPurchaseItem = id;
+    this.selectedPurchaseItemFilter = input.itemName;
+    this.selectedPurchaseItem = input.id;
   }
 }
 
