@@ -21,17 +21,16 @@
     </div> -->
 
     <div class="card-body">
-        <div id="data-tables-table-filter" class="data-tables-filter">
-          <div class="input-group">
+        <div class="card-body">
+          <div class="form-group">
             <input
-              type="search"
+              type="text"
               class="form-control"
               [placeholder]="'AbpUi::PagerSearch' | abpLocalization"
               [(ngModel)]="list.filter"
             />
           </div>
-        </div>
-        <div class="card-body">
+
             <ngx-datatable [rows]="item.items" [count]="item.totalCount" [list]="list" default>
               <ngx-datatable-column
                 [name]="'::Actions' | abpLocalization"

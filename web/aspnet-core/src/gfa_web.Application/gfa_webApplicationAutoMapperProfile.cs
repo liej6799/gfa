@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using AutoMapper;
+﻿using AutoMapper;
 using gfa_web.Configs;
 using gfa_web.Items;
 using gfa_web.Purchases;

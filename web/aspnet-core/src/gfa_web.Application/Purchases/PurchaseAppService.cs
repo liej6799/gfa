@@ -28,7 +28,30 @@ namespace gfa_web.Purchases
             _vendorRepository = vendorRepository;
         }
 
-         public override async Task<PagedResultDto<PurchaseDto>> GetListAsync(GetPurchaseInput input)
+        public  override async Task<PurchaseDto> GetAsync(Guid id)
+        {
+            var queryable = await Repository.GetQueryableAsync();
+            
+            var query = from purchase in queryable
+                join vendor in _vendorRepository on purchase.VendorId equals vendor.Id
+                select new {purchase, vendor};
+            var baseQuery = query.Where(x => x.purchase.Id == id);
+            
+            var defaultQuery = await baseQuery
+                .FirstOrDefaultAsync();
+            
+            if (defaultQuery != null)
+            {
+                var result = ObjectMapper.Map<Purchase, PurchaseDto>(defaultQuery.purchase);
+                result.VendorName = defaultQuery.vendor.Name;
+                
+                return result;
+            }
+
+            return null;
+        }
+
+        public override async Task<PagedResultDto<PurchaseDto>> GetListAsync(GetPurchaseInput input)
         {
             var queryable = await Repository.GetQueryableAsync();
             

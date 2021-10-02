@@ -6,15 +6,46 @@
   </ng-template>
   
 <ng-template #abpBody>
-  <div id="data-tables-table-filter" class="data-tables-filter">
-    <div class="input-group">
+  <form [formGroup]="form">
+              
+    <div class="form-group">
+      <label for="source-id">{{ '::SourceId' | abpLocalization }}</label>
       <input
-        type="text"
+        id="source-id"
+        formControlName="sourceId"
         class="form-control"
-        [placeholder]="'AbpUi::PagerSearch' | abpLocalization"
-        [(ngModel)]="list.filter"
+        disabled
       />
     </div>
+    <div class="form-group">
+      <label for="vendor-name">{{ '::VendorName' | abpLocalization }}</label>
+      <input
+        id="vendor-name"
+        formControlName="vendorName"
+        class="form-control"
+        disabled
+      />
+    </div>
+    <div class="form-group">
+      <label for="date-purchase">{{ '::DatePurchase' | abpLocalization }}</label>
+      <input
+        id="date-purchase"
+        formControlName="datePurchase"
+        class="form-control"
+        disabled
+      />
+    </div>
+  </form>
+
+    <div class="form-group">
+      <label for="search">{{ 'AbpUi::PagerSearch' | abpLocalization }}</label>
+      <input
+        id="search"
+        type="text"
+        class="form-control"
+        [(ngModel)]="list.filter"
+      />
+
   </div>
   
   <ngx-datatable [rows]="purchaseItem.items" [count]="purchaseItem.totalCount" [list]="list" default  >
