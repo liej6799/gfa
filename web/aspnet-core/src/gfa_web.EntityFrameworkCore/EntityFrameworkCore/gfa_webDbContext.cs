@@ -1,6 +1,7 @@
 ﻿using gfa_web.Configs;
 using gfa_web.Items;
 using gfa_web.Purchases;
+using gfa_web.Sales;
 using gfa_web.Vendors;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
@@ -35,6 +36,8 @@ namespace gfa_web.EntityFrameworkCore
         public DbSet<Vendor> Vendors { get; set; }
         public DbSet<Purchase> Purchases { get; set; }
         public DbSet<PurchaseItem> PurchaseItems { get; set; }
+        public DbSet<Sale> Sales { get; set; }
+        public DbSet<SaleItem> SaleItems { get; set; }
         
         #region Entities from the modules
         
@@ -108,10 +111,20 @@ namespace gfa_web.EntityFrameworkCore
                 b.HasOne<Item>().WithMany().HasForeignKey(x => x.ItemId).IsRequired();
             });
 
+            builder.Entity<Sale>(b =>
+            {
+                b.ToTable("Sales");
+                b.ConfigureByConvention(); //auto configure for the base class props
+            });
             
+            builder.Entity<SaleItem>(b =>
+            {
+                b.ToTable("SaleItems");
+                b.ConfigureByConvention(); //auto configure for the base class props
+                b.HasOne<Sale>().WithMany().HasForeignKey(x => x.SaleId).IsRequired();
+                b.HasOne<Item>().WithMany().HasForeignKey(x => x.ItemId).IsRequired();
+            });
             
-
-
             /* Configure your own tables/entities inside here */
 
             //builder.Entity<YourEntity>(b =>

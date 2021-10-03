@@ -2,6 +2,7 @@
 using gfa_web.Configs;
 using gfa_web.Items;
 using gfa_web.Purchases;
+using gfa_web.Sales;
 using gfa_web.Vendors;
 
 namespace gfa_web
@@ -27,11 +28,18 @@ namespace gfa_web
             CreateMap<Purchase, CreateUpdatePurchaseDto>();
             CreateMap<CreateUpdatePurchaseDto, Purchase>();
             
-            
             CreateMap<PurchaseItem, PurchaseItemDto>();
             CreateMap<PurchaseItem, CreateUpdatePurchaseItemDto>();
             CreateMap<CreateUpdatePurchaseItemDto, PurchaseItem>();
             
+                        
+            CreateMap<Sale, SaleDto>();
+            CreateMap<Sale, CreateUpdateSaleDto>();
+            CreateMap<CreateUpdateSaleDto, Sale>();
+
+            CreateMap<SaleItem, SaleItemDto>();
+            CreateMap<SaleItem, CreateUpdateSaleItemDto>();
+            CreateMap<CreateUpdateSaleItemDto, SaleItem>();
         }
     }
 }

@@ -147,6 +147,14 @@ namespace gfa_web.Data
                     isYearly:false,
                     isAll:true,
                     timerInMs:10000
+                ),new Config(
+                    id:_guidGenerator.Create(),
+                    name: "SalesWorker",
+                    isDaily:false,
+                    isMonthly:false,
+                    isYearly:false,
+                    isAll:true,
+                    timerInMs:10000
                 )
             };
             
