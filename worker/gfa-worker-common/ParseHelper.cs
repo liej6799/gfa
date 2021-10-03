@@ -50,5 +50,11 @@ namespace gfa_worker_common
                 return (BaseVendor) serializer.Deserialize(file, typeof(BaseVendor));
             }
         }
+
+        public static BaseSales BaseSalesParser(string input)
+        {
+            return JsonConvert.DeserializeObject<BaseSales>(input);
+        }
+        
     }
 }

@@ -1,12 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gfa-worker-common", "gfa-worker-common\gfa-worker-common.csproj", "{66E0E0F3-8001-4A4D-8D7D-CC63A363371A}"
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31702.278
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "gfa-worker-common", "gfa-worker-common\gfa-worker-common.csproj", "{66E0E0F3-8001-4A4D-8D7D-CC63A363371A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gfa-worker-item", "gfa-worker-item\gfa-worker-item.csproj", "{54F70FCF-888C-4F12-9F00-4E50C87905CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "gfa-worker-item", "gfa-worker-item\gfa-worker-item.csproj", "{54F70FCF-888C-4F12-9F00-4E50C87905CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gfa-worker-purchase", "gfa-worker-purchase\gfa-worker-purchase.csproj", "{DAD9104C-2F20-447B-802A-DE87E14C95F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "gfa-worker-purchase", "gfa-worker-purchase\gfa-worker-purchase.csproj", "{DAD9104C-2F20-447B-802A-DE87E14C95F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gfa-worker-vendor", "gfa-worker-vendor\gfa-worker-vendor.csproj", "{C38B7FA9-47FB-4B66-B9E5-D640A0021C65}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "gfa-worker-vendor", "gfa-worker-vendor\gfa-worker-vendor.csproj", "{C38B7FA9-47FB-4B66-B9E5-D640A0021C65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gfa-worker-sales", "gfa-worker-sales\gfa-worker-sales.csproj", "{86B82DB6-4E12-42DF-AD06-ABEFA4EE190D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,5 +35,15 @@ Global
 		{C38B7FA9-47FB-4B66-B9E5-D640A0021C65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C38B7FA9-47FB-4B66-B9E5-D640A0021C65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C38B7FA9-47FB-4B66-B9E5-D640A0021C65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86B82DB6-4E12-42DF-AD06-ABEFA4EE190D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86B82DB6-4E12-42DF-AD06-ABEFA4EE190D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86B82DB6-4E12-42DF-AD06-ABEFA4EE190D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86B82DB6-4E12-42DF-AD06-ABEFA4EE190D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {48E699E1-49E0-4CC8-B6CF-8419C58BA6B1}
 	EndGlobalSection
 EndGlobal
