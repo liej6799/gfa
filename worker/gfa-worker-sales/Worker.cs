@@ -43,24 +43,39 @@ namespace gfa_worker_sales
 
         private void Normal()
         {
-            if (!_gfaWebConfigsConfigDto.IsAll)
+            string args = String.Empty;
+            if (_gfaWebConfigsConfigDto.IsAll)
+            {
+                args = "/TGL:" + DateTime.Now.AddYears(-10).ToString("yyyyMMdd") + CommonHelper.tab +
+                       "/TGL2:" + DateTime.Now.ToString("yyyyMMdd");
+            }
+            else if (_gfaWebConfigsConfigDto.IsDaily)
+            {
+                args = "/TGL:" + DateTime.Now.ToString("yyyyMMdd") + CommonHelper.tab +
+                       "/TGL2:" + DateTime.Now.ToString("yyyyMMdd");
+            }
+            else if (_gfaWebConfigsConfigDto.IsMonthly)
+            {
+                args = "/TGL:" + DateTime.Now.AddMonths(-1).ToString("yyyyMMdd") + CommonHelper.tab +
+                       "/TGL2:" + DateTime.Now.ToString("yyyyMMdd");
+            }
+            else if (_gfaWebConfigsConfigDto.IsYearly)
+            {
+                args = "/TGL:" + DateTime.Now.AddYears(-1).ToString("yyyyMMdd") + CommonHelper.tab +
+                       "/TGL2:" + DateTime.Now.ToString("yyyyMMdd");
+            }
+            else
             {
                 return;
             }
-            string args = String.Empty;
-            args = "/TGL:" + DateTime.Now.AddYears(-10).ToString("yyyyMMdd") + CommonHelper.tab +
-                      "/TGL2:" + DateTime.Now.ToString("yyyyMMdd");
+
             args += CommonHelper.tab + CredsHelper.GetCreds();
 
             ProcessHelper processHelper = new ProcessHelper(gfa_worker_common.Worker.SalesWorkerExe, args);
+
             BaseSales baseSales = ParseHelper.BaseSalesParser(processHelper.Run());
             _salesNetwork.Run(baseSales);
-
-            // PEMBEL_ID
-            // TOT_HARGA
-            // TANGGAL + JAM_INPUT
-            // LUNAS
-
+          
         }
     }
 }
