@@ -265,3 +265,5 @@ web/dist/*
 worker/output/*
 *.jar
 *.zip
+worker/dist/*
+

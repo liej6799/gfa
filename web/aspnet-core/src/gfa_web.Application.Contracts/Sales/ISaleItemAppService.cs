@@ -11,7 +11,7 @@ namespace gfa_web.Sales
         ICrudAppService< //Defines CRUD methods
             SaleItemDto, //Used to show books
             Guid, //Primary key of the book entity
-            PagedAndSortedResultRequestDto, //Used for paging/sorting
+            GetSaleItemInput, //Used for paging/sorting
             CreateUpdateSaleItemDto> //Used to create/update a book
     {
         Task<List<CreateUpdateSaleItemDto>> GetListNoPaged();

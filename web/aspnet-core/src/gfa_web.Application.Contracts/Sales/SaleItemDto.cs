@@ -16,6 +16,8 @@ namespace gfa_web.Sales
         public Guid ItemId { get; set; }
 
         public Guid SaleId { get; set; }
+        
+        public String ItemName { get; set; }
     }
 
 }

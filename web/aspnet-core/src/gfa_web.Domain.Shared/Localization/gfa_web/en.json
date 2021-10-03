@@ -27,6 +27,8 @@
     "EndDate": "End Date",
     "GroupBy": "Group By",
     "SourceId": "Source Id",
+
+    "Menu:Sales": "Sales",
     
 
     "Enum:PurchaseGroup:0": "None",

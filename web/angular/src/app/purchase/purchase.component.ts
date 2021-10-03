@@ -3,9 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { PurchaseService, PurchaseDto, purchaseGroupOptions, PurchaseGroup } from '@proxy/purchases';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { formatDate } from '@angular/common';
-import { Vendors } from '@proxy';
-import { ThisReceiver } from '@angular/compiler';
-import { THEME_SHARED_ROUTE_PROVIDERS } from '@abp/ng.theme.shared';
 
 @Component({
   selector: 'app-purchase',

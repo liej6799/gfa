@@ -14,7 +14,7 @@ namespace gfa_web.Sales
             SaleItem, //The Book entity
             SaleItemDto, //Used to show books
             Guid, //Primary key of the book entity
-            PagedAndSortedResultRequestDto, //Used for paging/sorting
+            GetSaleItemInput, //Used for paging/sorting
             CreateUpdateSaleItemDto>, //Used to create/update a book
         ISaleItemAppService //implement the IBookAppService
     {
@@ -29,7 +29,49 @@ namespace gfa_web.Sales
             _itemRepository = itemRepository;
             _saleRepository = saleRepository;
         }
+
+        public override async Task<PagedResultDto<SaleItemDto>> GetListAsync(GetSaleItemInput input)
+        {
+            var queryable = await Repository.GetQueryableAsync();
+    
+            var query = from saleItem in queryable
+                join sale in _saleRepository on saleItem.SaleId equals sale.Id
+                join item in _itemRepository on saleItem.ItemId equals item.Id
+                select new {saleItem, sale, item};
+  
+            var filterQuery = query
+                .Where(u => u.saleItem.SaleId == input.SaleId)
+                .WhereIf(
+                    !input.Filter.IsNullOrWhiteSpace(),
+                    u =>
+                        (u.item.Name.Contains(input.Filter)))
+                .Skip(input.SkipCount)
+                .Take(input.MaxResultCount);
         
+
+            var queryResult = await AsyncExecuter.ToListAsync(filterQuery);
+
+            var saleItemDtos = queryResult.Select(x =>
+            {
+                var saleItemDto = ObjectMapper.Map<SaleItem, SaleItemDto>(x.saleItem);
+                saleItemDto.ItemName = x.item.Name;
+                return saleItemDto;
+            }).ToList();
+
+            var countQuery = query
+                .Where(u => u.saleItem.SaleId == input.SaleId)
+                .WhereIf(
+                    !input.Filter.IsNullOrWhiteSpace(),
+                    u =>
+                        (u.item.Name.Contains(input.Filter)));
+
+            var totalCount = await AsyncExecuter.CountAsync(countQuery);
+
+            return new PagedResultDto<SaleItemDto>(
+                totalCount,
+                saleItemDtos
+            );
+        }
 
         public async Task<List<CreateUpdateSaleItemDto>> GetListNoPaged()
         {

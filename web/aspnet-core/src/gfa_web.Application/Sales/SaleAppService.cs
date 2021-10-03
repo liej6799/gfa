@@ -2,7 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using gfa_web.Vendors;
+using Microsoft.EntityFrameworkCore;
+using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
 
@@ -23,6 +26,46 @@ namespace gfa_web.Sales
             IVendorRepository vendorRepository) : base(repository)
         {
             _vendorRepository = vendorRepository;
+        }
+
+
+        public override async Task<PagedResultDto<SaleDto>> GetListAsync(GetSaleInput input)
+        {
+            var queryable = await Repository.GetQueryableAsync();
+            
+            var query = from purchase in queryable
+                select new {purchase};
+
+            var baseQuery = query.Where(x =>
+                x.purchase.DateSales >= input.StartDate && x.purchase.DateSales <= input.EndDate);
+
+            List<SaleDto> result;
+            int resultCount;
+            
+            var vendorListQuery = await baseQuery
+                .Skip(input.SkipCount)
+                .Take(input.MaxResultCount)
+                .ToListAsync();
+                    
+
+            result = vendorListQuery.Select(x =>
+            {
+                var saleDto = new SaleDto
+                {
+                    Id = x.purchase.Id,
+                    DateSales = x.purchase.DateSales,
+                    TotalAmount = x.purchase.TotalAmount,
+                };
+                return saleDto;
+            }).ToList();
+
+            resultCount = await baseQuery
+                .CountAsync();
+            
+            return new PagedResultDto<SaleDto>(
+                resultCount,
+                result
+            );
         }
 
         public async Task<List<CreateUpdateSaleDto>> GetListNoPaged()
