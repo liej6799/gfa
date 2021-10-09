@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
-
 using gfa_web.Vendors;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Application.Dtos;
@@ -33,16 +33,17 @@ namespace gfa_web.Sales
         {
             var queryable = await Repository.GetQueryableAsync();
             
-            var query = from purchase in queryable
-                select new {purchase};
+            var query = from sale in queryable
+                select new {sale};
 
             var baseQuery = query.Where(x =>
-                x.purchase.DateSales >= input.StartDate && x.purchase.DateSales <= input.EndDate);
+                x.sale.DateSales >= input.StartDate && x.sale.DateSales <= input.EndDate);
 
             List<SaleDto> result;
             int resultCount;
             
             var vendorListQuery = await baseQuery
+                .OrderBy(NormalizeSorting(input.Sorting))
                 .Skip(input.SkipCount)
                 .Take(input.MaxResultCount)
                 .ToListAsync();
@@ -52,9 +53,9 @@ namespace gfa_web.Sales
             {
                 var saleDto = new SaleDto
                 {
-                    Id = x.purchase.Id,
-                    DateSales = x.purchase.DateSales,
-                    TotalAmount = x.purchase.TotalAmount,
+                    Id = x.sale.Id,
+                    DateSales = x.sale.DateSales,
+                    TotalAmount = x.sale.TotalAmount,
                 };
                 return saleDto;
             }).ToList();
@@ -84,9 +85,39 @@ namespace gfa_web.Sales
             }).ToList();
         }
 
+        
+    
+        
         public void BatchInsert(List<CreateUpdateSaleDto> createUpdateSaleDtos)
         {
             Repository.InsertManyAsync(ObjectMapper.Map<List<CreateUpdateSaleDto>, List<Sale>>(createUpdateSaleDtos));
+        }
+        
+        private string NormalizeSorting(string sorting)
+        {
+            if (sorting.IsNullOrEmpty())
+            {
+                return $"sale.{nameof(Sale.DateSales)}";
+            }
+            
+            if (sorting.Contains("dateSales", StringComparison.OrdinalIgnoreCase))
+            {
+                return sorting.Replace(
+                    "dateSales",
+                    $"sale.{nameof(Sale.DateSales)}", 
+                    StringComparison.OrdinalIgnoreCase
+                );
+            }
+            
+            if (sorting.Contains("totalAmount", StringComparison.OrdinalIgnoreCase))
+            {
+                return sorting.Replace(
+                    "totalAmount",
+                    $"sale.{nameof(Sale.TotalAmount)}", 
+                    StringComparison.OrdinalIgnoreCase
+                );
+            }
+            return $"sale.{nameof(Sale.DateSales)}";
         }
     }
 }

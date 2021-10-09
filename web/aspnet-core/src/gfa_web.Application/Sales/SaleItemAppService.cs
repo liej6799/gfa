@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using gfa_web.Items;
 using Volo.Abp.Application.Dtos;
@@ -45,6 +46,7 @@ namespace gfa_web.Sales
                     !input.Filter.IsNullOrWhiteSpace(),
                     u =>
                         (u.item.Name.Contains(input.Filter)))
+                .OrderBy(NormalizeSorting(input.Sorting))
                 .Skip(input.SkipCount)
                 .Take(input.MaxResultCount);
         
@@ -94,9 +96,55 @@ namespace gfa_web.Sales
             return result;
         }
         
+        
         public void BatchInsert(List<CreateUpdateSaleItemDto> createUpdateSaleItemDtos)
         {
             Repository.InsertManyAsync(ObjectMapper.Map<List<CreateUpdateSaleItemDto>, List<SaleItem>>(createUpdateSaleItemDtos));      
+        }
+        
+        private string NormalizeSorting(string sorting)
+        {
+            if (sorting.IsNullOrEmpty())
+            {
+                return $"item.{nameof(Item.Name)}";
+            }
+            
+            if (sorting.Contains("quantity", StringComparison.OrdinalIgnoreCase))
+            {
+                return sorting.Replace(
+                    "quantity",
+                    $"saleItem.{nameof(SaleItem.Quantity)}", 
+                    StringComparison.OrdinalIgnoreCase
+                );
+            }
+            
+            if (sorting.Contains("itemName", StringComparison.OrdinalIgnoreCase))
+            {
+                return sorting.Replace(
+                    "itemName",
+                    $"item.{nameof(Item.Name)}", 
+                    StringComparison.OrdinalIgnoreCase
+                );
+            }
+            
+            if (sorting.Contains("price", StringComparison.OrdinalIgnoreCase))
+            {
+                return sorting.Replace(
+                    "price",
+                    $"saleItem.{nameof(SaleItem.Price)}", 
+                    StringComparison.OrdinalIgnoreCase
+                );
+            }
+            
+            if (sorting.Contains("total", StringComparison.OrdinalIgnoreCase))
+            {
+                return sorting.Replace(
+                    "total",
+                    $"saleItem.{nameof(SaleItem.Total)}", 
+                    StringComparison.OrdinalIgnoreCase
+                );
+            }
+            return $"item.{nameof(Item.Name)}";
         }
     }
 

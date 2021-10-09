@@ -27,9 +27,10 @@
     "EndDate": "End Date",
     "GroupBy": "Group By",
     "SourceId": "Source Id",
+    "DateSales": "Date Sales",
 
     "Menu:Sales": "Sales",
-    
+    "Menu:SaleItems": "Sales Items",
 
     "Enum:PurchaseGroup:0": "None",
     "Enum:PurchaseGroup:1": "Vendor"
