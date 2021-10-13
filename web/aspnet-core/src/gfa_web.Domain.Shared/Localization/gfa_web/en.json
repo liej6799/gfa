@@ -28,9 +28,12 @@
     "GroupBy": "Group By",
     "SourceId": "Source Id",
     "DateSales": "Date Sales",
+    
+    "SaleHistory": "Sale History",
 
     "Menu:Sales": "Sales",
-    "Menu:SaleItems": "Sales Items",
+    "Menu:SalesItems": "Sales Items",
+    "Menu:SalesItemHistory": "Sales Item History",
 
     "Enum:PurchaseGroup:0": "None",
     "Enum:PurchaseGroup:1": "Vendor"

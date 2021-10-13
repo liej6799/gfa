@@ -30,7 +30,7 @@ namespace gfa_web.Sales
             _itemRepository = itemRepository;
             _saleRepository = saleRepository;
         }
-
+        
         public override async Task<PagedResultDto<SaleItemDto>> GetListAsync(GetSaleItemInput input)
         {
             var queryable = await Repository.GetQueryableAsync();
@@ -94,6 +94,45 @@ namespace gfa_web.Sales
                 return saleItemDto;
             }).ToList();
             return result;
+        }
+        
+        public async Task<PagedResultDto<SaleItemDto>> GetSalesItemHistoryListAsync(GetSalesItemHistoryInput input)
+        {
+            var queryable = await Repository.GetQueryableAsync();
+            
+            var query = from saleItem in queryable
+                join sale in _saleRepository on saleItem.SaleId equals sale.Id
+                join item in _itemRepository on saleItem.ItemId equals item.Id
+                select new {saleItem, sale, item};
+
+
+            var filterQuery = query
+                .Where(u => u.item.Id == input.ItemId)           
+                .Skip(input.SkipCount)
+                .Take(input.MaxResultCount);
+        
+
+            var queryResult = await AsyncExecuter.ToListAsync(filterQuery);
+
+            var saleItemDtos = queryResult.Select(x =>
+            {
+                var saleItemDto = ObjectMapper.Map<SaleItem, SaleItemDto>(x.saleItem);
+                saleItemDto.ItemName = x.item.Name;
+                saleItemDto.CurrentBuyPrice = x.item.BuyPrice;
+                saleItemDto.DateSales = x.sale.DateSales;
+                saleItemDto.SaleId = x.sale.Id;
+                return saleItemDto;
+            }).ToList();
+
+            var countQuery = query
+                .Where(x => x.item.Id == input.ItemId);
+
+            var totalCount = await AsyncExecuter.CountAsync(countQuery);
+
+            return new PagedResultDto<SaleItemDto>(
+                totalCount,
+                saleItemDtos
+            );
         }
         
         

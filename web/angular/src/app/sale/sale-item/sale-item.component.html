@@ -1,26 +1,31 @@
 <abp-modal [(visible)]="isModalOpen" [suppressUnsavedChangesWarning]="true">
   <ng-template #abpHeader>
     <h3 class="card-title">
-      {{ '::Menu:SaleItems' | abpLocalization }}
+      {{ '::Menu:SalesItems' | abpLocalization }}
     </h3>
   </ng-template>
 
   <ng-template #abpBody>
+    <form [formGroup]="form">
+      <div class="form-group">
+        <label for="source-id">{{ '::SourceId' | abpLocalization }}</label>
+        <input id="source-id" formControlName="sourceId" class="form-control" disabled />
+      </div>
+
+      <div class="form-group">
+        <label for="date-sales">{{ '::DateSales' | abpLocalization }}</label>
+        <input id="date-sales" formControlName="dateSales" class="form-control" disabled />
+      </div>
+    </form>
 
     <div class="form-group">
       <label for="search">{{ 'AbpUi::PagerSearch' | abpLocalization }}</label>
       <input id="search" type="text" class="form-control" [(ngModel)]="list.filter" />
     </div>
 
-    <ngx-datatable
-      [rows]="saleItem.items"
-      [count]="saleItem.totalCount"
-      [list]="list"
-      default
-    >
+    <ngx-datatable [rows]="saleItem.items" [count]="saleItem.totalCount" [list]="list" default>
       <ngx-datatable-column [name]="'::Quantity' | abpLocalization" prop="quantity"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'::Name' | abpLocalization" prop="itemName"
-      ></ngx-datatable-column>
+      <ngx-datatable-column [name]="'::Name' | abpLocalization" prop="itemName"></ngx-datatable-column>
       <ngx-datatable-column [name]="'::Price' | abpLocalization" prop="price">
         <ng-template let-row="row" ngx-datatable-cell-template>
           {{ row.price | currency: 'IDR' }}

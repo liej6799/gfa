@@ -16,7 +16,7 @@ namespace gfa_web.Purchases
             PurchaseItem, //The Book entity
             PurchaseItemDto, //Used to show books
             Guid, //Primary key of the book entity
-            PagedAndSortedResultRequestDto, //Used for paging/sorting
+            GetPurchaseItemInput, //Used for paging/sorting
             CreateUpdatePurchaseItemDto>, //Used to create/update a book
         IPurchaseItemAppService //implement the IBookAppService
     {
@@ -71,10 +71,9 @@ namespace gfa_web.Purchases
             );
         }
 
-        public async Task<PagedResultDto<PurchaseItemDto>> GetListFilterAsync(GetPurchaseItemInput input)
+        public override async Task<PagedResultDto<PurchaseItemDto>> GetListAsync(GetPurchaseItemInput input)
         {
             var queryable = await Repository.GetQueryableAsync();
-            var order = NormalizeSorting(input.Sorting);
             var query = from purchaseItem in queryable
                 join purchase in _purchaseRepository on purchaseItem.PurchaseId equals purchase.Id
                 join item in _itemRepository on purchaseItem.ItemId equals item.Id
@@ -87,7 +86,7 @@ namespace gfa_web.Purchases
                     !input.Filter.IsNullOrWhiteSpace(),
                     u =>
                         (u.item.Name.Contains(input.Filter)))
-                
+                .OrderBy(NormalizeSorting(input.Sorting))
                 .Skip(input.SkipCount)
                 .Take(input.MaxResultCount);
         
@@ -147,29 +146,30 @@ namespace gfa_web.Purchases
             {
                 return $"item.{nameof(Item.Name)}";
             }
-
-            if (sorting.Contains("itemName", StringComparison.OrdinalIgnoreCase))
-            {
-                return sorting.Replace(
-                    "itemName",
-                    "item.Name", 
-                    StringComparison.OrdinalIgnoreCase
-                );
-            }
-            if (sorting.Contains("price", StringComparison.OrdinalIgnoreCase))
-            {
-                return sorting.Replace(
-                    "price",
-                    "purchaseItems.price", 
-                    StringComparison.OrdinalIgnoreCase
-                );
-            }
             
             if (sorting.Contains("quantity", StringComparison.OrdinalIgnoreCase))
             {
                 return sorting.Replace(
                     "quantity",
-                    "purchaseItems.quantity", 
+                    $"purchaseItem.{nameof(PurchaseItem.Quantity)}", 
+                    StringComparison.OrdinalIgnoreCase
+                );
+            }
+            
+            if (sorting.Contains("itemName", StringComparison.OrdinalIgnoreCase))
+            {
+                return sorting.Replace(
+                    "itemName",
+                    $"item.{nameof(Item.Name)}", 
+                    StringComparison.OrdinalIgnoreCase
+                );
+            }
+            
+            if (sorting.Contains("price", StringComparison.OrdinalIgnoreCase))
+            {
+                return sorting.Replace(
+                    "price",
+                    $"purchaseItem.{nameof(PurchaseItem.Price)}", 
                     StringComparison.OrdinalIgnoreCase
                 );
             }
@@ -178,14 +178,13 @@ namespace gfa_web.Purchases
             {
                 return sorting.Replace(
                     "total",
-                    "purchaseItems.total", 
+                    $"purchaseItem.{nameof(PurchaseItem.Total)}", 
                     StringComparison.OrdinalIgnoreCase
                 );
             }
 
 
-            return $"item.{sorting}";
-           
+            return $"item.{nameof(Item.Name)}";
         }
 
         public void BatchInsert(List<CreateUpdatePurchaseItemDto> createUpdatePurchaseItemDtos)

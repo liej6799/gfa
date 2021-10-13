@@ -2,7 +2,7 @@ version: '3'
 services:
   db:
     container_name: snider_sql
-    image: mcr.microsoft.com/mssql/server:2019-CU3-ubuntu-18.04
+    image: justin2004/mssql_server_tiny
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=Password1!

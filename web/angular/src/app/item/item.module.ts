@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PurchaseItemModule } from '../purchase/purchase-item.module';
+import { SaleItemModule } from '../sale/sale-item.module';
 
 import { SharedModule } from '../shared/shared.module';
 
@@ -10,13 +11,14 @@ import { ItemComponent } from './item.component';
 @NgModule({
   declarations: [
     ItemComponent,
-    
-    
+
+
   ],
   imports: [
     SharedModule,
     ItemRoutingModule,
-    PurchaseItemModule
+    PurchaseItemModule,
+    SaleItemModule,
   ]
 })
 export class ItemModule { }

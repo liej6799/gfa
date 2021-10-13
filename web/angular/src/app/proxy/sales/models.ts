@@ -29,6 +29,10 @@ export interface GetSaleItemInput extends PagedAndSortedResultRequestDto {
   filter?: string;
 }
 
+export interface GetSalesItemHistoryInput extends PagedAndSortedResultRequestDto {
+  itemId?: string;
+}
+
 export interface SaleDto extends AuditedEntityDto<string> {
   sourceId: number;
   dateSales?: string;
@@ -45,4 +49,6 @@ export interface SaleItemDto extends AuditedEntityDto<string> {
   itemId?: string;
   saleId?: string;
   itemName?: string;
+  currentBuyPrice: number;
+  dateSales?: string;
 }

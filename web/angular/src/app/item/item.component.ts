@@ -15,9 +15,13 @@ export class ItemComponent implements OnInit {
   selectedPurchaseItemHistory = '';
   selectedPurchaseItem = '';
   selectedPurchaseItemFilter = '';
+
+  selectedSaleItemHistory = '';
+  selectedSaleItem = '';
+  selectedSaleItemFilter = '';
   item = { items: [], totalCount: 0 } as PagedResultDto<ItemDto>;
 
-  constructor(public readonly list: ListService, private itemService: ItemService) {}
+  constructor(public readonly list: ListService, private itemService: ItemService) { }
 
   ngOnInit() {
     const itemStreamCreator = (query) => this.itemService.getListFilter(query);
@@ -32,10 +36,18 @@ export class ItemComponent implements OnInit {
     this.selectedPurchaseItemHistory = id;
   }
 
-  navigatePurchase(input)
-  {
+  navigatePurchase(input) {
     this.selectedPurchaseItemFilter = input.itemName;
     this.selectedPurchaseItem = input.id;
+  }
+
+  viewSaleHistory(id: string) {
+    this.selectedSaleItemHistory = id;
+  }
+  navigateSale(input) {
+    console.log('navigateSale')
+    this.selectedSaleItemFilter = input.itemName;
+    this.selectedSaleItem = input.id;
   }
 }
 

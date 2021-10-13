@@ -18,6 +18,10 @@ namespace gfa_web.Sales
         public Guid SaleId { get; set; }
         
         public String ItemName { get; set; }
+        public Double CurrentBuyPrice { get; set; }
+        
+        public DateTime DateSales { get; set; }
+        
     }
 
 }

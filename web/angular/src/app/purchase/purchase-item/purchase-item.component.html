@@ -1,77 +1,53 @@
 <abp-modal [(visible)]="isModalOpen" [suppressUnsavedChangesWarning]="true">
   <ng-template #abpHeader>
     <h3 class="card-title">
-        {{ '::Menu:PurchaseItems' | abpLocalization }}
-      </h3>
+      {{ '::Menu:PurchaseItems' | abpLocalization }}
+    </h3>
   </ng-template>
-  
-<ng-template #abpBody>
-  <form [formGroup]="form">
-              
-    <div class="form-group">
-      <label for="source-id">{{ '::SourceId' | abpLocalization }}</label>
-      <input
-        id="source-id"
-        formControlName="sourceId"
-        class="form-control"
-        disabled
-      />
-    </div>
-    <div class="form-group">
-      <label for="vendor-name">{{ '::VendorName' | abpLocalization }}</label>
-      <input
-        id="vendor-name"
-        formControlName="vendorName"
-        class="form-control"
-        disabled
-      />
-    </div>
-    <div class="form-group">
-      <label for="date-purchase">{{ '::DatePurchase' | abpLocalization }}</label>
-      <input
-        id="date-purchase"
-        formControlName="datePurchase"
-        class="form-control"
-        disabled
-      />
-    </div>
-  </form>
+
+  <ng-template #abpBody>
+    <form [formGroup]="form">
+
+      <div class="form-group">
+        <label for="source-id">{{ '::SourceId' | abpLocalization }}</label>
+        <input id="source-id" formControlName="sourceId" class="form-control" disabled />
+      </div>
+      <div class="form-group">
+        <label for="vendor-name">{{ '::VendorName' | abpLocalization }}</label>
+        <input id="vendor-name" formControlName="vendorName" class="form-control" disabled />
+      </div>
+      <div class="form-group">
+        <label for="date-purchase">{{ '::DatePurchase' | abpLocalization }}</label>
+        <input id="date-purchase" formControlName="datePurchase" class="form-control" disabled />
+      </div>
+    </form>
 
     <div class="form-group">
       <label for="search">{{ 'AbpUi::PagerSearch' | abpLocalization }}</label>
-      <input
-        id="search"
-        type="text"
-        class="form-control"
-        [(ngModel)]="list.filter"
-      />
-  </div>
-  
-  <ngx-datatable [rows]="purchaseItem.items" [count]="purchaseItem.totalCount" [list]="list" default  >
-      <ngx-datatable-column [sortable]="false" [name]="'::Quantity' | abpLocalization" prop="quantity"></ngx-datatable-column>
-      <ngx-datatable-column [sortable]="false" [name]="'::Name' | abpLocalization" prop="itemName"></ngx-datatable-column>
-      <ngx-datatable-column [sortable]="false" [name]="'::Price' | abpLocalization" prop="price">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            {{ row.price | currency:'IDR'}}
-            </ng-template>
-        </ngx-datatable-column>
+      <input id="search" type="text" class="form-control" [(ngModel)]="list.filter" />
+    </div>
 
-        <ngx-datatable-column [sortable]="false" [name]="'::Total' | abpLocalization" prop="total">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            {{ row.total | currency:'IDR'}}
-            </ng-template>
-        </ngx-datatable-column>
-  </ngx-datatable>
-  
-</ng-template>
+    <ngx-datatable [rows]="purchaseItem.items" [count]="purchaseItem.totalCount" [list]="list" default>
+      <ngx-datatable-column [name]="'::Quantity' | abpLocalization" prop="quantity"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'::Name' | abpLocalization" prop="itemName"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'::Price' | abpLocalization" prop="price">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{ row.price | currency:'IDR'}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [name]="'::Total' | abpLocalization" prop="total">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{ row.total | currency:'IDR'}}
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+
+  </ng-template>
   <ng-template #abpFooter>
     <button type="button" class="btn btn-secondary" abpClose>
       {{ '::Close' | abpLocalization }}
     </button>
-  
+
   </ng-template>
 </abp-modal>
-
-
-
-

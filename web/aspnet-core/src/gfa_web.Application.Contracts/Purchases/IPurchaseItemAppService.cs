@@ -10,12 +10,10 @@ namespace gfa_web.Purchases
         ICrudAppService< //Defines CRUD methods
             PurchaseItemDto, //Used to show books
             Guid, //Primary key of the book entity
-            PagedAndSortedResultRequestDto, //Used for paging/sorting
+            GetPurchaseItemInput, //Used for paging/sorting
             CreateUpdatePurchaseItemDto> //Used to create/update a book
     {
         Task<List<CreateUpdatePurchaseItemDto>> GetListNoPaged();
-        
         void BatchInsert(List<CreateUpdatePurchaseItemDto> createUpdatePurchaseItemDtos);
-        Task<PagedResultDto<PurchaseItemDto>> GetListFilterAsync(GetPurchaseItemInput input);
     }
 }

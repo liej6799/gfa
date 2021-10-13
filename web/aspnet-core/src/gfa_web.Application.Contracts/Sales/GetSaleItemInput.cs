@@ -10,7 +10,7 @@ namespace gfa_web.Sales
         public string Filter { get; set; }
     }
     
-    public class GetSaleItemInputHistory : PagedAndSortedResultRequestDto
+    public class GetSalesItemHistoryInput : PagedAndSortedResultRequestDto
     {
         public Guid ItemId { get; set; }
     }
