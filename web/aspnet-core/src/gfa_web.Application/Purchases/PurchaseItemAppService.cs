@@ -31,23 +31,20 @@ namespace gfa_web.Purchases
             _itemRepository = itemRepository;
             _purchaseRepository = purchaseRepository;
         }
-        public async Task<PagedResultDto<PurchaseItemDto>> GetItemPurchaseHistoryListAsync(GetPurchaseItemInputHistory input)
+        public async Task<PagedResultDto<PurchaseItemDto>> GetItemHistoryAsync(GetPurchaseItemInputHistory input)
         {
             var queryable = await Repository.GetQueryableAsync();
-            var order = NormalizeSorting(input.Sorting);
             var query = from purchaseItem in queryable
                 join purchase in _purchaseRepository on purchaseItem.PurchaseId equals purchase.Id
                 join item in _itemRepository on purchaseItem.ItemId equals item.Id
                 select new {purchaseItem, purchase, item};
 
-
             var filterQuery = query
-                .Where(u => u.item.Id == input.ItemId)           
+                .Where(u => u.item.Id == input.ItemId)          
+                .OrderBy(NormalizeSorting(input.Sorting))
                 .Skip(input.SkipCount)
                 .Take(input.MaxResultCount);
-        
-            
-            
+
             var queryResult = await AsyncExecuter.ToListAsync(filterQuery);
 
             var purchaseItemDtos = queryResult.Select(x =>
@@ -165,6 +162,15 @@ namespace gfa_web.Purchases
                 );
             }
             
+            if (sorting.Contains("currentBuyPrice", StringComparison.OrdinalIgnoreCase))
+            {
+                return sorting.Replace(
+                    "currentBuyPrice",
+                    $"item.{nameof(Item.BuyPrice)}", 
+                    StringComparison.OrdinalIgnoreCase
+                );
+            } 
+            
             if (sorting.Contains("price", StringComparison.OrdinalIgnoreCase))
             {
                 return sorting.Replace(
@@ -182,7 +188,15 @@ namespace gfa_web.Purchases
                     StringComparison.OrdinalIgnoreCase
                 );
             }
-
+            
+            if (sorting.Contains("datePurchase", StringComparison.OrdinalIgnoreCase))
+            {
+                return sorting.Replace(
+                    "datePurchase",
+                    $"purchase.{nameof(Purchase.DatePurchase)}", 
+                    StringComparison.OrdinalIgnoreCase
+                );
+            }
 
             return $"item.{nameof(Item.Name)}";
         }

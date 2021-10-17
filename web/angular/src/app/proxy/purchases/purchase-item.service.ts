@@ -39,10 +39,10 @@ export class PurchaseItemService {
     },
     { apiName: this.apiName });
 
-  getItemPurchaseHistoryList = (input: GetPurchaseItemInputHistory) =>
+  getItemHistory = (input: GetPurchaseItemInputHistory) =>
     this.restService.request<any, PagedResultDto<PurchaseItemDto>>({
       method: 'GET',
-      url: '/api/app/purchase-item/item-purchase-history-list',
+      url: '/api/app/purchase-item/item-history',
       params: { itemId: input.itemId, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });

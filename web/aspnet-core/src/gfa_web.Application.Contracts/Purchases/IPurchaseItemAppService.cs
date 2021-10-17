@@ -15,5 +15,7 @@ namespace gfa_web.Purchases
     {
         Task<List<CreateUpdatePurchaseItemDto>> GetListNoPaged();
         void BatchInsert(List<CreateUpdatePurchaseItemDto> createUpdatePurchaseItemDtos);
+
+        Task<PagedResultDto<PurchaseItemDto>> GetItemHistoryAsync(GetPurchaseItemInputHistory input);
     }
 }

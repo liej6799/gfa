@@ -30,7 +30,7 @@
     "DateSales": "Date Sales",
     
     "SaleHistory": "Sale History",
-
+    "CurrentBuyPrice" : "Current Buy Price",
     "Menu:Sales": "Sales",
     "Menu:SalesItems": "Sales Items",
     "Menu:SalesItemHistory": "Sales Item History",

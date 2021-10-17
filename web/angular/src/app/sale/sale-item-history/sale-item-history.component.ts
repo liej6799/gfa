@@ -17,7 +17,7 @@ export class SaleItemHistoryComponent implements OnChanges {
   constructor(public readonly list: ListService, private saleItemServices: SaleItemService) { }
   ngOnChanges(changes: SimpleChanges): void {
     if (this.item) {
-      const itemStreamCreator = (query) => this.saleItemServices.getSalesItemHistoryList({ ...query, itemId: this.item });
+      const itemStreamCreator = (query) => this.saleItemServices.getItemHistory({ ...query, itemId: this.item });
       this.list.hookToQuery(itemStreamCreator).subscribe((response) => {
         this.saleItem = response;
         this.isModalOpen = true;

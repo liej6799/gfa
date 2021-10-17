@@ -96,7 +96,7 @@ namespace gfa_web.Sales
             return result;
         }
         
-        public async Task<PagedResultDto<SaleItemDto>> GetSalesItemHistoryListAsync(GetSalesItemHistoryInput input)
+        public async Task<PagedResultDto<SaleItemDto>> GetItemHistoryAsync(GetItemHistoryInput input)
         {
             var queryable = await Repository.GetQueryableAsync();
             
@@ -108,6 +108,7 @@ namespace gfa_web.Sales
 
             var filterQuery = query
                 .Where(u => u.item.Id == input.ItemId)           
+                .OrderBy(NormalizeSorting(input.Sorting))
                 .Skip(input.SkipCount)
                 .Take(input.MaxResultCount);
         
@@ -148,6 +149,15 @@ namespace gfa_web.Sales
                 return $"item.{nameof(Item.Name)}";
             }
             
+            if (sorting.Contains("dateSales", StringComparison.OrdinalIgnoreCase))
+            {
+                return sorting.Replace(
+                    "dateSales",
+                    $"sale.{nameof(Sale.DateSales)}", 
+                    StringComparison.OrdinalIgnoreCase
+                );
+            }
+            
             if (sorting.Contains("quantity", StringComparison.OrdinalIgnoreCase))
             {
                 return sorting.Replace(
@@ -166,6 +176,15 @@ namespace gfa_web.Sales
                 );
             }
             
+            if (sorting.Contains("currentBuyPrice", StringComparison.OrdinalIgnoreCase))
+            {
+                return sorting.Replace(
+                    "currentBuyPrice",
+                    $"item.{nameof(Item.BuyPrice)}", 
+                    StringComparison.OrdinalIgnoreCase
+                );
+            }
+
             if (sorting.Contains("price", StringComparison.OrdinalIgnoreCase))
             {
                 return sorting.Replace(

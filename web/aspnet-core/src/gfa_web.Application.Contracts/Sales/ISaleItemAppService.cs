@@ -17,6 +17,8 @@ namespace gfa_web.Sales
         Task<List<CreateUpdateSaleItemDto>> GetListNoPaged();
         
         void BatchInsert(List<CreateUpdateSaleItemDto> createUpdateSaleItemDtos);
-        Task<PagedResultDto<SaleItemDto>> GetSalesItemHistoryListAsync(GetSalesItemHistoryInput input);
+
+        Task<PagedResultDto<SaleItemDto>> GetItemHistoryAsync(GetItemHistoryInput input);
+
     }
 }
