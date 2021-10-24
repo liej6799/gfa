@@ -14,8 +14,8 @@ namespace gfa_worker_common
         public static char tab = '\t';
 
         public static Configuration NetworkConfiguration = new (){
-            BasePath   = "https://gfaapi.liej6799dev.xyz"
-            //BasePath = "https://localhost:44399"
+            //BasePath   = "https://gfaapi.liej6799dev.xyz"
+            BasePath = "https://localhost:44399"
         };
         
         public static void UpdateNetworkConfiguration(string newNetworkConfiguration)

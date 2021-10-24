@@ -2,7 +2,7 @@ version: '3'
 services:
   db:
     container_name: snider_sql
-    image: justin2004/mssql_server_tiny
+    image: mcr.microsoft.com/azure-sql-edge
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=Password1!
@@ -36,7 +36,7 @@ services:
       - 8000:80
       - 8001:443
     volumes:
-      - ${HOME}/.aspnet/https:/https/
+      - /Users/liej6799/.aspnet/https/:/https/
     networks:
       - proxy
   webapp:

@@ -81,7 +81,8 @@ namespace gfa_worker_common.Network
                      && y.SaleSourceId == x.PENJUA_ID
                          ) == null &&
                          (itemList.FirstOrDefault(y => y.SourceId == x.STOCK_ID) != null
-                          && (saleList.FirstOrDefault(y => y.SourceId == x.PENJUA_ID) != null)))
+                          && (saleList.FirstOrDefault(y => y.SourceId == x.PENJUA_ID) != null))
+                         && x.JUMLAH > 0 && x.HARGA > 0 && (x.HARGA / x.JUMLAH) > 0 )
              .Select(x => new GfaWebSalesCreateUpdateSaleItemDto(
                  quantity: x.JUMLAH,
                  total: x.HARGA,
@@ -94,7 +95,7 @@ namespace gfa_worker_common.Network
             {
                 _saleItemApi.ApiAppSaleItemIdPut(item.Id, item);
             }
-
+            
             _saleItemApi.ApiAppSaleItemBatchInsertPost(insertDetail);
         }
     }

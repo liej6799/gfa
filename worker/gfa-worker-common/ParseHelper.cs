@@ -56,5 +56,15 @@ namespace gfa_worker_common
             return JsonConvert.DeserializeObject<BaseSales>(input);
         }
         
+        public static BaseSales TestBaseSalesParser()
+        {
+            using (StreamReader file = File.OpenText(Path.Combine(Directory.GetCurrentDirectory(), "BaseSales.json")))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                return (BaseSales) serializer.Deserialize(file, typeof(BaseSales));
+            }
+        }
+
+        
     }
 }

@@ -139,7 +139,7 @@ namespace gfa_web.Sales
         
         public void BatchInsert(List<CreateUpdateSaleItemDto> createUpdateSaleItemDtos)
         {
-            Repository.InsertManyAsync(ObjectMapper.Map<List<CreateUpdateSaleItemDto>, List<SaleItem>>(createUpdateSaleItemDtos));      
+            Repository.InsertManyAsync(ObjectMapper.Map<List<CreateUpdateSaleItemDto>, List<SaleItem>>(createUpdateSaleItemDtos));
         }
         
         private string NormalizeSorting(string sorting)

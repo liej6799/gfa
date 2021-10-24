@@ -41,13 +41,36 @@ namespace gfa_worker_sales
             }
         }
 
+        private void Test()
+        {
+            BaseSales baseSales =  ParseHelper.TestBaseSalesParser();
+            _salesNetwork.Run(baseSales);
+        }
+        
+
         private void Normal()
         {
             string args = String.Empty;
             if (_gfaWebConfigsConfigDto.IsAll)
             {
-                args = "/TGL:" + DateTime.Now.AddYears(-10).ToString("yyyyMMdd") + CommonHelper.tab +
-                       "/TGL2:" + DateTime.Now.ToString("yyyyMMdd");
+                var startDate = DateTime.Now.AddYears(-2);
+
+                while (startDate < DateTime.Now)
+                {
+                    args = String.Empty;
+                    args = "/TGL:" + startDate.ToString("yyyyMMdd") + CommonHelper.tab +
+                           "/TGL2:" + startDate.AddMonths(1).ToString("yyyyMMdd");
+                    startDate = startDate.AddMonths(1);
+
+                    args += CommonHelper.tab + CredsHelper.GetCreds();
+                    _logger.LogInformation(startDate.ToString("yyyyMMdd"));
+
+                    ProcessHelper isAllprocessHelper = new ProcessHelper(gfa_worker_common.Worker.SalesWorkerExe, args);
+                    BaseSales isAllbaseSales = ParseHelper.BaseSalesParser(isAllprocessHelper.Run());
+
+                    _salesNetwork.Run(isAllbaseSales);
+                }
+                return;
             }
             else if (_gfaWebConfigsConfigDto.IsDaily)
             {
