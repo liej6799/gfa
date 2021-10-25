@@ -19,7 +19,7 @@ namespace gfa_web.Purchases
         
         public DateTime DatePurchase { get; set; }
         public Double CurrentBuyPrice { get; set; }
-        
+        public Double BuyPrice { get; set; }
         public Guid PurchaseId { get; set; }
     }
 }

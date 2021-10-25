@@ -54,6 +54,7 @@ namespace gfa_web.Purchases
                 purchaseItemDto.CurrentBuyPrice = x.item.BuyPrice;
                 purchaseItemDto.DatePurchase = x.purchase.DatePurchase;
                 purchaseItemDto.PurchaseId = x.purchase.Id;
+                purchaseItemDto.BuyPrice = x.purchaseItem.Price;
                 return purchaseItemDto;
             }).ToList();
 
@@ -95,7 +96,7 @@ namespace gfa_web.Purchases
             {
                 var purchaseItemDto = ObjectMapper.Map<PurchaseItem, PurchaseItemDto>(x.purchaseItem);
                 purchaseItemDto.ItemName = x.item.Name;
-
+                purchaseItemDto.BuyPrice = x.purchaseItem.Price;
                 return purchaseItemDto;
             }).ToList();
 
@@ -171,10 +172,10 @@ namespace gfa_web.Purchases
                 );
             } 
             
-            if (sorting.Contains("price", StringComparison.OrdinalIgnoreCase))
+            if (sorting.Contains("buyPrice", StringComparison.OrdinalIgnoreCase))
             {
                 return sorting.Replace(
-                    "price",
+                    "buyPrice",
                     $"purchaseItem.{nameof(PurchaseItem.Price)}", 
                     StringComparison.OrdinalIgnoreCase
                 );

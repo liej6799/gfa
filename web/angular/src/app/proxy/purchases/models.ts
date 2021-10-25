@@ -52,5 +52,6 @@ export interface PurchaseItemDto extends AuditedEntityDto<string> {
   itemName?: string;
   datePurchase?: string;
   currentBuyPrice: number;
+  buyPrice: number;
   purchaseId?: string;
 }

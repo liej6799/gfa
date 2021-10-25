@@ -21,7 +21,12 @@ namespace gfa_web.Sales
         public Double CurrentBuyPrice { get; set; }
         
         public DateTime DateSales { get; set; }
-        
+
+        public Double SalePrice {
+            get;
+            set;
+        }
+
     }
 
 }

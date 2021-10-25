@@ -51,4 +51,5 @@ export interface SaleItemDto extends AuditedEntityDto<string> {
   itemName?: string;
   currentBuyPrice: number;
   dateSales?: string;
+  salePrice: number;
 }

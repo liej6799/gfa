@@ -33,9 +33,9 @@
       </ngx-datatable-column>
       <ngx-datatable-column [name]="'::Name' | abpLocalization" prop="itemName">
       </ngx-datatable-column>
-      <ngx-datatable-column [name]="'::Price' | abpLocalization" prop="price">
+      <ngx-datatable-column [name]="'::BuyPrice' | abpLocalization" prop="buyPrice">
         <ng-template let-row="row" ngx-datatable-cell-template>
-          {{ row.price | currency:'IDR'}}
+          {{ row.buyPrice | currency:'IDR'}}
         </ng-template>
       </ngx-datatable-column>
 

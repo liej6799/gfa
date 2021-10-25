@@ -22,7 +22,7 @@ namespace gfa_web.Sales
         
         private readonly IItemRepository _itemRepository;
         private readonly ISaleRepository _saleRepository;
-        
+
         public SaleItemAppService(IRepository<SaleItem, Guid> repository,
             IItemRepository itemRepository,
             ISaleRepository saleRepository) : base(repository)
@@ -30,7 +30,7 @@ namespace gfa_web.Sales
             _itemRepository = itemRepository;
             _saleRepository = saleRepository;
         }
-        
+
         public override async Task<PagedResultDto<SaleItemDto>> GetListAsync(GetSaleItemInput input)
         {
             var queryable = await Repository.GetQueryableAsync();
@@ -57,6 +57,7 @@ namespace gfa_web.Sales
             {
                 var saleItemDto = ObjectMapper.Map<SaleItem, SaleItemDto>(x.saleItem);
                 saleItemDto.ItemName = x.item.Name;
+                saleItemDto.SalePrice = x.saleItem.Price;
                 return saleItemDto;
             }).ToList();
 
@@ -122,6 +123,7 @@ namespace gfa_web.Sales
                 saleItemDto.CurrentBuyPrice = x.item.BuyPrice;
                 saleItemDto.DateSales = x.sale.DateSales;
                 saleItemDto.SaleId = x.sale.Id;
+                saleItemDto.SalePrice = x.saleItem.Price;
                 return saleItemDto;
             }).ToList();
 
@@ -185,10 +187,10 @@ namespace gfa_web.Sales
                 );
             }
 
-            if (sorting.Contains("price", StringComparison.OrdinalIgnoreCase))
+            if (sorting.Contains("salePrice", StringComparison.OrdinalIgnoreCase))
             {
                 return sorting.Replace(
-                    "price",
+                    "salePrice",
                     $"saleItem.{nameof(SaleItem.Price)}", 
                     StringComparison.OrdinalIgnoreCase
                 );
