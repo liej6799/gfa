@@ -1,0 +1,28 @@
+<abp-modal [(visible)]="isModalOpen" [suppressUnsavedChangesWarning]="true">
+    <ng-template #abpHeader>
+      <h3 class="card-title">
+        {{ '::Menu:QuantityTracker' | abpLocalization }}
+      </h3>
+    </ng-template>
+  
+    <ng-template #abpBody>
+
+      <ngx-datatable *ngIf="isItemReady" [rows]="itemQuantity.items" [offset]="tableOffset"  [count]="itemQuantity.totalCount" [list]="list" default>
+
+
+        <ngx-datatable-column [name]="'::Date' | abpLocalization" prop="date">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{ row.date | date: 'medium' }}
+            </ng-template>
+          </ngx-datatable-column>
+
+        <ngx-datatable-column [name]="'::Quantity' | abpLocalization" prop="quantity"></ngx-datatable-column>
+        <ngx-datatable-column [name]="'::Remaining' | abpLocalization" prop="remaining"></ngx-datatable-column>
+      </ngx-datatable>
+    </ng-template>
+    <ng-template #abpFooter>
+      <button type="button" class="btn btn-secondary" abpClose>
+        {{ '::Close' | abpLocalization }}
+      </button>
+    </ng-template>
+  </abp-modal>

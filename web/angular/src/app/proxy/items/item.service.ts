@@ -1,4 +1,4 @@
-import type { CreateUpdateItemDto, GetItemInput, ItemDto } from './models';
+import type { CreateUpdateItemDto, GetItemInput, GetQuantityTrackerInput, ItemDto } from './models';
 import { RestService } from '@abp/ng.core';
 import type { PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
@@ -59,6 +59,14 @@ export class ItemService {
     this.restService.request<any, CreateUpdateItemDto[]>({
       method: 'GET',
       url: '/api/app/item/no-paged',
+    },
+    { apiName: this.apiName });
+
+  getQuantityTrackerByInput = (input: GetQuantityTrackerInput) =>
+    this.restService.request<any, PagedResultDto<ItemDto>>({
+      method: 'GET',
+      url: '/api/app/item/quantity-tracker',
+      params: { itemId: input.itemId, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });
 

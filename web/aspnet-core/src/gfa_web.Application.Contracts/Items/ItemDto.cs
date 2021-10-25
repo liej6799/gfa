@@ -17,5 +17,10 @@ namespace gfa_web.Items
         public Double SellPrice { get; set; }
         
         public Double ProfitLoss { get; set; }
+        
+        public Double Quantity { get; set; }
+        public DateTime Date { get; set; }
+        
+        public Double Remaining { get; set; }
     }
 }

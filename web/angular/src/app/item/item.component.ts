@@ -19,6 +19,8 @@ export class ItemComponent implements OnInit {
   selectedSaleItemHistory = '';
   selectedSaleItem = '';
   selectedSaleItemFilter = '';
+
+  selectedItemQuantityTracker = '';
   item = { items: [], totalCount: 0 } as PagedResultDto<ItemDto>;
 
   constructor(public readonly list: ListService, private itemService: ItemService) { }
@@ -44,10 +46,14 @@ export class ItemComponent implements OnInit {
   viewSaleHistory(id: string) {
     this.selectedSaleItemHistory = id;
   }
+
   navigateSale(input) {
-    console.log('navigateSale')
     this.selectedSaleItemFilter = input.itemName;
     this.selectedSaleItem = input.id;
+  }
+
+  viewQuantityTracker(id: string) {
+    this.selectedItemQuantityTracker = id;
   }
 }
 

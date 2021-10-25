@@ -36,7 +36,8 @@
     "Menu:SalesItemHistory": "Sales Item History",
 
     "Enum:PurchaseGroup:0": "None",
-    "Enum:PurchaseGroup:1": "Vendor"
+    "Enum:PurchaseGroup:1": "Vendor",
     
+    "Remaining" : "Remaining"
   }
 }

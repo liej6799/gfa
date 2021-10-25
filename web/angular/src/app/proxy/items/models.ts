@@ -13,6 +13,10 @@ export interface GetItemInput extends PagedAndSortedResultRequestDto {
   filter?: string;
 }
 
+export interface GetQuantityTrackerInput extends PagedAndSortedResultRequestDto {
+  itemId?: string;
+}
+
 export interface ItemDto extends AuditedEntityDto<string> {
   sourceId: number;
   name?: string;
@@ -20,4 +24,6 @@ export interface ItemDto extends AuditedEntityDto<string> {
   buyPrice: number;
   sellPrice: number;
   profitLoss: number;
+  quantity: number;
+  date?: string;
 }

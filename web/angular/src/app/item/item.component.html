@@ -43,6 +43,12 @@
                 <button ngbDropdownItem (click)="viewSaleHistory(row.id)">
                   {{ '::SaleHistory' | abpLocalization }}
                 </button>
+
+                <button ngbDropdownItem (click)="viewQuantityTracker(row.id)">
+                  {{ '::QuantityTracker' | abpLocalization }}
+                </button>
+
+                
               </div>
             </div>
           </ng-template>
@@ -75,6 +81,7 @@
     </div>
   </div>
 </div>
+
 <app-purchase-item-history [item]="selectedPurchaseItemHistory" (purchase)="navigatePurchase($event)">
 </app-purchase-item-history>
 <app-sale-item-history [item]="selectedSaleItemHistory" (sale)="navigateSale($event)">
@@ -82,3 +89,5 @@
 <app-purchase-item [item]="selectedPurchaseItem" [filter]="selectedPurchaseItemFilter"></app-purchase-item>
 
 <app-sale-item [item]="selectedSaleItem" [filter]="selectedSaleItemFilter"></app-sale-item>
+
+<app-item-quantity-tracker [item]="selectedItemQuantityTracker"></app-item-quantity-tracker>
