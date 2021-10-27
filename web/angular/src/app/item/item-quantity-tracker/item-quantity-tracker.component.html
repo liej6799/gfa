@@ -6,19 +6,27 @@
     </ng-template>
   
     <ng-template #abpBody>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">{{ "::Date" | abpLocalization }}</th>
+            <th scope="col">{{ "::Quantity" | abpLocalization }}</th>
+            <th scope="col">{{ "::Remaining" | abpLocalization }}</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let itemQuantity of itemQuantity.items">
+          <td>{{ itemQuantity.date | date: 'medium' }}</td>
+          <td>{{ itemQuantity.quantity }}</td>
+          <td>{{ itemQuantity.remaining }}</td>
+        </tr>
+        </tbody>
+      </table>
 
-      <ngx-datatable *ngIf="isItemReady" [rows]="itemQuantity.items" [offset]="tableOffset"  [count]="itemQuantity.totalCount" [list]="list" default>
-
-
-        <ngx-datatable-column [name]="'::Date' | abpLocalization" prop="date">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-              {{ row.date | date: 'medium' }}
-            </ng-template>
-          </ngx-datatable-column>
-
-        <ngx-datatable-column [name]="'::Quantity' | abpLocalization" prop="quantity"></ngx-datatable-column>
-        <ngx-datatable-column [name]="'::Remaining' | abpLocalization" prop="remaining"></ngx-datatable-column>
-      </ngx-datatable>
+      <div class="d-flex justify-content-between p-2">
+        <ngb-pagination [collectionSize]="itemQuantity.totalCount" [(page)]="page" [pageSize]="pageSize" (pageChange)="ngOnChanges()">
+        </ngb-pagination>
+      </div>
     </ng-template>
     <ng-template #abpFooter>
       <button type="button" class="btn btn-secondary" abpClose>

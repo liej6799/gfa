@@ -14,9 +14,13 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { APP_ROUTE_PROVIDER } from './route.provider';
+import {NgbPaginationModule, NgbAlertModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
+
 
 @NgModule({
   imports: [
+    NgbPaginationModule, 
+    NgbAlertModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -31,6 +35,7 @@ import { APP_ROUTE_PROVIDER } from './route.provider';
     SettingManagementConfigModule.forRoot(),
     NgxsModule.forRoot(),
     ThemeBasicModule.forRoot(),
+    NgbModule,
   ],
   declarations: [AppComponent],
   providers: [APP_ROUTE_PROVIDER],
