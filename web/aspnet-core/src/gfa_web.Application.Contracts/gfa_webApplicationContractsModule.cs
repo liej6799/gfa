@@ -1,4 +1,5 @@
-﻿using Volo.Abp.Account;
+﻿using gfa_webWorker;
+using Volo.Abp.Account;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
 using Volo.Abp.Modularity;
@@ -17,7 +18,8 @@ namespace gfa_web
         typeof(AbpPermissionManagementApplicationContractsModule),
         typeof(AbpSettingManagementApplicationContractsModule),
         typeof(AbpTenantManagementApplicationContractsModule),
-        typeof(AbpObjectExtendingModule)
+        typeof(AbpObjectExtendingModule),
+        typeof(gfa_webWorkerModule)
     )]
     public class gfa_webApplicationContractsModule : AbpModule
     {

@@ -17,6 +17,8 @@ namespace gfa_web.Items
         
         public Double ProfitLoss { get; set; }
         
+        public Double Quantity { get; set; }
+        
         public bool IsDeleted { get; set; }
     }
 }

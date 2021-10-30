@@ -3,12 +3,13 @@
   <Import Project="..\..\common.props" />
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>gfa_web</RootNamespace>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\gfa_web.Domain.Shared\gfa_web.Domain.Shared.csproj" />
+    <ProjectReference Include="..\gfa_webWorker\gfa_webWorker.csproj" />
   </ItemGroup>
 
   <ItemGroup>
