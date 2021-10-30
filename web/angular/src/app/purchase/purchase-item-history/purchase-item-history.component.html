@@ -5,47 +5,54 @@
     </h3>
   </ng-template>
   <ng-template #abpBody>
-    <ngx-datatable [rows]="purchaseItem.items" [count]="purchaseItem.totalCount" [list]="list" default
-      [offset]="tableOffset" (page)="onChange($event)">
-      <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="150" [sortable]="false">
-        <ng-template let-row="row" ngx-datatable-cell-template>
-          <div ngbDropdown container="body" class="d-inline-block">
-            <button class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-              ngbDropdownToggle>
-              <i class="fa fa-cog mr-1"></i>{{ '::Actions' | abpLocalization }}
-            </button>
-            <div ngbDropdownMenu>
-              <button ngbDropdownItem (click)="viewPurchase(row.purchaseId, row.itemName)">
-                {{ '::Purchase' | abpLocalization }}
+    <form [formGroup]="form">
+      <div class="form-group">
+        <label for="name">{{ '::Name' | abpLocalization }}</label>
+        <input id="name" formControlName="name" class="form-control" disabled />
+      </div>
+
+    </form>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">{{ "::Action" | abpLocalization }}</th>
+          <th scope="col" sortable="datePurchase" (sort)="onSort($event)">{{ "::DatePurchase" | abpLocalization }}</th>
+          <th scope="col" sortable="quantity" (sort)="onSort($event)">{{ "::Quantity" | abpLocalization }}</th>
+          <th scope="col" sortable="buyPrice" (sort)="onSort($event)">{{ "::BuyPrice" | abpLocalization }}
+          <th scope="col" sortable="currentBuyPrice" (sort)="onSort($event)">{{ "::CurrentBuyPrice" | abpLocalization }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let purchaseItems of purchaseItem.items">
+          <td>
+
+            <div ngbDropdown container="body" class="d-inline-block">
+              <button class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                ngbDropdownToggle>
+                <i class="fa fa-cog mr-1"></i>{{ '::Actions' | abpLocalization }}
               </button>
+              <div ngbDropdownMenu>
+                <button ngbDropdownItem (click)="viewPurchase(purchaseItems.purchaseId, purchaseItems.itemName)">
+                  {{ '::Purchase' | abpLocalization }}
+                </button>
+              </div>
             </div>
-          </div>
-        </ng-template>
-      </ngx-datatable-column>
 
-      <ngx-datatable-column [name]="'::DatePurchase' | abpLocalization" prop="datePurchase">
-        <ng-template let-row="row" ngx-datatable-cell-template>
-          {{ row.datePurchase | date:'medium'}}
-        </ng-template>
-      </ngx-datatable-column>
+          </td>
 
-      <ngx-datatable-column [name]="'::Quantity' | abpLocalization" prop="quantity">
-      </ngx-datatable-column>
-      <ngx-datatable-column [name]="'::Name' | abpLocalization" prop="itemName">
-      </ngx-datatable-column>
-      <ngx-datatable-column [name]="'::BuyPrice' | abpLocalization" prop="buyPrice">
-        <ng-template let-row="row" ngx-datatable-cell-template>
-          {{ row.buyPrice | currency:'IDR'}}
-        </ng-template>
-      </ngx-datatable-column>
-
-      <ngx-datatable-column [name]="'::CurrentBuyPrice' | abpLocalization" prop="currentBuyPrice">
-        <ng-template let-row="row" ngx-datatable-cell-template>
-          {{ row.currentBuyPrice | currency:'IDR'}}
-        </ng-template>
-      </ngx-datatable-column>
-    </ngx-datatable>
-
+          <td>{{ purchaseItems.datePurchase | date: 'medium' }}</td>
+          <td>{{ purchaseItems.quantity }}</td>
+          <td>{{ purchaseItems.buyPrice | currency:'IDR'}}</td>
+          <td>{{ purchaseItems.currentBuyPrice | currency:'IDR'}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-between p-2">
+      <ngb-pagination [collectionSize]="purchaseItem.totalCount" [(page)]="page" [pageSize]="pageSize"
+        (pageChange)="ngOnChanges()">
+      </ngb-pagination>
+    </div>
   </ng-template>
 
 

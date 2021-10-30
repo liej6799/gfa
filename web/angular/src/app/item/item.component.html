@@ -26,6 +26,7 @@
         <input type="text" class="form-control" [placeholder]="'AbpUi::PagerSearch' | abpLocalization"
           [(ngModel)]="list.filter" />
       </div>
+      
 
       <ngx-datatable [rows]="item.items" [count]="item.totalCount" [list]="list" default>
         <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="200" [sortable]="false">

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import {  ItemQuantityTrackerComponent } from './item-quantity-tracker.component';
 import { SharedModule } from '../../shared/shared.module';
-import {NgbPaginationModule, NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -10,7 +10,6 @@ import {NgbPaginationModule, NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
   ],
   imports: [
     SharedModule,
-    NgbPaginationModule, 
     NgbAlertModule
   ],
   exports: [

@@ -8,7 +8,7 @@ import { SaleItemModule } from './sale-item.module';
 
 @NgModule({
   declarations: [
-    SaleComponent
+    SaleComponent,
   ],
   imports: [
     SaleRoutingModule,

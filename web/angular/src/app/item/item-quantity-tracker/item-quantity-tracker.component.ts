@@ -16,7 +16,6 @@ import { ItemService, ItemDto } from '@proxy/items';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 
 
-
 @Component({
   selector: 'app-item-quantity-tracker',
   templateUrl: './item-quantity-tracker.component.html',
@@ -24,6 +23,10 @@ import { DatatableComponent } from '@swimlane/ngx-datatable';
 })
 export class ItemQuantityTrackerComponent implements OnChanges {
   @Input() item = '';
+
+  form = this.fb.group({
+    name: [null]
+  });
 
   isModalOpen = false;
   itemQuantity = { items: [], totalCount: 0 } as PagedResultDto<ItemDto>;
@@ -42,6 +45,10 @@ export class ItemQuantityTrackerComponent implements OnChanges {
   
   ngOnChanges(changes: SimpleChanges): void {
     if (this.item) {    
+      this.itemService.get(this.item).subscribe((response) => {
+        this.form.controls.name.setValue(response.name);
+      });
+
       const itemStreamCreator = query =>
         this.itemService.getQuantityTrackerByInput({ ...query, itemId: this.item, skipCount: (this.page -1) * this.pageSize});
       this.list.hookToQuery(itemStreamCreator).subscribe(response => {

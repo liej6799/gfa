@@ -14,12 +14,11 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { APP_ROUTE_PROVIDER } from './route.provider';
-import {NgbPaginationModule, NgbAlertModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbAlertModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
   imports: [
-    NgbPaginationModule, 
     NgbAlertModule,
     BrowserModule,
     BrowserAnimationsModule,
@@ -36,6 +35,7 @@ import {NgbPaginationModule, NgbAlertModule, NgbModule} from '@ng-bootstrap/ng-b
     NgxsModule.forRoot(),
     ThemeBasicModule.forRoot(),
     NgbModule,
+    
   ],
   declarations: [AppComponent],
   providers: [APP_ROUTE_PROVIDER],

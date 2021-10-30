@@ -50,8 +50,6 @@ export class SaleItemHistoryComponent implements OnChanges {
   }
 
   viewSale(id: string, itemName: string) {
-    console.log(id)
-    console.log(itemName)
     this.sale.emit({ id, itemName });
   }
 

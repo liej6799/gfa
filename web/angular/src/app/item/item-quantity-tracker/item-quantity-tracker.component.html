@@ -6,6 +6,13 @@
     </ng-template>
   
     <ng-template #abpBody>
+      <form [formGroup]="form">
+        <div class="form-group">
+          <label for="name">{{ '::Name' | abpLocalization }}</label>
+          <input id="name" formControlName="name" class="form-control" disabled />
+        </div>
+      </form>
+
       <table class="table">
         <thead>
           <tr>

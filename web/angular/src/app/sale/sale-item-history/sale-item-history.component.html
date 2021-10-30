@@ -15,6 +15,7 @@
     <table class="table">
       <thead>
         <tr>
+          <th scope="col">{{ "::Action" | abpLocalization }}</th>
           <th scope="col" sortable="dateSales" (sort)="onSort($event)">{{ "::DateSales" | abpLocalization }}</th>
           <th scope="col" sortable="quantity" (sort)="onSort($event)">{{ "::Quantity" | abpLocalization }}</th>
           <th scope="col" sortable="sellPrice" (sort)="onSort($event)">{{ "::SellPrice" | abpLocalization }}</th>
@@ -24,6 +25,22 @@
       </thead>
       <tbody>
         <tr *ngFor="let saleItem of saleItem.items">
+          <td>
+
+              <div ngbDropdown container="body" class="d-inline-block">
+                  <button class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown"
+                      aria-haspopup="true" ngbDropdownToggle>
+                      <i class="fa fa-cog mr-1"></i>{{ '::Actions' | abpLocalization }}
+                  </button>
+                  <div ngbDropdownMenu>
+                      <button ngbDropdownItem (click)="viewSale(saleItem.saleId, saleItem.itemName)">
+                          {{ '::Sale' | abpLocalization }}
+                      </button>
+                  </div>
+              </div>
+
+          </td>
+
           <td>{{ saleItem.dateSales | date: 'medium' }}</td>
           <td>{{ saleItem.quantity }}</td>
           <td>{{ saleItem.salePrice | currency:'IDR'}}</td>
