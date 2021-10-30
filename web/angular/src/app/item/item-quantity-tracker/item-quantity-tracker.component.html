@@ -29,11 +29,13 @@
         </tr>
         </tbody>
       </table>
-
       <div class="d-flex justify-content-between p-2">
-        <ngb-pagination [collectionSize]="itemQuantity.totalCount" [(page)]="page" [pageSize]="pageSize" (pageChange)="ngOnChanges()">
+        <ngb-pagination [collectionSize]="itemQuantity.totalCount" [(page)]="page" [maxSize]="10" [pageSize]="pageSize" [rotate]="true" [boundaryLinks]="true"
+        (pageChange)="ngOnChanges()">
         </ngb-pagination>
       </div>
+
+
     </ng-template>
     <ng-template #abpFooter>
       <button type="button" class="btn btn-secondary" abpClose>

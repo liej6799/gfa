@@ -49,9 +49,9 @@
       </tbody>
     </table>
     <div class="d-flex justify-content-between p-2">
-      <ngb-pagination [collectionSize]="purchaseItem.totalCount" [(page)]="page" [pageSize]="pageSize"
-        (pageChange)="ngOnChanges()">
-      </ngb-pagination>
+      <ngb-pagination [collectionSize]="purchaseItem.totalCount" [(page)]="page" [maxSize]="10" [pageSize]="pageSize" [rotate]="true" [boundaryLinks]="true"
+      (pageChange)="ngOnChanges()">
+    </ngb-pagination>
     </div>
   </ng-template>
 

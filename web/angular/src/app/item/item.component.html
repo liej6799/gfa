@@ -27,58 +27,58 @@
           [(ngModel)]="list.filter" />
       </div>
       
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">{{ "::Action" | abpLocalization }}</th>
+            <th scope="col" sortable="name" (sort)="onSort($event)">{{ "::Name" | abpLocalization }}</th>
+            <th scope="col" sortable="code" (sort)="onSort($event)">{{ "::Code" | abpLocalization }}</th>
+            <th scope="col" sortable="buyPrice" (sort)="onSort($event)">{{ "::BuyPrice" | abpLocalization }}
+            <th scope="col" sortable="sellPrice" (sort)="onSort($event)">{{ "::SellPrice" | abpLocalization }}
+              <th scope="col" sortable="profitLoss" (sort)="onSort($event)">{{ "::ProfitLoss" | abpLocalization }}
+            </th>
+          </tr>
+        </thead>
 
-      <ngx-datatable [rows]="item.items" [count]="item.totalCount" [list]="list" default>
-        <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="200" [sortable]="false">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div ngbDropdown container="body" class="d-inline-block">
-              <button class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                ngbDropdownToggle>
-                <i class="fa fa-cog mr-1"></i>{{ '::Actions' | abpLocalization }}
-              </button>
-
-              <div ngbDropdownMenu>
-                <button ngbDropdownItem (click)="viewPuchaseHistory(row.id)">
-                  {{ '::PurchaseHistory' | abpLocalization }}
+        <tbody>
+          <tr *ngFor="let item of item.items">
+            <td>
+  
+              <div ngbDropdown container="body" class="d-inline-block">
+                <button class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                  ngbDropdownToggle>
+                  <i class="fa fa-cog mr-1"></i>{{ '::Actions' | abpLocalization }}
                 </button>
-                <button ngbDropdownItem (click)="viewSaleHistory(row.id)">
-                  {{ '::SaleHistory' | abpLocalization }}
-                </button>
-
-                <button ngbDropdownItem (click)="viewQuantityTracker(row.id)">
-                  {{ '::QuantityTracker' | abpLocalization }}
-                </button>
-
-                
+                <div ngbDropdownMenu>
+                  <button ngbDropdownItem (click)="viewPuchaseHistory(item.id)">
+                    {{ '::PurchaseHistory' | abpLocalization }}
+                  </button>
+                  <button ngbDropdownItem (click)="viewSaleHistory(item.id)">
+                    {{ '::SaleHistory' | abpLocalization }}
+                  </button>
+  
+                  <button ngbDropdownItem (click)="viewQuantityTracker(item.id)">
+                    {{ '::QuantityTracker' | abpLocalization }}
+                  </button>
+                </div>
               </div>
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
+  
+            </td>
+  
+            <td>{{ item.name }}</td>
+            <td>{{ item.code }}</td>
+            <td>{{ item.buyPrice | currency:'IDR'}}</td>
+            <td>{{ item.sellPrice | currency:'IDR'}}</td>
+            <td>{{ item.profitLoss | currency:'IDR'}}</td>
+          </tr>
+        </tbody>
+      </table>
 
-        <ngx-datatable-column [name]="'::Name' | abpLocalization" prop="name"></ngx-datatable-column>
-        <ngx-datatable-column [name]="'::Code' | abpLocalization" prop="code"></ngx-datatable-column>
-
-        <ngx-datatable-column [name]="'::BuyPrice' | abpLocalization" prop="buyPrice">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            {{ row.buyPrice | currency:'IDR'}}
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column [name]="'::SellPrice' | abpLocalization" prop="sellPrice">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            {{ row.sellPrice | currency:'IDR'}}
-
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column [name]="'::ProfitLoss' | abpLocalization" prop="profitLoss">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-
-            {{row.profitLoss | currency:'IDR'}}
-          </ng-template>
-        </ngx-datatable-column>
-
-      </ngx-datatable>
+      <div class="d-flex justify-content-between p-2">
+        <ngb-pagination [collectionSize]="item.totalCount" [(page)]="page" [maxSize]="10" [pageSize]="pageSize" [rotate]="true" [boundaryLinks]="true"
+        (pageChange)="ngOnInit()">
+      </ngb-pagination>
+      </div>
     </div>
   </div>
 </div>
