@@ -40,7 +40,7 @@ namespace gfa_webWorker.Quantity
             _purchaseItemRepository = purchaseItemRepository;
             _saleRepository = saleRepository;
             _saleItemRepository = saleItemRepository;
-            Timer.Period = 10000;
+            Timer.Period = 3600000;
         }
 
         protected override async  Task DoWorkAsync(PeriodicBackgroundWorkerContext workerContext)

@@ -26,6 +26,4 @@ export interface ItemDto extends AuditedEntityDto<string> {
   profitLoss: number;
   quantity: number;
   date?: string;
-  remaining: number;
-  purchaseSaleId?: string;
 }

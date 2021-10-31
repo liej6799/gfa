@@ -106,7 +106,6 @@ namespace gfa_web.Items
                 var itemDto = ObjectMapper.Map<Item, ItemDto>(x.item);
                 itemDto.Quantity = Math.Abs(x.purchaseItem.Quantity);
                 itemDto.Date = x.purchase.DatePurchase;
-                itemDto.PurchaseSaleId = x.purchase.Id;
                 return itemDto;
             }).ToList();
             
@@ -115,7 +114,6 @@ namespace gfa_web.Items
                 var itemDto = ObjectMapper.Map<Item, ItemDto>(x.item);
                 itemDto.Quantity = Math.Abs(x.saleItem.Quantity) * (-1);
                 itemDto.Date = x.sale.DateSales;
-                itemDto.PurchaseSaleId = x.sale.Id;
                 return itemDto;
             }).ToList();
 
