@@ -10,6 +10,7 @@ import {
   Inject,
   LOCALE_ID,
   ViewChild,
+  EventEmitter,
 } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ItemService, ItemDto } from '@proxy/items';
@@ -23,6 +24,8 @@ import { DatatableComponent } from '@swimlane/ngx-datatable';
 })
 export class ItemQuantityTrackerComponent implements OnChanges {
   @Input() item = '';
+  @Output() purchase = new EventEmitter<object>();
+  @Output() sale = new EventEmitter<object>();
 
   form = this.fb.group({
     name: [null]
@@ -55,6 +58,16 @@ export class ItemQuantityTrackerComponent implements OnChanges {
         this.itemQuantity = response;
         this.isModalOpen = true;
       });
+    }
+  }
+
+  viewPurchaseSale(id: string, quantity: number, itemName: string)
+  {
+    if (quantity > 0) {
+      this.purchase.emit({ id, itemName });
+    }
+    else if (quantity < 0) {
+      this.sale.emit({id, itemName })
     }
   }
 }

@@ -36,7 +36,7 @@ services:
       - 8000:80
       - 8001:443
     volumes:
-      - /Users/liej6799/.aspnet/https/:/https/
+      - /Users/joeslie/.aspnet/https/:/https/
     networks:
       - proxy
   webapp:

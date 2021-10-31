@@ -31,6 +31,7 @@
         <thead>
           <tr>
             <th scope="col">{{ "::Action" | abpLocalization }}</th>
+            <th scope="col" sortable="quantity" (sort)="onSort($event)">{{ "::Quantity" | abpLocalization }}</th>
             <th scope="col" sortable="name" (sort)="onSort($event)">{{ "::Name" | abpLocalization }}</th>
             <th scope="col" sortable="code" (sort)="onSort($event)">{{ "::Code" | abpLocalization }}</th>
             <th scope="col" sortable="buyPrice" (sort)="onSort($event)">{{ "::BuyPrice" | abpLocalization }}
@@ -64,7 +65,8 @@
               </div>
   
             </td>
-  
+
+            <td>{{ item.quantity }}</td>
             <td>{{ item.name }}</td>
             <td>{{ item.code }}</td>
             <td>{{ item.buyPrice | currency:'IDR'}}</td>
@@ -91,4 +93,4 @@
 
 <app-sale-item [item]="selectedSaleItem" [filter]="selectedSaleItemFilter"></app-sale-item>
 
-<app-item-quantity-tracker [item]="selectedItemQuantityTracker"></app-item-quantity-tracker>
+<app-item-quantity-tracker [item]="selectedItemQuantityTracker" (purchase)="navigatePurchase($event)" (sale)="navigateSale($event)"></app-item-quantity-tracker>
