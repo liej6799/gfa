@@ -1,6 +1,6 @@
 import { Environment } from '@abp/ng.core';
 
-const baseUrl = 'https://gfaweb.liej6799dev.xyz';
+const baseUrl = 'https://gfaweb.liej6799.xyz';
 
 export const environment = {
   production: false,
@@ -10,7 +10,7 @@ export const environment = {
     logoUrl: '',
   },
   oAuthConfig: {
-    issuer: 'https://gfaapi.liej6799dev.xyz',
+    issuer: 'https://gfaapi.liej6799.xyz',
     redirectUri: baseUrl,
     clientId: 'gfa_web_App',
     responseType: 'code',
@@ -19,7 +19,7 @@ export const environment = {
   },
   apis: {
     default: {
-      url: 'https://gfaapi.liej6799dev.xyz',
+      url: 'https://gfaapi.liej6799.xyz',
       rootNamespace: 'gfa_web',
     },
   },

@@ -18,7 +18,7 @@ services:
     image: liej6799/gfaapi
     labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.gfaapi.rule=Host(`gfaapi.liej6799dev.xyz`)"
+        - "traefik.http.routers.gfaapi.rule=Host(`gfaapi.liej6799.xyz`)"
         - "traefik.http.routers.gfaapi.entrypoints=web"
         - "traefik.http.routers.gfaapi.entrypoints=websecure"
         - "traefik.http.routers.gfaapi.service=gfaapi-http-service"
@@ -44,7 +44,7 @@ services:
     image: liej6799/gfaweb
     labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.gfaweb.rule=Host(`gfaweb.liej6799dev.xyz`)"
+        - "traefik.http.routers.gfaweb.rule=Host(`gfaweb.liej6799.xyz`)"
         - "traefik.http.routers.gfaweb.entrypoints=web"
         - "traefik.http.routers.gfaweb.entrypoints=websecure"
         - "traefik.http.routers.gfaweb.service=gfaweb-http-service"
