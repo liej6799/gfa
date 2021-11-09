@@ -14,7 +14,7 @@ namespace gfa_web.Sales
             GetSaleItemInput, //Used for paging/sorting
             CreateUpdateSaleItemDto> //Used to create/update a book
     {
-        Task<List<CreateUpdateSaleItemDto>> GetListNoPaged();
+        Task<List<CreateUpdateSaleItemDto>> GetListNoPaged(GetSaleItemDateInput input);
         
         void BatchInsert(List<CreateUpdateSaleItemDto> createUpdateSaleItemDtos);
 
