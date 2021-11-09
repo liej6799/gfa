@@ -76,7 +76,7 @@ namespace gfa_web.Sales
             );
         }
 
-        public async Task<List<CreateUpdateSaleItemDto>> GetListNoPaged()
+        public async Task<List<CreateUpdateSaleItemDto>> GetListNoPaged(GetSaleItemDateInput input)
         {
             var queryable = await Repository.GetQueryableAsync();
             
@@ -85,7 +85,11 @@ namespace gfa_web.Sales
                 join sale in _saleRepository on saleItem.SaleId equals sale.Id
                 select new {saleItem, item, sale};
             
-            var queryResult = await AsyncExecuter.ToListAsync(query);
+            var baseQuery = query.Where(x =>
+                x.sale.DateSales >= input.StartDate && x.sale.DateSales <= input.EndDate);
+
+            
+            var queryResult = await AsyncExecuter.ToListAsync(baseQuery);
             
             var result = queryResult.Select(x =>
             {

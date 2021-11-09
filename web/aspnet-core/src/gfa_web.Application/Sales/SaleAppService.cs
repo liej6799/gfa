@@ -38,9 +38,6 @@ namespace gfa_web.Sales
 
             var baseQuery = query.Where(x =>
                 x.sale.DateSales >= input.StartDate && x.sale.DateSales <= input.EndDate);
-
-            List<SaleDto> result;
-            int resultCount;
             
             var vendorListQuery = await baseQuery
                 .OrderBy(NormalizeSorting(input.Sorting))
@@ -49,7 +46,7 @@ namespace gfa_web.Sales
                 .ToListAsync();
                     
 
-            result = vendorListQuery.Select(x =>
+            List<SaleDto> result = vendorListQuery.Select(x =>
             {
                 var saleDto = new SaleDto
                 {
@@ -60,7 +57,7 @@ namespace gfa_web.Sales
                 return saleDto;
             }).ToList();
 
-            resultCount = await baseQuery
+            int resultCount = await baseQuery
                 .CountAsync();
             
             return new PagedResultDto<SaleDto>(
@@ -69,14 +66,17 @@ namespace gfa_web.Sales
             );
         }
 
-        public async Task<List<CreateUpdateSaleDto>> GetListNoPaged()
+        public async Task<List<CreateUpdateSaleDto>> GetListNoPaged(GetSaleInput input)
         {
             var queryable = await Repository.GetQueryableAsync();
             
             var query = from sale in queryable
                 select new {sale};
             
-            var queryResult = await AsyncExecuter.ToListAsync(query);
+            var baseQuery = query.Where(x =>
+                x.sale.DateSales >= input.StartDate && x.sale.DateSales <= input.EndDate);
+
+            var queryResult = await AsyncExecuter.ToListAsync(baseQuery);
             
             return queryResult.Select(x =>
             {
