@@ -17,10 +17,10 @@ namespace gfa_worker_common.Network
             _saleApi = new SaleApi(CommonHelper.NetworkConfiguration);
             _itemApi = new ItemApi(CommonHelper.NetworkConfiguration);
         }
-        public void Run(BaseSales baseSales)
+        public void Run(BaseSales baseSales, DateTime startDate, DateTime endDate)
         {
-            var saleList = _saleApi.ApiAppSaleNoPagedGet();
-            var saleItemList = _saleItemApi.ApiAppSaleItemNoPagedGet();
+            var saleList = _saleApi.ApiAppSaleNoPagedGet(startDate, endDate);
+            var saleItemList = _saleItemApi.ApiAppSaleItemNoPagedGet(startDate, endDate);
             var itemList = _itemApi.ApiAppItemNoPagedGet();
 
             var update = saleList.Where(x => baseSales.Records.FirstOrDefault(y => y.ID == x.SourceId
@@ -57,16 +57,16 @@ namespace gfa_worker_common.Network
 
             _saleApi.ApiAppSaleBatchInsertPost(insert);
 
-            saleList = _saleApi.ApiAppSaleNoPagedGet();
+            saleList = _saleApi.ApiAppSaleNoPagedGet(startDate, endDate);
 
             var baseSaleDetail = baseSales.Records.SelectMany(x => x.Detail).ToList();
 
             var updateDetail = saleItemList.Where(x => baseSaleDetail.FirstOrDefault(y =>
-               Math.Abs(x.Quantity - y.JUMLAH) == 0
+                (x.ItemSourceId == y.STOCK_ID
+               && x.SaleSourceId == y.PENJUA_ID) && 
+               !(Math.Abs(x.Quantity - y.JUMLAH) == 0
                && Math.Abs(x.Price - (y.HARGA / y.JUMLAH)) == 0
-               && Math.Abs(x.Total - y.HARGA) == 0
-               && x.ItemSourceId == y.STOCK_ID
-               && x.SaleSourceId == y.PENJUA_ID) == null).Select(x =>
+               && Math.Abs(x.Total - y.HARGA) == 0)) != null).Select(x =>
                {
                    var data = baseSaleDetail.FirstOrDefault(y => x.ItemSourceId == y.STOCK_ID && x.SaleSourceId == y.PENJUA_ID);
                    x.Quantity = data.JUMLAH;
