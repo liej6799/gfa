@@ -42,31 +42,41 @@ namespace gfa_worker_purchase
         private void Test()
         {
             BasePurchase basePurchase =  ParseHelper.TestBasePurchaseParser();
-            _purchaseNetwork.Run(basePurchase);
+            _purchaseNetwork.Run(basePurchase, DateTime.Now, DateTime.Now);
         }
 
         private void Normal()
         {
             string args = String.Empty;
+            DateTime startDate = new DateTime();
+            DateTime endDate = new DateTime();
             if (_gfaWebConfigsConfigDto.IsAll)
             {
-                args = "/TGL:" + DateTime.Now.AddYears(-10).ToString("yyyyMMdd") + CommonHelper.tab +
-                       "/TGL2:" + DateTime.Now.ToString("yyyyMMdd");
+                startDate = DateTime.Now.AddYears(-10);
+                endDate = DateTime.Now;
+                args = "/TGL:" + startDate.ToString("yyyyMMdd") + CommonHelper.tab +
+                       "/TGL2:" + endDate.ToString("yyyyMMdd");
             }
             else if (_gfaWebConfigsConfigDto.IsDaily)
             {
-                args = "/TGL:" + DateTime.Now.ToString("yyyyMMdd") + CommonHelper.tab +
-                       "/TGL2:" + DateTime.Now.ToString("yyyyMMdd");
+                startDate = DateTime.Now;
+                endDate = DateTime.Now;
+                args = "/TGL:" + startDate.ToString("yyyyMMdd") + CommonHelper.tab +
+                       "/TGL2:" + endDate.ToString("yyyyMMdd");
             }
             else if (_gfaWebConfigsConfigDto.IsMonthly)
             {
-                args = "/TGL:" + DateTime.Now.AddMonths(-1).ToString("yyyyMMdd") + CommonHelper.tab +
-                       "/TGL2:" + DateTime.Now.ToString("yyyyMMdd");
+                startDate = DateTime.Now.AddMonths(-1);
+                endDate = DateTime.Now;
+                args = "/TGL:" + startDate.ToString("yyyyMMdd") + CommonHelper.tab +
+                       "/TGL2:" + endDate.ToString("yyyyMMdd");
             }
             else if (_gfaWebConfigsConfigDto.IsYearly)
             {
-                args = "/TGL:" + DateTime.Now.AddYears(-1).ToString("yyyyMMdd") + CommonHelper.tab +
-                       "/TGL2:" + DateTime.Now.ToString("yyyyMMdd");
+                startDate = DateTime.Now.AddYears(-1);
+                endDate = DateTime.Now;
+                args = "/TGL:" + startDate.ToString("yyyyMMdd") + CommonHelper.tab +
+                       "/TGL2:" + endDate.ToString("yyyyMMdd");
             }
             else
             {
@@ -75,7 +85,7 @@ namespace gfa_worker_purchase
             args += CommonHelper.tab + CredsHelper.GetCreds();
             ProcessHelper processHelper = new ProcessHelper(gfa_worker_common.Worker.PurchaseWorkerExe, args);
             BasePurchase basePurchase =  ParseHelper.BasePurchaseParser(processHelper.Run());
-            _purchaseNetwork.Run(basePurchase);
+            _purchaseNetwork.Run(basePurchase, startDate, endDate);
         }
     }
 }

@@ -19,11 +19,11 @@ namespace gfa_worker_common.Network
             _itemApi = new ItemApi(CommonHelper.NetworkConfiguration);
         }
         
-        public void Run(BasePurchase basePurchase)
+        public void Run(BasePurchase basePurchase, DateTime startDate, DateTime endDate)
         {
-            var purchaseList = _purchaseApi.ApiAppPurchaseNoPagedGet();
+            var purchaseList = _purchaseApi.ApiAppPurchaseNoPagedGet(startDate, endDate);
             var vendorList = _vendorApi.ApiAppVendorNoPagedGet();
-            var purchaseItemList = _purchaseItemApi.ApiAppPurchaseItemNoPagedGet();
+            var purchaseItemList = _purchaseItemApi.ApiAppPurchaseItemNoPagedGet(startDate, endDate);
             var itemList = _itemApi.ApiAppItemNoPagedGet();
 
 
@@ -59,16 +59,17 @@ namespace gfa_worker_common.Network
         
             _purchaseApi.ApiAppPurchaseBatchInsertPost(insert);
             
-            purchaseList = _purchaseApi.ApiAppPurchaseNoPagedGet();
+            purchaseList = _purchaseApi.ApiAppPurchaseNoPagedGet(startDate, endDate);
 
             var basePurchaseDetail = basePurchase.Records.SelectMany(x => x.Detail).ToList();
             
             var updateDetail = purchaseItemList.Where(x => basePurchaseDetail.FirstOrDefault(y =>
-                Math.Abs(x.Quantity - y.JUMLAH) == 0
+                (x.ItemSourceId == y.STOCK_ID &&
+                x.PurchaseSourceId == y.PEMBEL_ID) &&
+                !(Math.Abs(x.Quantity - y.JUMLAH) == 0
                 && Math.Abs(x.Price - (y.HARGA / y.JUMLAH)) == 0
                 && Math.Abs(x.Total - y.HARGA) == 0
-                && x.ItemSourceId == y.STOCK_ID
-                && x.PurchaseSourceId == y.PEMBEL_ID) == null).Select(x =>
+                )) != null).Select(x =>
                 {
                     var data = basePurchaseDetail.FirstOrDefault(y => x.ItemSourceId == y.STOCK_ID &&  x.PurchaseSourceId == y.PEMBEL_ID);
                     x.Quantity = data.JUMLAH;
