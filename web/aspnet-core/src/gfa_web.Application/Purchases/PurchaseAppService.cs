@@ -16,7 +16,7 @@ namespace gfa_web.Purchases
             Purchase, //The Book entity
             PurchaseDto, //Used to show books
             Guid, //Primary key of the book entity
-            GetPurchaseInput, //Used for paging/sorting
+            GetPurchaseInput, //Used for paging/sortingGetListNoPaged
             CreateUpdatePurchaseDto>, //Used to create/update a book
         IPurchaseAppService //implement the IBookAppService
     {
@@ -167,7 +167,7 @@ namespace gfa_web.Purchases
             }
         }
 
-        public async Task<List<CreateUpdatePurchaseDto>> GetListNoPaged()
+        public async Task<List<CreateUpdatePurchaseDto>> GetListNoPaged(GetPurchaseInput input)
         {
             var queryable = await Repository.GetQueryableAsync();
             
@@ -175,7 +175,10 @@ namespace gfa_web.Purchases
                 join vendor in _vendorRepository on purchase.VendorId equals vendor.Id
                 select new {purchase, vendor};
             
-            var queryResult = await AsyncExecuter.ToListAsync(query);
+            var baseQuery = query.Where(x =>
+                x.purchase.DatePurchase >= input.StartDate && x.purchase.DatePurchase <= input.EndDate);
+            
+            var queryResult = await AsyncExecuter.ToListAsync(baseQuery);
             
             return queryResult.Select(x =>
             {

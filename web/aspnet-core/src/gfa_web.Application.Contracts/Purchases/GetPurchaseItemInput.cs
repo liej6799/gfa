@@ -14,4 +14,12 @@ namespace gfa_web.Purchases
     {
         public Guid ItemId { get; set; }
     }
+    
+    public class GetPurchaseItemDateInput : PagedAndSortedResultRequestDto
+    {
+        [Required]
+        public DateTime StartDate { get; set; }
+
+        [Required] public DateTime EndDate { get; set; }
+    }
 }

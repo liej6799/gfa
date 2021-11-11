@@ -117,7 +117,7 @@ namespace gfa_web.Purchases
         }
         
 
-        public async Task<List<CreateUpdatePurchaseItemDto>> GetListNoPaged()
+        public async Task<List<CreateUpdatePurchaseItemDto>> GetListNoPaged(GetPurchaseItemDateInput input)
         {
             var queryable = await Repository.GetQueryableAsync();
             
@@ -126,7 +126,10 @@ namespace gfa_web.Purchases
                 join purchase in _purchaseRepository on purchaseItem.PurchaseId equals purchase.Id
                 select new {purchaseItem, item, purchase};
             
-            var queryResult = await AsyncExecuter.ToListAsync(query);
+            var baseQuery = query.Where(x =>
+                x.purchase.DatePurchase >= input.StartDate && x.purchase.DatePurchase <= input.EndDate);
+            
+            var queryResult = await AsyncExecuter.ToListAsync(baseQuery);
             
             var result = queryResult.Select(x =>
             {
