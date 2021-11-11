@@ -44,22 +44,26 @@ namespace gfa_worker_sales
         private void Test()
         {
             BaseSales baseSales =  ParseHelper.TestBaseSalesParser();
-            _salesNetwork.Run(baseSales);
+            _salesNetwork.Run(baseSales, DateTime.Now, DateTime.Now);
         }
         
 
         private void Normal()
         {
             string args = String.Empty;
+            DateTime startDate = new DateTime();
+            DateTime endDate = new DateTime();
             if (_gfaWebConfigsConfigDto.IsAll)
             {
-                var startDate = DateTime.Now.AddYears(-2);
+                startDate = DateTime.Now.AddYears(-2);
 
                 while (startDate < DateTime.Now)
                 {
                     args = String.Empty;
                     args = "/TGL:" + startDate.ToString("yyyyMMdd") + CommonHelper.tab +
                            "/TGL2:" + startDate.AddMonths(1).ToString("yyyyMMdd");
+
+                    endDate = startDate.AddMonths(1);
                     startDate = startDate.AddMonths(1);
 
                     args += CommonHelper.tab + CredsHelper.GetCreds();
@@ -68,24 +72,30 @@ namespace gfa_worker_sales
                     ProcessHelper isAllprocessHelper = new ProcessHelper(gfa_worker_common.Worker.SalesWorkerExe, args);
                     BaseSales isAllbaseSales = ParseHelper.BaseSalesParser(isAllprocessHelper.Run());
 
-                    _salesNetwork.Run(isAllbaseSales);
+                    _salesNetwork.Run(isAllbaseSales, startDate, endDate);
                 }
                 return;
             }
             else if (_gfaWebConfigsConfigDto.IsDaily)
             {
-                args = "/TGL:" + DateTime.Now.ToString("yyyyMMdd") + CommonHelper.tab +
-                       "/TGL2:" + DateTime.Now.ToString("yyyyMMdd");
+                startDate = DateTime.Now;
+                endDate = DateTime.Now;
+                args = "/TGL:" + startDate.ToString("yyyyMMdd") + CommonHelper.tab +
+                       "/TGL2:" + endDate.ToString("yyyyMMdd");
             }
             else if (_gfaWebConfigsConfigDto.IsMonthly)
             {
-                args = "/TGL:" + DateTime.Now.AddMonths(-1).ToString("yyyyMMdd") + CommonHelper.tab +
-                       "/TGL2:" + DateTime.Now.ToString("yyyyMMdd");
+                startDate = DateTime.Now.AddMonths(-1);
+                endDate = DateTime.Now;
+                args = "/TGL:" + startDate.ToString("yyyyMMdd") + CommonHelper.tab +
+                       "/TGL2:" + endDate.ToString("yyyyMMdd");
             }
             else if (_gfaWebConfigsConfigDto.IsYearly)
             {
-                args = "/TGL:" + DateTime.Now.AddYears(-1).ToString("yyyyMMdd") + CommonHelper.tab +
-                       "/TGL2:" + DateTime.Now.ToString("yyyyMMdd");
+                startDate = DateTime.Now.AddYears(-1);
+                endDate = DateTime.Now;
+                args = "/TGL:" + startDate.ToString("yyyyMMdd") + CommonHelper.tab +
+                       "/TGL2:" + endDate.ToString("yyyyMMdd");
             }
             else
             {
@@ -97,7 +107,7 @@ namespace gfa_worker_sales
             ProcessHelper processHelper = new ProcessHelper(gfa_worker_common.Worker.SalesWorkerExe, args);
 
             BaseSales baseSales = ParseHelper.BaseSalesParser(processHelper.Run());
-            _salesNetwork.Run(baseSales);
+            _salesNetwork.Run(baseSales, startDate, endDate);
           
         }
     }
