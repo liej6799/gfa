@@ -13,7 +13,7 @@ namespace gfa_web.Purchases
             GetPurchaseInput, //Used for paging/sorting
             CreateUpdatePurchaseDto> //Used to create/update a book
     {
-        Task<List<CreateUpdatePurchaseDto>> GetListNoPaged();
+        Task<List<CreateUpdatePurchaseDto>> GetListNoPaged(GetPurchaseInput input);
         
         void BatchInsert(List<CreateUpdatePurchaseDto> createUpdatePurchaseDtos);
     }
