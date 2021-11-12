@@ -60,7 +60,7 @@ namespace gfa_web.Purchases
                 select new {purchase, vendor};
 
             var baseQuery = query.Where(x =>
-                x.purchase.DatePurchase >= input.StartDate && x.purchase.DatePurchase <= input.EndDate);
+                x.purchase.DatePurchase.Date >= input.StartDate.Date && x.purchase.DatePurchase.Date <= input.EndDate.Date);
 
             List<PurchaseDto> result;
             int resultCount;
@@ -176,7 +176,7 @@ namespace gfa_web.Purchases
                 select new {purchase, vendor};
             
             var baseQuery = query.Where(x =>
-                x.purchase.DatePurchase >= input.StartDate && x.purchase.DatePurchase <= input.EndDate);
+                x.purchase.DatePurchase.Date >= input.StartDate.Date && x.purchase.DatePurchase.Date <= input.EndDate.Date);
             
             var queryResult = await AsyncExecuter.ToListAsync(baseQuery);
             
