@@ -44,7 +44,7 @@ namespace gfa_worker_sales
         private void Test()
         {
             BaseSales baseSales =  ParseHelper.TestBaseSalesParser();
-            _salesNetwork.Run(baseSales, DateTime.Now, DateTime.Now);
+            //_salesNetwork.Run(baseSales, DateTime.Now, DateTime.Now);
         }
         
 
@@ -71,8 +71,10 @@ namespace gfa_worker_sales
 
                     ProcessHelper isAllprocessHelper = new ProcessHelper(gfa_worker_common.Worker.SalesWorkerExe, args);
                     BaseSales isAllbaseSales = ParseHelper.BaseSalesParser(isAllprocessHelper.Run());
-
-                    _salesNetwork.Run(isAllbaseSales, startDate, endDate);
+                    for (int a = 0; a < isAllbaseSales.Records.Count; a += 100)
+                    {
+                        _salesNetwork.Run(isAllbaseSales.Records.Skip(a).Take(100).ToList(), startDate, endDate);
+                    }
               
                     startDate = startDate.AddMonths(1);
                 }
@@ -109,8 +111,10 @@ namespace gfa_worker_sales
             ProcessHelper processHelper = new ProcessHelper(gfa_worker_common.Worker.SalesWorkerExe, args);
 
             BaseSales baseSales = ParseHelper.BaseSalesParser(processHelper.Run());
-            _salesNetwork.Run(baseSales, startDate, endDate);
-          
+            for (int a = 0; a < baseSales.Records.Count; a += 100)
+            {
+                _salesNetwork.Run(baseSales.Records.Skip(a).Take(100).ToList(), startDate, endDate);
+            }      
         }
     }
 }

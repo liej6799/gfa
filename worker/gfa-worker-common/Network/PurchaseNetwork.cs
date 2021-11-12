@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
@@ -19,7 +20,7 @@ namespace gfa_worker_common.Network
             _itemApi = new ItemApi(CommonHelper.NetworkConfiguration);
         }
         
-        public void Run(BasePurchase basePurchase, DateTime startDate, DateTime endDate)
+        public void Run(List<PurchaseRecord> basePurchase, DateTime startDate, DateTime endDate)
         {
             var purchaseList = _purchaseApi.ApiAppPurchaseNoPagedGet(startDate, endDate);
             var vendorList = _vendorApi.ApiAppVendorNoPagedGet();
@@ -27,13 +28,13 @@ namespace gfa_worker_common.Network
             var itemList = _itemApi.ApiAppItemNoPagedGet();
 
 
-            var update = purchaseList.Where(x => basePurchase.Records.FirstOrDefault(y => y.ID == x.SourceId
+            var update = purchaseList.Where(x => basePurchase.FirstOrDefault(y => y.ID == x.SourceId
                 && !(DateTime.ParseExact(y.TANGGAL + ' ' + y.JAM_INPUT, CommonHelper.YMDHMSDateFormat, CommonHelper.DateProvider) == x.DatePurchase
                                                                       && y.VENDOR == x.VendorSourceId
                                                                       && Math.Abs(y.TOT_HARGA - x.TotalAmount) == 0)) != null).Select(
                     x =>
                     {
-                        var data = basePurchase.Records.FirstOrDefault(y => x.SourceId == y.ID);
+                        var data = basePurchase.FirstOrDefault(y => x.SourceId == y.ID);
                         x.DatePurchase = DateTime.ParseExact(data.TANGGAL + ' ' + data.JAM_INPUT, CommonHelper.YMDHMSDateFormat,
                             CommonHelper.DateProvider);
                         x.VendorId = vendorList.FirstOrDefault(y => y.SourceId == data.VENDOR).Id;
@@ -44,7 +45,7 @@ namespace gfa_worker_common.Network
                 .ToList();
             
             
-            var insert = basePurchase.Records.Where(x => purchaseList.FirstOrDefault(y => y.SourceId == x.ID) == null).Select(x => new GfaWebPurchasesCreateUpdatePurchaseDto(
+            var insert = basePurchase.Where(x => purchaseList.FirstOrDefault(y => y.SourceId == x.ID) == null).Select(x => new GfaWebPurchasesCreateUpdatePurchaseDto(
                 sourceId: x.ID,
                 datePurchase: DateTime.ParseExact(x.TANGGAL + ' ' + x.JAM_INPUT, CommonHelper.YMDHMSDateFormat, CommonHelper.DateProvider),
                 vendorId: vendorList.FirstOrDefault(y => y.SourceId == x.VENDOR).Id,
@@ -61,7 +62,7 @@ namespace gfa_worker_common.Network
             
             purchaseList = _purchaseApi.ApiAppPurchaseNoPagedGet(startDate, endDate);
 
-            var basePurchaseDetail = basePurchase.Records.SelectMany(x => x.Detail).ToList();
+            var basePurchaseDetail = basePurchase.SelectMany(x => x.Detail).ToList();
             
             var updateDetail = purchaseItemList.Where(x => basePurchaseDetail.FirstOrDefault(y =>
                 (x.ItemSourceId == y.STOCK_ID &&

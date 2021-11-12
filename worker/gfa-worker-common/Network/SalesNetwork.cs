@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
@@ -17,20 +18,20 @@ namespace gfa_worker_common.Network
             _saleApi = new SaleApi(CommonHelper.NetworkConfiguration);
             _itemApi = new ItemApi(CommonHelper.NetworkConfiguration);
         }
-        public void Run(BaseSales baseSales, DateTime startDate, DateTime endDate)
+        public void Run(List<SalesRecord> baseSales, DateTime startDate, DateTime endDate)
         {
             var saleList = _saleApi.ApiAppSaleNoPagedGet(startDate, endDate);
             var saleItemList = _saleItemApi.ApiAppSaleItemNoPagedGet(startDate, endDate);
             var itemList = _itemApi.ApiAppItemNoPagedGet();
 
-            var update = saleList.Where(x => baseSales.Records.FirstOrDefault(y => y.ID == x.SourceId
+            var update = saleList.Where(x => baseSales.FirstOrDefault(y => y.ID == x.SourceId
                 && !(DateTime.ParseExact(y.TANGGAL + ' ' + y.JAM_INPUT, CommonHelper.YMDHMSDateFormat, CommonHelper.DateProvider) == x.DateSales
                                                                       && Math.Abs(y.LUNAS - x.TotalCash) == 0
                                                                       && Math.Abs(Math.Abs(y.LUNAS - y.TOT_HARGA) - x.TotalChange) == 0
                                                                       && Math.Abs(y.TOT_HARGA - x.TotalAmount) == 0)) != null).Select(
                     x =>
                     {
-                        var data = baseSales.Records.FirstOrDefault(y => x.SourceId == y.ID);
+                        var data = baseSales.FirstOrDefault(y => x.SourceId == y.ID);
                         x.DateSales = DateTime.ParseExact(data.TANGGAL + ' ' + data.JAM_INPUT, CommonHelper.YMDHMSDateFormat,
                             CommonHelper.DateProvider);
                         x.TotalCash = data.LUNAS;
@@ -42,7 +43,7 @@ namespace gfa_worker_common.Network
                 .ToList();
 
 
-            var insert = baseSales.Records.Where(x => saleList.FirstOrDefault(y => y.SourceId == x.ID) == null).Select(x => new GfaWebSalesCreateUpdateSaleDto(
+            var insert = baseSales.Where(x => saleList.FirstOrDefault(y => y.SourceId == x.ID) == null).Select(x => new GfaWebSalesCreateUpdateSaleDto(
                 sourceId: x.ID,
                 dateSales: DateTime.ParseExact(x.TANGGAL + ' ' + x.JAM_INPUT, CommonHelper.YMDHMSDateFormat, CommonHelper.DateProvider),
                 totalCash: x.LUNAS,
@@ -59,7 +60,7 @@ namespace gfa_worker_common.Network
 
             saleList = _saleApi.ApiAppSaleNoPagedGet(startDate, endDate);
 
-            var baseSaleDetail = baseSales.Records.SelectMany(x => x.Detail).ToList();
+            var baseSaleDetail = baseSales.SelectMany(x => x.Detail).ToList();
 
             var updateDetail = saleItemList.Where(x => baseSaleDetail.FirstOrDefault(y =>
                 (x.ItemSourceId == y.STOCK_ID
@@ -82,7 +83,7 @@ namespace gfa_worker_common.Network
                          ) == null &&
                          (itemList.FirstOrDefault(y => y.SourceId == x.STOCK_ID) != null
                           && (saleList.FirstOrDefault(y => y.SourceId == x.PENJUA_ID) != null))
-                         && x.JUMLAH > 0 && x.HARGA > 0 && (x.HARGA / x.JUMLAH) > 0 )
+                          && x.JUMLAH > 0 && x.HARGA > 0 && (x.HARGA / x.JUMLAH) > 0)
              .Select(x => new GfaWebSalesCreateUpdateSaleItemDto(
                  quantity: x.JUMLAH,
                  total: x.HARGA,

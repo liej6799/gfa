@@ -1,9 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using gfa_worker_common;
 using gfa_worker_common.Network;
-using Microsoft.Extensions.FileSystemGlobbing.Internal;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Org.OpenAPITools.Model;
@@ -42,7 +43,7 @@ namespace gfa_worker_purchase
         private void Test()
         {
             BasePurchase basePurchase =  ParseHelper.TestBasePurchaseParser();
-            _purchaseNetwork.Run(basePurchase, DateTime.Now, DateTime.Now);
+            //_purchaseNetwork.Run(basePurchase, DateTime.Now, DateTime.Now);
         }
 
         private void Normal()
@@ -56,6 +57,7 @@ namespace gfa_worker_purchase
 
                 while (startDate < DateTime.Now)
                 {
+                    
                     args = String.Empty;
                     endDate = startDate.AddMonths(1);
                     args = "/TGL:" + startDate.ToString("yyyyMMdd") + CommonHelper.tab +
@@ -66,7 +68,10 @@ namespace gfa_worker_purchase
                     _logger.LogInformation(startDate.ToString("yyyyMMdd"));
                     ProcessHelper isAllProcessHelper = new ProcessHelper(gfa_worker_common.Worker.PurchaseWorkerExe, args);
                     BasePurchase isAllbasePurchase = ParseHelper.BasePurchaseParser(isAllProcessHelper.Run());
-                    _purchaseNetwork.Run(isAllbasePurchase, startDate, endDate);
+                    for (int a = 0; a < isAllbasePurchase.Records.Count; a += 100)
+                    {
+                        _purchaseNetwork.Run(isAllbasePurchase.Records.Skip(a).Take(100).ToList(), startDate, endDate);
+                    }
 
                     startDate = startDate.AddMonths(1);
                 }
@@ -100,7 +105,10 @@ namespace gfa_worker_purchase
             args += CommonHelper.tab + CredsHelper.GetCreds();
             ProcessHelper processHelper = new ProcessHelper(gfa_worker_common.Worker.PurchaseWorkerExe, args);
             BasePurchase basePurchase =  ParseHelper.BasePurchaseParser(processHelper.Run());
-            _purchaseNetwork.Run(basePurchase, startDate, endDate);
+            for (int a = 0; a < basePurchase.Records.Count; a += 100)
+            {
+                _purchaseNetwork.Run(basePurchase.Records.Skip(a).Take(100).ToList(), startDate, endDate);
+            }
         }
     }
 }
