@@ -37,7 +37,7 @@ namespace gfa_web.Sales
                 select new {sale};
 
             var baseQuery = query.Where(x =>
-                x.sale.DateSales >= input.StartDate && x.sale.DateSales <= input.EndDate);
+                x.sale.DateSales.Date >= input.StartDate.Date && x.sale.DateSales.Date <= input.EndDate.Date);
             
             var vendorListQuery = await baseQuery
                 .OrderBy(NormalizeSorting(input.Sorting))
@@ -74,7 +74,7 @@ namespace gfa_web.Sales
                 select new {sale};
             
             var baseQuery = query.Where(x =>
-                x.sale.DateSales >= input.StartDate && x.sale.DateSales <= input.EndDate);
+                x.sale.DateSales.Date >= input.StartDate.Date && x.sale.DateSales.Date <= input.EndDate.Date);
 
             var queryResult = await AsyncExecuter.ToListAsync(baseQuery);
             
