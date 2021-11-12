@@ -52,10 +52,25 @@ namespace gfa_worker_purchase
             DateTime endDate = new DateTime();
             if (_gfaWebConfigsConfigDto.IsAll)
             {
-                startDate = DateTime.Now.AddYears(-10);
-                endDate = DateTime.Now;
-                args = "/TGL:" + startDate.ToString("yyyyMMdd") + CommonHelper.tab +
-                       "/TGL2:" + endDate.ToString("yyyyMMdd");
+                startDate = DateTime.Now.AddYears(-2);
+
+                while (startDate < DateTime.Now)
+                {
+                    args = String.Empty;
+                    endDate = startDate.AddMonths(1);
+                    args = "/TGL:" + startDate.ToString("yyyyMMdd") + CommonHelper.tab +
+                           "/TGL2:" + endDate.ToString("yyyyMMdd");
+
+
+                    args += CommonHelper.tab + CredsHelper.GetCreds();
+                    _logger.LogInformation(startDate.ToString("yyyyMMdd"));
+                    ProcessHelper isAllProcessHelper = new ProcessHelper(gfa_worker_common.Worker.PurchaseWorkerExe, args);
+                    BasePurchase isAllbasePurchase = ParseHelper.BasePurchaseParser(isAllProcessHelper.Run());
+                    _purchaseNetwork.Run(isAllbasePurchase, startDate, endDate);
+
+                    startDate = startDate.AddMonths(1);
+                }
+                return;
             }
             else if (_gfaWebConfigsConfigDto.IsDaily)
             {

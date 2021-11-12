@@ -60,19 +60,21 @@ namespace gfa_worker_sales
                 while (startDate < DateTime.Now)
                 {
                     args = String.Empty;
-                    args = "/TGL:" + startDate.ToString("yyyyMMdd") + CommonHelper.tab +
-                           "/TGL2:" + startDate.AddMonths(1).ToString("yyyyMMdd");
-
                     endDate = startDate.AddMonths(1);
-                    startDate = startDate.AddMonths(1);
+                    args = "/TGL:" + startDate.ToString("yyyyMMdd") + CommonHelper.tab +
+                           "/TGL2:" + endDate.ToString("yyyyMMdd");
+
 
                     args += CommonHelper.tab + CredsHelper.GetCreds();
                     _logger.LogInformation(startDate.ToString("yyyyMMdd"));
+
 
                     ProcessHelper isAllprocessHelper = new ProcessHelper(gfa_worker_common.Worker.SalesWorkerExe, args);
                     BaseSales isAllbaseSales = ParseHelper.BaseSalesParser(isAllprocessHelper.Run());
 
                     _salesNetwork.Run(isAllbaseSales, startDate, endDate);
+              
+                    startDate = startDate.AddMonths(1);
                 }
                 return;
             }

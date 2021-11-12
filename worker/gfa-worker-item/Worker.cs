@@ -53,13 +53,16 @@ namespace gfa_worker_item
             args += CommonHelper.tab + CredsHelper.GetCreds();
             ProcessHelper processHelper = new ProcessHelper(gfa_worker_common.Worker.ItemWorkerExe, args);
             BaseItem baseItem =  ParseHelper.BaseItemParser(processHelper.Run());
-            _itemNetwork.Run(baseItem);
+
+            for (int a = 0; a < baseItem.Records.Count; a += 100)
+            {
+                _itemNetwork.Run(baseItem.Records.Skip(a).Take(100).ToList());
+            }
         }
 
         private void Test()
         {
             BaseItem baseItem = ParseHelper.TestBaseItemParser();
-            _itemNetwork.Run(baseItem);
         }
     }
 }
