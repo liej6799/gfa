@@ -22,5 +22,7 @@ namespace gfa_web.Items
         public DateTime Date { get; set; }
         
         public Double Remaining { get; set; }
+        
+        public Guid SalePurchaseId { get; set; }
     }
 }
