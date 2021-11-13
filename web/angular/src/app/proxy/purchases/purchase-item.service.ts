@@ -1,4 +1,4 @@
-import type { CreateUpdatePurchaseItemDto, GetPurchaseItemInput, GetPurchaseItemInputHistory, PurchaseItemDto } from './models';
+import type { CreateUpdatePurchaseItemDto, GetPurchaseItemDateInput, GetPurchaseItemInput, GetPurchaseItemInputHistory, PurchaseItemDto } from './models';
 import { RestService } from '@abp/ng.core';
 import type { PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
@@ -55,10 +55,11 @@ export class PurchaseItemService {
     },
     { apiName: this.apiName });
 
-  getListNoPaged = () =>
+  getListNoPagedByInput = (input: GetPurchaseItemDateInput) =>
     this.restService.request<any, CreateUpdatePurchaseItemDto[]>({
       method: 'GET',
       url: '/api/app/purchase-item/no-paged',
+      params: { startDate: input.startDate, endDate: input.endDate, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });
 

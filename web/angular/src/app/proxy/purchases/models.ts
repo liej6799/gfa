@@ -26,6 +26,11 @@ export interface GetPurchaseInput extends PagedAndSortedResultRequestDto {
   groupBy: PurchaseGroup;
 }
 
+export interface GetPurchaseItemDateInput extends PagedAndSortedResultRequestDto {
+  startDate: string;
+  endDate: string;
+}
+
 export interface GetPurchaseItemInput extends PagedAndSortedResultRequestDto {
   purchaseId?: string;
   filter?: string;

@@ -47,10 +47,11 @@ export class PurchaseService {
     },
     { apiName: this.apiName });
 
-  getListNoPaged = () =>
+  getListNoPagedByInput = (input: GetPurchaseInput) =>
     this.restService.request<any, CreateUpdatePurchaseDto[]>({
       method: 'GET',
       url: '/api/app/purchase/no-paged',
+      params: { startDate: input.startDate, endDate: input.endDate, groupBy: input.groupBy, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });
 

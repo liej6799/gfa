@@ -28,6 +28,11 @@ export interface GetSaleInput extends PagedAndSortedResultRequestDto {
   endDate: string;
 }
 
+export interface GetSaleItemDateInput extends PagedAndSortedResultRequestDto {
+  startDate: string;
+  endDate: string;
+}
+
 export interface GetSaleItemInput extends PagedAndSortedResultRequestDto {
   saleId?: string;
   filter?: string;

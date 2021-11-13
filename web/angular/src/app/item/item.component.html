@@ -89,8 +89,8 @@
 </app-purchase-item-history>
 <app-sale-item-history [item]="selectedSaleItemHistory" (sale)="navigateSale($event)">
 </app-sale-item-history>
-<app-purchase-item [item]="selectedPurchaseItem" [filter]="selectedPurchaseItemFilter"></app-purchase-item>
 
+<app-purchase-item [item]="selectedPurchaseItem" [filter]="selectedPurchaseItemFilter"></app-purchase-item>
 <app-sale-item [item]="selectedSaleItem" [filter]="selectedSaleItemFilter"></app-sale-item>
 
-<app-item-quantity-tracker [item]="selectedItemQuantityTracker"></app-item-quantity-tracker>
+<app-item-quantity-tracker [item]="selectedItemQuantityTracker" (purchase)="navigatePurchase($event)" (sale)="navigateSale($event)"></app-item-quantity-tracker>

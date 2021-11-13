@@ -47,10 +47,11 @@ export class SaleService {
     },
     { apiName: this.apiName });
 
-  getListNoPaged = () =>
+  getListNoPagedByInput = (input: GetSaleInput) =>
     this.restService.request<any, CreateUpdateSaleDto[]>({
       method: 'GET',
       url: '/api/app/sale/no-paged',
+      params: { startDate: input.startDate, endDate: input.endDate, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });
 
