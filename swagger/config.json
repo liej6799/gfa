@@ -1,0 +1,7 @@
+{
+  "groupId": "com.my.company",
+  "artifactId": "gfamobile",
+  "artifactVersion": "0.0.1",
+  "library": "okhttp-gson",
+  "dateLibrary": "joda"
+}
