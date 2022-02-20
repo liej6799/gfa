@@ -142,7 +142,23 @@ namespace gfa_web.IdentityServer
 
             var configurationSection = _configuration.GetSection("IdentityServer:Clients");
 
+            //Mobile
+            var mobileClientId = configurationSection["gfa_web_Mobile:ClientId"];
+            if (!mobileClientId.IsNullOrWhiteSpace())
+            {
+                var mobileClientRootUrl = configurationSection["gfa_web_Mobile:RootUrl"];
 
+                await CreateClientAsync(
+                    name: mobileClientId,
+                    scopes: commonScopes,
+                    grantTypes: new[] { "password", "client_credentials", "authorization_code" },
+                    secret: (configurationSection["gfa_web_Mobile:ClientSecret"] ?? "1q2w3e*").Sha256(),
+                    requireClientSecret: false,
+                    redirectUri: mobileClientRootUrl,
+                    postLogoutRedirectUri: mobileClientRootUrl
+                );
+            }   
+            
             //Console Test / Angular Client
             var consoleAndAngularClientId = configurationSection["gfa_web_App:ClientId"];
             if (!consoleAndAngularClientId.IsNullOrWhiteSpace())
