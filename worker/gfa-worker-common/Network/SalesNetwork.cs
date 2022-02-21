@@ -20,30 +20,7 @@ namespace gfa_worker_common.Network
         }
         public void Run(List<SalesRecord> baseSales, DateTime startDate, DateTime endDate)
         {
-            var saleList = _saleApi.ApiAppSaleNoPagedGet(startDate, endDate);
-            var saleItemList = _saleItemApi.ApiAppSaleItemNoPagedGet(startDate, endDate);
-            var itemList = _itemApi.ApiAppItemNoPagedGet();
-
-            var update = saleList.Where(x => baseSales.FirstOrDefault(y => y.ID == x.SourceId
-                && !(DateTime.ParseExact(y.TANGGAL + ' ' + y.JAM_INPUT, CommonHelper.YMDHMSDateFormat, CommonHelper.DateProvider) == x.DateSales
-                                                                      && Math.Abs(y.LUNAS - x.TotalCash) == 0
-                                                                      && Math.Abs(Math.Abs(y.LUNAS - y.TOT_HARGA) - x.TotalChange) == 0
-                                                                      && Math.Abs(y.TOT_HARGA - x.TotalAmount) == 0)) != null).Select(
-                    x =>
-                    {
-                        var data = baseSales.FirstOrDefault(y => x.SourceId == y.ID);
-                        x.DateSales = DateTime.ParseExact(data.TANGGAL + ' ' + data.JAM_INPUT, CommonHelper.YMDHMSDateFormat,
-                            CommonHelper.DateProvider);
-                        x.TotalCash = data.LUNAS;
-                        x.TotalChange = data.LUNAS - data.TOT_HARGA;
-                        x.TotalAmount = data.TOT_HARGA;
-                        return x;
-
-                    })
-                .ToList();
-
-
-            var insert = baseSales.Where(x => saleList.FirstOrDefault(y => y.SourceId == x.ID) == null).Select(x => new GfaWebSalesCreateUpdateSaleDto(
+            var insert = baseSales.Select(x => new GfaWebSalesCreateUpdateSaleDto(
                 sourceId: x.ID,
                 dateSales: DateTime.ParseExact(x.TANGGAL + ' ' + x.JAM_INPUT, CommonHelper.YMDHMSDateFormat, CommonHelper.DateProvider),
                 totalCash: x.LUNAS,
@@ -51,12 +28,8 @@ namespace gfa_worker_common.Network
                 totalAmount: x.TOT_HARGA
             )).ToList();
 
-            foreach (var item in update)
-            {
-                _saleApi.ApiAppSaleIdPut(item.Id, item);
-            }
-
             _saleApi.ApiAppSaleBatchInsertPost(insert);
+
 
             saleList = _saleApi.ApiAppSaleNoPagedGet(startDate, endDate);
 
@@ -77,13 +50,6 @@ namespace gfa_worker_common.Network
                });
 
             var insertDetail = baseSaleDetail
-             .Where(x => saleItemList.FirstOrDefault(y =>
-                     y.ItemSourceId == x.STOCK_ID
-                     && y.SaleSourceId == x.PENJUA_ID
-                         ) == null &&
-                         (itemList.FirstOrDefault(y => y.SourceId == x.STOCK_ID) != null
-                          && (saleList.FirstOrDefault(y => y.SourceId == x.PENJUA_ID) != null))
-                          && x.JUMLAH > 0 && x.HARGA > 0 && (x.HARGA / x.JUMLAH) > 0)
              .Select(x => new GfaWebSalesCreateUpdateSaleItemDto(
                  quantity: x.JUMLAH,
                  total: x.HARGA,

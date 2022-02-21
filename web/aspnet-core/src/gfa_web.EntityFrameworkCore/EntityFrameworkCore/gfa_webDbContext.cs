@@ -125,6 +125,18 @@ namespace gfa_web.EntityFrameworkCore
                 b.HasOne<Item>().WithMany().HasForeignKey(x => x.ItemId).IsRequired();
             });
             
+            builder.Entity<RawSale>(b =>
+            {
+                b.ToTable("RawSales");
+                b.ConfigureByConvention(); //auto configure for the base class props
+            });
+            
+            builder.Entity<RawSaleItem>(b =>
+            {
+                b.ToTable("RawSaleItems");
+                b.ConfigureByConvention(); //auto configure for the base class props
+            });
+            
             /* Configure your own tables/entities inside here */
 
             //builder.Entity<YourEntity>(b =>
