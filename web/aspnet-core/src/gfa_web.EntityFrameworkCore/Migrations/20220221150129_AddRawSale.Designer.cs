@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 using gfa_web.EntityFrameworkCore;
@@ -10,9 +11,10 @@ using gfa_web.EntityFrameworkCore;
 namespace gfa_web.Migrations
 {
     [DbContext(typeof(gfa_webDbContext))]
-    partial class gfa_webDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220221150129_AddRawSale")]
+    partial class AddRawSale
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2255,6 +2257,9 @@ namespace gfa_web.Migrations
                         .HasDefaultValue(false)
                         .HasColumnName("IsDeleted");
 
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime?>("LastModificationTime")
                         .HasColumnType("datetime2")
                         .HasColumnName("LastModificationTime");
@@ -2263,22 +2268,26 @@ namespace gfa_web.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("LastModifierId");
 
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
                     b.Property<double>("Quantity")
                         .HasColumnType("float");
 
+                    b.Property<Guid>("SaleId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("SourceId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SourceItemId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SourceSaleId")
                         .HasColumnType("int");
 
                     b.Property<double>("Total")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("SaleId");
 
                     b.ToTable("RawSaleItems");
                 });
@@ -2749,6 +2758,21 @@ namespace gfa_web.Migrations
                     b.HasOne("gfa_web.Purchases.Purchase", null)
                         .WithMany()
                         .HasForeignKey("PurchaseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("gfa_web.Sales.RawSaleItem", b =>
+                {
+                    b.HasOne("gfa_web.Items.Item", null)
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("gfa_web.Sales.RawSale", null)
+                        .WithMany()
+                        .HasForeignKey("SaleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
