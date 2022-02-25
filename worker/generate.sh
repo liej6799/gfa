@@ -1,4 +1,4 @@
-java -jar openapi-generator-cli.jar generate \
+openapi-generator generate \
    -i https://gfaapi.liej6799.xyz/swagger/v1/swagger.json -g csharp-netcore \
    -o output --skip-validate-spec
 
