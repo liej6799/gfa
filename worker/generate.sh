@@ -3,3 +3,4 @@ openapi-generator generate \
    -o output --skip-validate-spec
 
 dotnet build output/src/Org.OpenAPITools
+
