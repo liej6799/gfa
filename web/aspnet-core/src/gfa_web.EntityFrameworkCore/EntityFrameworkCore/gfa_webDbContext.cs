@@ -38,6 +38,8 @@ namespace gfa_web.EntityFrameworkCore
         public DbSet<PurchaseItem> PurchaseItems { get; set; }
         public DbSet<Sale> Sales { get; set; }
         public DbSet<SaleItem> SaleItems { get; set; }
+        public DbSet<RawSale> RawSales { get; set; }
+        public DbSet<RawSaleItem> RawSaleItems { get; set; }
         
         #region Entities from the modules
         
