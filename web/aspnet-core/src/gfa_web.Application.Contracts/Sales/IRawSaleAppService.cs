@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 
 namespace gfa_web.Sales
@@ -8,7 +9,7 @@ namespace gfa_web.Sales
         ICrudAppService< //Defines CRUD methods
             RawSaleDto, //Used to show books
             Guid, //Primary key of the book entity
-            GetSaleInput, //Used for paging/sorting
+            PagedAndSortedResultRequestDto, //Used for paging/sorting
             CreateUpdateRawSaleDto> //Used to create/update a book
     {
 

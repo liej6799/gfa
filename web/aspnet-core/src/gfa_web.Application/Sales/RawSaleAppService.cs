@@ -13,7 +13,7 @@ namespace gfa_web.Sales
             RawSale, //The Book entity
             RawSaleDto, //Used to show books
             Guid, //Primary key of the book entity
-            GetSaleInput, //Used for paging/sorting
+            PagedAndSortedResultRequestDto, //Used for paging/sorting
             CreateUpdateRawSaleDto>, //Used to create/update a book
         IRawSaleAppService //implement the IBookAppService
     {
