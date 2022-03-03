@@ -33,3 +33,5 @@ pub static ItemWorker : &str = "ItemWorker";
 pub static  PurchaseWorker : &str = "PurchaseWorker";
 pub static  VendorWorker : &str ="VendorWorker";
 pub static  SalesWorker : &str ="SalesWorker";
+
+pub static  BaseSales : &str ="BaseSales.json";

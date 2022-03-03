@@ -2,13 +2,11 @@
 // Import week days and WeekDay
 use openapi::apis::{configuration::Configuration, config_api};
 use openapi::models::{GfaWebConfigsConfigDto};
+use worker_rust::staticvar;
 use std::time::Duration;
 use std::{env, thread};
 
-
-mod staticvar;
-
-static mut LANGUAGE: Option<i32> = Some(5000);
+mod loader;
 
 #[tokio::main]
 async fn main()
@@ -20,7 +18,10 @@ async fn main()
     loop
     {
         println!("Hello");
+        loader::test_json_file();
+        println!("{:?}", staticValue.item_timer);
         thread::sleep(Duration::from_millis(staticValue.item_timer.unwrap_or(1000) as u64));
+        
     }
 }
 
