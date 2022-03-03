@@ -13,7 +13,7 @@ namespace gfa_worker_common.Network
             _configApi = new ConfigApi(CommonHelper.NetworkConfiguration);
         }
         
-        public GfaWebConfigsConfigDto? Run(string workerName)
+        public GfaWebConfigsConfigDto Run(string workerName)
         {
             return  _configApi.ApiAppConfigGet().Items.FirstOrDefault(x => x.Name.Equals(workerName));
         }

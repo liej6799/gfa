@@ -8,19 +8,17 @@ namespace gfa_worker_common.Network
 {
     public class SalesNetwork
     {
-        private readonly SaleItemApi _saleItemApi;
-        private readonly SaleApi _saleApi;
-        private readonly ItemApi _itemApi;
+        private readonly RawSaleItemApi _rawSaleItemApi;
+        private readonly RawSaleApi _rawSaleApi;
 
         public SalesNetwork()
         {
-            _saleItemApi = new SaleItemApi(CommonHelper.NetworkConfiguration);
-            _saleApi = new SaleApi(CommonHelper.NetworkConfiguration);
-            _itemApi = new ItemApi(CommonHelper.NetworkConfiguration);
+            _rawSaleItemApi = new RawSaleItemApi(CommonHelper.NetworkConfiguration);
+            _rawSaleApi = new RawSaleApi(CommonHelper.NetworkConfiguration);
         }
         public void Run(List<SalesRecord> baseSales, DateTime startDate, DateTime endDate)
         {
-            var insert = baseSales.Select(x => new GfaWebSalesCreateUpdateSaleDto(
+            var insert = baseSales.Select(x => new GfaWebSalesCreateUpdateRawSaleDto(
                 sourceId: x.ID,
                 dateSales: DateTime.ParseExact(x.TANGGAL + ' ' + x.JAM_INPUT, CommonHelper.YMDHMSDateFormat, CommonHelper.DateProvider),
                 totalCash: x.LUNAS,
@@ -28,42 +26,19 @@ namespace gfa_worker_common.Network
                 totalAmount: x.TOT_HARGA
             )).ToList();
 
-            _saleApi.ApiAppSaleBatchInsertPost(insert);
-
-
-            saleList = _saleApi.ApiAppSaleNoPagedGet(startDate, endDate);
-
+            _rawSaleApi.ApiAppRawSaleBatchInsertPost(insert);
+            
             var baseSaleDetail = baseSales.SelectMany(x => x.Detail).ToList();
-
-            var updateDetail = saleItemList.Where(x => baseSaleDetail.FirstOrDefault(y =>
-                (x.ItemSourceId == y.STOCK_ID
-               && x.SaleSourceId == y.PENJUA_ID) && 
-               !(Math.Abs(x.Quantity - y.JUMLAH) == 0
-               && Math.Abs(x.Price - (y.HARGA / y.JUMLAH)) == 0
-               && Math.Abs(x.Total - y.HARGA) == 0)) != null).Select(x =>
-               {
-                   var data = baseSaleDetail.FirstOrDefault(y => x.ItemSourceId == y.STOCK_ID && x.SaleSourceId == y.PENJUA_ID);
-                   x.Quantity = data.JUMLAH;
-                   x.Total = data.HARGA;
-                   x.Price = (data.HARGA / data.JUMLAH);
-                   return x;
-               });
-
+            
             var insertDetail = baseSaleDetail
-             .Select(x => new GfaWebSalesCreateUpdateSaleItemDto(
+             .Select(x => new GfaWebSalesCreateUpdateRawSaleItemDto(
                  quantity: x.JUMLAH,
                  total: x.HARGA,
-                 price: (x.HARGA / x.JUMLAH),
-                 itemId: itemList.FirstOrDefault(y => y.SourceId == x.STOCK_ID).Id,
-                 saleId: saleList.FirstOrDefault(y => y.SourceId == x.PENJUA_ID).Id
+                 sourceItemId: x.STOCK_ID,
+                 sourceSaleId: x.PENJUA_ID
              )).ToList();
-
-            foreach (var item in updateDetail)
-            {
-                _saleItemApi.ApiAppSaleItemIdPut(item.Id, item);
-            }
             
-            _saleItemApi.ApiAppSaleItemBatchInsertPost(insertDetail);
+            _rawSaleItemApi.ApiAppRawSaleItemBatchInsertPost(insertDetail);
         }
     }
 
