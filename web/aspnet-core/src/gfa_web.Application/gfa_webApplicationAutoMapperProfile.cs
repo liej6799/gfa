@@ -40,6 +40,10 @@ namespace gfa_web
             CreateMap<SaleItem, SaleItemDto>();
             CreateMap<SaleItem, CreateUpdateSaleItemDto>();
             CreateMap<CreateUpdateSaleItemDto, SaleItem>();
+            
+            CreateMap<RawSale, RawSaleDto>();
+            CreateMap<RawSale, CreateUpdateRawSaleDto>();
+            CreateMap<CreateUpdateRawSaleDto, RawSale>();
         }
     }
 }
