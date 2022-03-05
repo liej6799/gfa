@@ -1,12 +1,15 @@
 #[derive(Default)]
-pub struct Timer {
+pub struct AppConfig {
     pub sales_timer: Option<i32>,
     pub item_timer: Option<i32>,
     pub purchase_timer: Option<i32>,
     pub vendor_timer: Option<i32>,
+
+    pub base_urls : Option<String>
+
 }
 
-impl Timer {
+impl AppConfig {
     // Mutable access.
     pub fn sales_timer_mut(&mut self) -> &mut Option<i32> {
         &mut self.sales_timer
@@ -25,5 +28,10 @@ impl Timer {
     // Mutable access.
     pub fn vendor_timer_mut(&mut self) -> &mut Option<i32> {
         &mut self.vendor_timer
+    }
+
+    // Mutable access.
+    pub fn base_urls_mut(&mut self) -> &mut Option<String> {
+        &mut self.base_urls
     }
 }
