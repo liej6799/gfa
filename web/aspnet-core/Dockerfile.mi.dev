@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /app
 
 COPY ["src/gfa_web.DbMigrator/gfa_web.DbMigrator.csproj", "src/gfa_web.DbMigrator/"]
@@ -9,7 +9,7 @@ COPY . .
 RUN dotnet publish "src/gfa_web.DbMigrator/gfa_web.DbMigrator.csproj" -c Release -o out
 
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/aspnet
+FROM mcr.microsoft.com/dotnet/aspnet:5.0
 WORKDIR /app
 COPY --from=build /app/out .
 COPY ["appsettings/mi_appsettings_dev.json", "appsettings.json"]
