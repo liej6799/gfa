@@ -1,15 +1,15 @@
 {
     "App": {
-      "SelfUrl": "https://gfaapi.liej6799.xyz",
-      "ClientUrl": "https://gfaweb.liej6799.xyz",
-      "CorsOrigins": "https://*.gfa_web.com,https://gfaweb.liej6799.xyz,https://gfaapi.liej6799.xyz",
-      "RedirectAllowedUrls": "https://gfaweb.liej6799.xyz,https://gfaapi.liej6799.xyz:44307,https://gfaapi.liej6799.xyz"
+      "SelfUrl": "https://devapi.gfaweb.xyz",
+      "ClientUrl": "https://devweb.gfaweb.xyz",
+      "CorsOrigins": "https://*.gfa_web.com,https://devweb.gfaweb.xyz,https://devapi.gfaweb.xyz",
+      "RedirectAllowedUrls": "https://devweb.gfaweb.xyz,https://devapi.gfaweb.xyz:44307,https://devapi.gfaweb.xyz"
     },
     "ConnectionStrings": {
-      "Default": "Server=gfaapi.liej6799.xyz,1400;Database=gfadb;User ID=sa;Password=Password1!;Connection Timeout=30;"
+      "Default": "Server=devapi.gfaweb.xyz,1401;Database=gfadb;User ID=sa;Password=Password1!;Connection Timeout=30;"
     },
     "AuthServer": {
-      "Authority": "https://gfaapi.liej6799.xyz",
+      "Authority": "https://devapi.gfaweb.xyz",
       "RequireHttpsMetadata": "false",
       "SwaggerClientId": "gfa_web_Swagger",
       "SwaggerClientSecret": "1q2w3e*"

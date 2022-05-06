@@ -1,28 +1,28 @@
 {
     "ConnectionStrings": {
-      "Default": "Server=gfaapi.liej6799.xyz,1400;Database=gfadb;User ID=sa;Password=Password1!;Connection Timeout=30;"
+      "Default": "Server=devapi.liej6799.xyz,1401;Database=gfadb;User ID=sa;Password=Password1!;Connection Timeout=30;"
     },
     "IdentityServer": {
       "Clients": {
         "gfa_web_Web": {
           "ClientId": "gfa_web_Web",
           "ClientSecret": "1q2w3e*",
-          "RootUrl": "https://gfaapi.liej6799.xyz"
+          "RootUrl": "https://devapi.gfaweb.xyz"
         },
         "gfa_web_App": {
           "ClientId": "gfa_web_App",
           "ClientSecret": "1q2w3e*",
-          "RootUrl": "https://gfaweb.liej6799.xyz"
+          "RootUrl": "https://devweb.gfaweb.xyz"
         },
         "gfa_web_BlazorServerTiered": {
           "ClientId": "gfa_web_BlazorServerTiered",
           "ClientSecret": "1q2w3e*",
-          "RootUrl": "https://gfaapi.liej6799.xyz:44314"
+          "RootUrl": "https://devapi.gfaweb.xyz:44314"
         },
         "gfa_web_Swagger": {
           "ClientId": "gfa_web_Swagger",
           "ClientSecret": "1q2w3e*",
-          "RootUrl": "https://gfaapi.liej6799.xyz"
+          "RootUrl": "https://devapi.gfaweb.xyz"
         }
       }
     }
