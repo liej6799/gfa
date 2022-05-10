@@ -9,7 +9,7 @@ RUN npm install
 
 COPY [".", "/app"]
 COPY ["environments/environment_dev.ts", "/app/src/environments/environment.ts"]
-COPY ["environments/environment_dev.ts", "/app/src/environments/environment.dev.ts"]
+COPY ["environments/environment_dev.ts", "/app/src/environments/environment.prod.ts"]
 RUN npm run build --prod
 
 
