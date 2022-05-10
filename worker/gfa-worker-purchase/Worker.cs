@@ -53,7 +53,7 @@ namespace gfa_worker_purchase
             DateTime endDate = new DateTime();
             if (_gfaWebConfigsConfigDto.IsAll)
             {
-                startDate = DateTime.Now.AddYears(-2);
+                startDate = DateTime.Now.AddYears(-5);
 
                 while (startDate < DateTime.Now)
                 {
@@ -79,7 +79,7 @@ namespace gfa_worker_purchase
             }
             else if (_gfaWebConfigsConfigDto.IsDaily)
             {
-                startDate = DateTime.Now;
+                startDate = DateTime.Now.AddDays(-1);
                 endDate = DateTime.Now;
                 args = "/TGL:" + startDate.ToString("yyyyMMdd") + CommonHelper.tab +
                        "/TGL2:" + endDate.ToString("yyyyMMdd");
