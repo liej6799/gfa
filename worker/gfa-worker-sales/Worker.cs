@@ -20,7 +20,7 @@ namespace gfa_worker_sales
 
         public Worker(ILogger<Worker> logger)
         {
-            //CredsHelper.GetCreds();
+            CredsHelper.GetCreds();
             _logger = logger;
             _configNetwork = new ConfigNetwork();
             _salesNetwork = new SalesNetwork();
@@ -34,8 +34,8 @@ namespace gfa_worker_sales
                 _gfaWebConfigsConfigDto = _configNetwork.Run(gfa_worker_common.Worker.SalesWorker);
                 if (_gfaWebConfigsConfigDto == null) return;
 
-                //Normal();
-                Test();
+                Normal();
+                //Test();
                 _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
                 await Task.Delay(_gfaWebConfigsConfigDto.TimerInMs, stoppingToken);
             }
