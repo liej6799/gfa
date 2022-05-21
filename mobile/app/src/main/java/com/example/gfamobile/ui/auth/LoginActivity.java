@@ -138,6 +138,9 @@ public class LoginActivity extends PortraitDaggerAppCompatActivity {
                 .setScope(OIDC_SCOPE)
                 .build();
 
+
+
+
         mAuthService.performAuthorizationRequest(
                 authRequest,
                 createPostAuthorizationIntent(
@@ -153,7 +156,9 @@ public class LoginActivity extends PortraitDaggerAppCompatActivity {
 
         Intent intent = new Intent(context, this.getClass());
 
-        return PendingIntent.getActivity(context, request.hashCode(), intent, 0);
+        return PendingIntent.getActivity(context, request.hashCode(), intent, PendingIntent.FLAG_MUTABLE);
+        
+
     }
 
     private void persistAuthState(@NonNull AuthState authState) {
