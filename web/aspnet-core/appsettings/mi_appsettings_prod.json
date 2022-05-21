@@ -9,6 +9,11 @@
           "ClientSecret": "1q2w3e*",
           "RootUrl": "https://api.gfaweb.xyz"
         },
+        "gfa_web_Mobile": {
+          "ClientId": "gfa_web_Mobile",
+          "ClientSecret": "1q2w3e*",
+          "RootUrl": "com.example.gfamobile://oidc_callback"
+        },
         "gfa_web_App": {
           "ClientId": "gfa_web_App",
           "ClientSecret": "1q2w3e*",
