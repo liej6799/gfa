@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/home"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="Home"/>
+
     <item
         android:id="@+id/item"
-        android:title="Items"
-        android:icon="@drawable/ic_baseline_view_list_24"/>
+        android:icon="@drawable/ic_baseline_view_list_24"
+        android:title="Items"/>
 
     <item
         android:id="@+id/sale"
-        android:title="Sale"
-        android:icon="@drawable/ic_baseline_view_list_24"/>
+        android:icon="@drawable/ic_baseline_view_list_24"
+        android:title="Sale" />
 </menu>

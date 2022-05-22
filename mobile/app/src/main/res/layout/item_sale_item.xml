@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="5dp">
+
+        <TextView
+            android:id="@+id/tv_item_sale_item_quantity"
+            tools:text="2"
+            android:layout_width="0dp"
+            android:layout_weight=".10"
+            android:layout_height="match_parent"
+
+            android:gravity="center"
+            android:textSize="16sp"/>
+        <TextView
+            android:id="@+id/tv_item_sale_item_name"
+            tools:text="Rinso awfbaewvfbsefseyisefjse"
+            android:layout_width="0dp"
+            android:layout_weight=".50"
+
+            android:layout_height="match_parent"
+
+            android:textSize="16sp"/>
+        <TextView
+            android:id="@+id/tv_item_sale_item_price"
+            tools:text="25000"
+            android:layout_width="0dp"
+            android:layout_weight=".20"
+            android:layout_height="match_parent"
+            android:gravity="center"
+
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/tv_item_sale_item_total"
+            tools:text="50000"
+            android:layout_width="0dp"
+            android:layout_weight=".20"
+            android:layout_height="match_parent"
+            android:gravity="center"
+
+            android:textSize="16sp"/>
+
+</LinearLayout>
