@@ -40,14 +40,9 @@ public class SaleAdapter extends RecyclerView.Adapter<SaleAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Sale sale = mData.get(position);
-        holder.time.setText(sale.getTimeSale());
-        holder.date.setText(sale.getDateSale());
+        holder.time.setText(sale.getDateSale().toString("hh:mm"));
+        holder.date.setText(sale.getDateSale().toString("EEE, dd MMM, yyyy"));
         holder.total.setText(String.valueOf(sale.getTotal()));
-
-        boolean isExpanded = sale.isExpanded();
-        holder.linearLayout.setVisibility(isExpanded ?
-                View.VISIBLE :
-                View.GONE);
     }
 
     @Override
@@ -60,22 +55,17 @@ public class SaleAdapter extends RecyclerView.Adapter<SaleAdapter.ViewHolder> {
         TextView time;
         TextView date;
 
-        LinearLayout linearLayout;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             total = itemView.findViewById(R.id.tv_item_sale_total);
             time = itemView.findViewById(R.id.tv_item_sale_time);
             date = itemView.findViewById(R.id.tv_item_sale_date);
-            linearLayout = itemView.findViewById(R.id.ll_item_sale_item);
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
 
-            Sale sale = mData.get(getAdapterPosition());
-            sale.setExpanded(!sale.isExpanded());
-            notifyItemChanged(getAdapterPosition());
         }
     }
 

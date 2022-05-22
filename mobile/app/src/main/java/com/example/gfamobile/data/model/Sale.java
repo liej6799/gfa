@@ -1,42 +1,35 @@
 package com.example.gfamobile.data.model;
 
+import org.joda.time.DateTime;
+
 public class Sale {
 
-    private int Total;
-    private String DateSale;
-    private String TimeSale;
+    private Double Total;
+    private DateTime DateSale;
     private boolean Expanded;
 
-    public Sale(int total, String dateSale, String timeSale) {
+    public Sale(Double total, DateTime dateSale) {
         Total = total;
         DateSale = dateSale;
-        TimeSale = timeSale;
         Expanded = false;
     }
 
-    public int getTotal() {
+    public Double getTotal() {
         return Total;
     }
 
-    public void setTotal(int total) {
+    public void setTotal(Double total) {
         Total = total;
     }
 
-    public String getDateSale() {
+    public DateTime getDateSale() {
         return DateSale;
     }
 
-    public void setDateSale(String dateSale) {
+    public void setDateSale(DateTime dateSale) {
         DateSale = dateSale;
     }
 
-    public String getTimeSale() {
-        return TimeSale;
-    }
-
-    public void setTimeSale(String timeSale) {
-        TimeSale = timeSale;
-    }
 
     public boolean isExpanded() {
         return Expanded;
