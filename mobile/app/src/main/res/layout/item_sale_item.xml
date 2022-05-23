@@ -5,44 +5,72 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="5dp">
+    android:padding="10dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_item_sale_item_quantity"
-            tools:text="2"
-            android:layout_width="0dp"
-            android:layout_weight=".10"
-            android:layout_height="match_parent"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/tv_item_sale_item_name"
 
-            android:gravity="center"
-            android:textSize="16sp"/>
-        <TextView
-            android:id="@+id/tv_item_sale_item_name"
-            tools:text="Rinso awfbaewvfbsefseyisefjse"
-            android:layout_width="0dp"
-            android:layout_weight=".50"
+                            tools:text="Rinso awfbaewvfbsefseyisefjseawfukefewgfuiw"
+                            android:layout_width="0dp"
+                            android:layout_weight=".7"
 
-            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/style_text_black" />
 
-            android:textSize="16sp"/>
-        <TextView
-            android:id="@+id/tv_item_sale_item_price"
-            tools:text="25000"
-            android:layout_width="0dp"
-            android:layout_weight=".20"
-            android:layout_height="match_parent"
-            android:gravity="center"
+                        <TextView
+                            android:id="@+id/tv_item_sale_item_total"
+                            tools:text="IDR50,000"
+                            android:layout_width="0dp"
+                            android:layout_weight=".3"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            style="@style/style_text_black"/>
+                </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tv_item_sale_item_quantity"
+                    tools:text="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    style="@style/style_text_normal" />
 
-            android:textSize="16sp"/>
+                <TextView
+                    android:text="x"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    style="@style/style_text_normal" />
 
-        <TextView
-            android:id="@+id/tv_item_sale_item_total"
-            tools:text="50000"
-            android:layout_width="0dp"
-            android:layout_weight=".20"
-            android:layout_height="match_parent"
-            android:gravity="center"
+                <TextView
+                    android:id="@+id/tv_item_sale_item_price"
+                    tools:text="IDR25,000"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    style="@style/style_text_normal" />
 
-            android:textSize="16sp"/>
+        </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+
+
+
 
 </LinearLayout>

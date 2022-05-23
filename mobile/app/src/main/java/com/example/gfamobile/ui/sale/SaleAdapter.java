@@ -1,33 +1,33 @@
 package com.example.gfamobile.ui.sale;
 
-import android.content.ClipData;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gfamobile.R;
-import com.example.gfamobile.data.model.Sale;
+import com.example.gfamobile.util.Helper;
 
 import java.text.NumberFormat;
 import java.util.Currency;
 import java.util.List;
+import java.util.UUID;
+
+import io.swagger.client.model.GfaWebSalesSaleDto;
 
 public class SaleAdapter extends RecyclerView.Adapter<SaleAdapter.ViewHolder> {
 
-    private final List<Sale> mData;
+    private final List<GfaWebSalesSaleDto> mData;
     private final LayoutInflater mInflater;
-
+    private SaleItemClickListener mClickListener;
 
     // data is passed into the constructor
-    SaleAdapter(Context context, List<Sale> data) {
+    SaleAdapter(Context context, List<GfaWebSalesSaleDto> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
     }
@@ -41,15 +41,11 @@ public class SaleAdapter extends RecyclerView.Adapter<SaleAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Sale sale = mData.get(position);
-        holder.time.setText(sale.getDateSale().toString("hh:mm a"));
-        holder.date.setText(sale.getDateSale().toString("EEE, dd MMM, yyyy"));
+        GfaWebSalesSaleDto sale = mData.get(position);
+        holder.time.setText(sale.getDateSales().toString("hh:mm a"));
+        holder.date.setText(sale.getDateSales().toString("EEE, dd MMM, yyyy"));
 
-        NumberFormat format = NumberFormat.getCurrencyInstance();
-        format.setMaximumFractionDigits(0);
-        format.setCurrency(Currency.getInstance("IDR"));
-
-        holder.total.setText(String.valueOf(format.format(sale.getTotal())));
+        holder.total.setText(String.valueOf(Helper.GetCurrencyHelper().format(sale.getTotalAmount())));
     }
 
     @Override
@@ -72,8 +68,23 @@ public class SaleAdapter extends RecyclerView.Adapter<SaleAdapter.ViewHolder> {
 
         @Override
         public void onClick(View view) {
-
+            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
         }
+    }
+
+    // convenience method for getting data at click position
+    UUID getId(int id) {
+        return mData.get(id).getId();
+    }
+
+    // allows clicks events to be caught
+    void setClickListener(SaleItemClickListener itemClickListener) {
+        this.mClickListener = itemClickListener;
+    }
+
+    // parent activity will implement this method to respond to click events
+    public interface SaleItemClickListener {
+        void onItemClick(View view, int position);
     }
 
 

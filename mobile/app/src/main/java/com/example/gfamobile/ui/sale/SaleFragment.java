@@ -1,11 +1,10 @@
 package com.example.gfamobile.ui.sale;
 
-import static com.example.gfamobile.util.Resource.AuthStatus.AUTHENTICATED;
+import static com.example.gfamobile.util.Intent.SALE_ITEM;
 
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,27 +14,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
-import com.example.gfamobile.MainActivity;
 import com.example.gfamobile.R;
 import com.example.gfamobile.data.model.Date;
-import com.example.gfamobile.data.model.Sale;
-import com.example.gfamobile.data.model.SaleItem;
-import com.example.gfamobile.ui.item.ItemViewModel;
 import com.example.gfamobile.util.ViewModelProviderFactory;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
-import java.util.ArrayList;
-import java.util.Calendar;
 
 import javax.inject.Inject;
 
@@ -43,7 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.support.DaggerFragment;
 
-public class SaleFragment extends DaggerFragment implements DatePickerDialog.OnDateSetListener {
+public class SaleFragment extends DaggerFragment implements DatePickerDialog.OnDateSetListener, SaleAdapter.SaleItemClickListener {
 
     @Inject
     ViewModelProviderFactory viewModelProviderFactory;
@@ -100,10 +84,12 @@ public class SaleFragment extends DaggerFragment implements DatePickerDialog.OnD
 
     private void listener()
     {
-        saleViewModel.observeSale().observe(getViewLifecycleOwner(), saleList -> {
+        saleViewModel.observeSaleList().observe(getViewLifecycleOwner(), saleList -> {
             if (saleList != null) {
                 saleAdapter = new SaleAdapter(getContext(), saleList);
                 rv_item_sale.setAdapter(saleAdapter);
+                saleAdapter.setClickListener(this);
+
                 srl_item_sale.setRefreshing(false);
             }
         });
@@ -159,5 +145,12 @@ public class SaleFragment extends DaggerFragment implements DatePickerDialog.OnD
             et_sale_end_date.setText(String.format("%d/%d/%d", date.getEndDayOfMonth(), date.getEndMonth(), date.getEndYear()));
             saleViewModel.getSales(date);
         }
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        Intent intent = new Intent(getActivity(), SaleItemActivity.class);
+        intent.putExtra(SALE_ITEM, saleAdapter.getId(position).toString());
+        startActivity(intent);
     }
 }
