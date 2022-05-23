@@ -85,6 +85,7 @@ namespace gfa_web.Sales
                 var saleDto = new SaleDto
                 {
                     Id = x.sale.Id,
+                    SourceId = x.sale.SourceId,
                     DateSales = x.sale.DateSales,
                     TotalAmount = x.sale.TotalAmount,
                 };

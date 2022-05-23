@@ -15,11 +15,12 @@ namespace gfa_web.Sales
         public Guid ItemId { get; set; }
     }
     
-    public class GetSaleItemDateInput : PagedAndSortedResultRequestDto
+    public class GetSaleItemDateInput
     {
         [Required]
-        public DateTime StartDate { get; set; }
+        public Guid SaleId { get; set; }
 
-        [Required] public DateTime EndDate { get; set; }
+        [Required]
+        public string Sorting { get; set; }
     }
 }

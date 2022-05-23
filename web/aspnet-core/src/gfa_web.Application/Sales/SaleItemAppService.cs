@@ -76,29 +76,33 @@ namespace gfa_web.Sales
             );
         }
 
-        public async Task<List<CreateUpdateSaleItemDto>> GetListNoPaged(GetSaleItemDateInput input)
+        public async Task<List<SaleItemDto>> GetListNoPaged(GetSaleItemDateInput input)
         {
             var queryable = await Repository.GetQueryableAsync();
-            
-            var query = from saleItem in queryable
-                join item in _itemRepository on saleItem.ItemId equals item.Id
-                join sale in _saleRepository on saleItem.SaleId equals sale.Id
-                select new {saleItem, item, sale};
-            
-            var baseQuery = query.Where(x =>
-                x.sale.DateSales.Date >= input.StartDate.Date && x.sale.DateSales.Date <= input.EndDate.Date);
 
-            
-            var queryResult = await AsyncExecuter.ToListAsync(baseQuery);
-            
-            var result = queryResult.Select(x =>
+            var query = from saleItem in queryable
+                join sale in _saleRepository on saleItem.SaleId equals sale.Id
+                join item in _itemRepository on saleItem.ItemId equals item.Id
+                select new { saleItem, sale, item };
+
+
+            var filterQuery = query
+                 .Where(u => u.saleItem.SaleId == input.SaleId)
+                 .OrderBy(NormalizeSorting(input.Sorting));
+  
+            var queryResult = await AsyncExecuter.ToListAsync(filterQuery);
+
+            var saleItemDtos = queryResult.Select(x =>
             {
-                var saleItemDto = ObjectMapper.Map<SaleItem, CreateUpdateSaleItemDto>(x.saleItem);
-                saleItemDto.ItemSourceId = x.item.SourceId;
-                saleItemDto.SaleSourceId = x.sale.SourceId;
+                var saleItemDto = ObjectMapper.Map<SaleItem, SaleItemDto>(x.saleItem);
+                saleItemDto.ItemName = x.item.Name;
+                saleItemDto.SalePrice = x.saleItem.Price;
                 return saleItemDto;
             }).ToList();
-            return result;
+
+            return new List<SaleItemDto>(
+                saleItemDtos
+            );
         }
         
         public async Task<PagedResultDto<SaleItemDto>> GetItemHistoryAsync(GetItemHistoryInput input)
