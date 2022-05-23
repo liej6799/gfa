@@ -66,28 +66,36 @@ namespace gfa_web.Sales
             );
         }
 
-        public async Task<List<CreateUpdateSaleDto>> GetListNoPaged(GetSaleInput input)
+        public async Task<List<SaleDto>> GetListNoPaged(GetSaleInputNoPaged input)
         {
             var queryable = await Repository.GetQueryableAsync();
             
             var query = from sale in queryable
                 select new {sale};
-            
+
             var baseQuery = query.Where(x =>
                 x.sale.DateSales.Date >= input.StartDate.Date && x.sale.DateSales.Date <= input.EndDate.Date);
 
-            var queryResult = await AsyncExecuter.ToListAsync(baseQuery);
-            
-            return queryResult.Select(x =>
+            var orderedListQuery = await baseQuery
+               .OrderBy(NormalizeSorting(input.Sorting))
+               .ToListAsync();
+
+            List<SaleDto> result = orderedListQuery.Select(x =>
             {
-                var saleDto = ObjectMapper.Map<Sale, CreateUpdateSaleDto>(x.sale);
+                var saleDto = new SaleDto
+                {
+                    Id = x.sale.Id,
+                    DateSales = x.sale.DateSales,
+                    TotalAmount = x.sale.TotalAmount,
+                };
                 return saleDto;
             }).ToList();
+
+            return new List<SaleDto>(
+                result
+            );
         }
 
-        
-    
-        
         public void BatchInsert(List<CreateUpdateSaleDto> createUpdateSaleDtos)
         {
             Repository.InsertManyAsync(ObjectMapper.Map<List<CreateUpdateSaleDto>, List<Sale>>(createUpdateSaleDtos));

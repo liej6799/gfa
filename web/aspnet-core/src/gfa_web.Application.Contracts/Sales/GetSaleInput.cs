@@ -14,5 +14,15 @@ namespace gfa_web.Sales
         
         
     }
-    
+
+    public class GetSaleInputNoPaged
+    {
+        [Required]
+        public DateTime StartDate { get; set; }
+        [Required]
+        public DateTime EndDate { get; set; }
+        [Required]
+        public string Sorting { get; set; }
+    }
+
 }
