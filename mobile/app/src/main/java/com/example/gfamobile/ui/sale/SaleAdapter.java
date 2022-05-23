@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.gfamobile.R;
 import com.example.gfamobile.data.model.Sale;
 
+import java.text.NumberFormat;
+import java.util.Currency;
 import java.util.List;
 
 public class SaleAdapter extends RecyclerView.Adapter<SaleAdapter.ViewHolder> {
@@ -40,9 +42,14 @@ public class SaleAdapter extends RecyclerView.Adapter<SaleAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Sale sale = mData.get(position);
-        holder.time.setText(sale.getDateSale().toString("hh:mm"));
+        holder.time.setText(sale.getDateSale().toString("hh:mm a"));
         holder.date.setText(sale.getDateSale().toString("EEE, dd MMM, yyyy"));
-        holder.total.setText(String.valueOf(sale.getTotal()));
+
+        NumberFormat format = NumberFormat.getCurrencyInstance();
+        format.setMaximumFractionDigits(0);
+        format.setCurrency(Currency.getInstance("IDR"));
+
+        holder.total.setText(String.valueOf(format.format(sale.getTotal())));
     }
 
     @Override

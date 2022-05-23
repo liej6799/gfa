@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.gfamobile.data.model.Date;
 import com.example.gfamobile.data.model.Sale;
 import com.example.gfamobile.data.model.User;
 import com.example.gfamobile.util.Resource;
@@ -23,6 +24,7 @@ import io.swagger.client.api.ItemApi;
 import io.swagger.client.api.SaleApi;
 import io.swagger.client.model.GfaWebItemsCreateUpdateItemDto;
 import io.swagger.client.model.GfaWebSalesCreateUpdateSaleDto;
+import io.swagger.client.model.GfaWebSalesSaleDto;
 import needle.Needle;
 
 public class SaleViewModel extends ViewModel
@@ -37,18 +39,18 @@ public class SaleViewModel extends ViewModel
     }
 
 
-    public void getSales()
+    public void getSales(Date date)
     {
-        DateTimeFormatter df = DateTimeFormat.forPattern("dd/MM/yyyy");
-        DateTime fromDate = df.parseDateTime("22/05/2022");
-        DateTime toDate = df.parseDateTime("22/05/2022");
+        List<Sale> saleList = new ArrayList<>();
+
+        DateTime fromDate = new DateTime(date.getStartYear(), date.getStartMonth(), date.getStartDayOfMonth() + 1, 0, 0, 0);
+        DateTime toDate = new DateTime(date.getEndYear(), date.getEndMonth(), date.getEndDayOfMonth() + 1, 0, 0, 0);
         Needle.onBackgroundThread().execute(() -> {
             try {
-                List<GfaWebSalesCreateUpdateSaleDto> result = saleApi.apiAppSaleNoPagedGet(fromDate, toDate,
-                        "asc", 0, 5);
+                List<GfaWebSalesSaleDto> result = saleApi.apiAppSaleNoPagedGet(fromDate, toDate,
+                        "dateSales desc");
 
-                List<Sale> saleList = new ArrayList<>();
-                for (GfaWebSalesCreateUpdateSaleDto rawSale : result)
+                for (GfaWebSalesSaleDto rawSale : result)
                 {
                     saleList.add(new Sale(rawSale.getTotalAmount(), rawSale.getDateSales()));
                 }
@@ -64,6 +66,7 @@ public class SaleViewModel extends ViewModel
     }
 
     public LiveData<List<Sale>> observeSale() {
+
         return saleMediatorLiveData;
     }
 

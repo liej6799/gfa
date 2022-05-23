@@ -12,6 +12,11 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="style_edit_text_as_button" parent="style_text_normal" >
+        <item name="android:focusable">false</item>
+        <item name="android:clickable">true</item>
+    </style>
+
     <style name="style_card_view_ripple">
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
         <item name="android:clickable">true</item>
@@ -21,6 +26,6 @@
     <style name="style_divider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
-        <item name="android:background">?android:attr/listDivider</item>
+        <item name="android:background">@color/black</item>
     </style>
 </resources>
