@@ -25,4 +25,12 @@ namespace gfa_web.Sales
         public string Sorting { get; set; }
     }
 
+    public class GetSaleDateInput
+    {
+        [Required]
+        public DateTime StartDate { get; set; }
+        [Required]
+        public DateTime EndDate { get; set; }
+    }
+
 }

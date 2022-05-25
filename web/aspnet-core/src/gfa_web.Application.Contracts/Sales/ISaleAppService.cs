@@ -15,6 +15,8 @@ namespace gfa_web.Sales
         Task<List<SaleDto>> GetListNoPaged(GetSaleInputNoPaged input);
         
         void BatchInsert(List<CreateUpdateSaleDto> createUpdateSaleDtos);
+
+        Task<List<CreateUpdateSaleDto>> GetListNoPagedDate(GetSaleDateInput input);
     }
     
 }

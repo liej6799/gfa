@@ -15,11 +15,14 @@ namespace gfa_web.Sales
             CreateUpdateSaleItemDto> //Used to create/update a book
     {
 
-        Task<List<SaleItemDto>> GetListNoPaged(GetSaleItemDateInput input);
+        Task<List<SaleItemDto>> GetListNoPaged(GetSaleItemInputFilter input);
         
         void BatchInsert(List<CreateUpdateSaleItemDto> createUpdateSaleItemDtos);
 
         Task<PagedResultDto<SaleItemDto>> GetItemHistoryAsync(GetItemHistoryInput input);
+        Task<List<SaleItemDto>> GetListNoPagedDateSummary(GetSaleItemDateInput input);
+
+        Task<List<CreateUpdateSaleItemDto>> GetListNoPageDate(GetSaleItemDateInput input);
 
     }
 }
