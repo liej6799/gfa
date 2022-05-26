@@ -33,4 +33,16 @@ namespace gfa_web.Sales
         public DateTime EndDate { get; set; }
     }
 
+    public class GetSaleDateGroupInput
+    {
+        [Required]
+        public DateTime StartDate { get; set; }
+        [Required]
+        public DateTime EndDate { get; set; }
+
+        [Required]
+        public SaleGroup GroupBy { get; set; } = SaleGroup.None;
+
+    }
+
 }
