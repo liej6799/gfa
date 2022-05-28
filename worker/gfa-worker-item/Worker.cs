@@ -17,25 +17,25 @@ namespace gfa_worker_item
         private readonly ItemNetwork _itemNetwork;
         private readonly ConfigNetwork _configNetwork;
         private GfaWebConfigsConfigDto _gfaWebConfigsConfigDto;
-        public Worker(ILogger<Worker> logger)
+        private IHostApplicationLifetime _hostApplicationLifetime;
+
+        public Worker(ILogger<Worker> logger, IHostApplicationLifetime hostApplicationLifetime)
         {
             CredsHelper.GetCreds();
             _logger = logger;
             _itemNetwork = new ItemNetwork();
             _configNetwork = new ConfigNetwork();
+            _hostApplicationLifetime = hostApplicationLifetime;
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        protected async override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            while (!stoppingToken.IsCancellationRequested)
-            {
-                _gfaWebConfigsConfigDto = _configNetwork.Run(gfa_worker_common.Worker.ItemWorker);
-                if (_gfaWebConfigsConfigDto == null) return;
+            _gfaWebConfigsConfigDto = _configNetwork.Run(gfa_worker_common.Worker.ItemWorker);
+            if (_gfaWebConfigsConfigDto == null) _hostApplicationLifetime.StopApplication();
 
-                Normal();
-                _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-                await Task.Delay(_gfaWebConfigsConfigDto.TimerInMs, stoppingToken);
-            }
+            Normal();
+            _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+            _hostApplicationLifetime.StopApplication();
         }
 
         private void Normal()

@@ -17,27 +17,25 @@ namespace gfa_worker_purchase
         private readonly ConfigNetwork _configNetwork;
         private readonly PurchaseNetwork _purchaseNetwork;
         private GfaWebConfigsConfigDto _gfaWebConfigsConfigDto;
+        private IHostApplicationLifetime _hostApplicationLifetime;
 
-        public Worker(ILogger<Worker> logger)
+        public Worker(ILogger<Worker> logger, IHostApplicationLifetime hostApplicationLifetime)
         {
             CredsHelper.GetCreds();
             _logger = logger;
             _configNetwork = new ConfigNetwork();
             _purchaseNetwork = new PurchaseNetwork();
+            _hostApplicationLifetime = hostApplicationLifetime;
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        protected async override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            while (!stoppingToken.IsCancellationRequested)
-            {
-                _gfaWebConfigsConfigDto = _configNetwork.Run(gfa_worker_common.Worker.PurchaseWorker);
-                if (_gfaWebConfigsConfigDto == null) return;
-                
-                Normal();
-                //Test();
-                _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-                await Task.Delay(_gfaWebConfigsConfigDto.TimerInMs, stoppingToken);
-            }
+            _gfaWebConfigsConfigDto = _configNetwork.Run(gfa_worker_common.Worker.PurchaseWorker);
+            if (_gfaWebConfigsConfigDto == null) _hostApplicationLifetime.StopApplication();
+
+            Normal();
+            _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+            _hostApplicationLifetime.StopApplication();
         }
 
         private void Test()

@@ -20,8 +20,8 @@ namespace gfa_worker_common.Network
         }
         public void Run(List<SalesRecord> baseSales, DateTime startDate, DateTime endDate)
         {
-            var saleList = _saleApi.ApiAppSaleNoPagedGet(startDate, endDate);
-            var saleItemList = _saleItemApi.ApiAppSaleItemNoPagedGet(startDate, endDate);
+            var saleList = _saleApi.ApiAppSaleNoPagedDateGet(startDate, endDate);
+            var saleItemList = _saleItemApi.ApiAppSaleItemNoPageDateGet(startDate, endDate);
             var itemList = _itemApi.ApiAppItemNoPagedGet();
 
             var update = saleList.Where(x => baseSales.FirstOrDefault(y => y.ID == x.SourceId
@@ -58,7 +58,7 @@ namespace gfa_worker_common.Network
 
             _saleApi.ApiAppSaleBatchInsertPost(insert);
 
-            saleList = _saleApi.ApiAppSaleNoPagedGet(startDate, endDate);
+            saleList = _saleApi.ApiAppSaleNoPagedDateGet(startDate, endDate);
 
             var baseSaleDetail = baseSales.SelectMany(x => x.Detail).ToList();
 
