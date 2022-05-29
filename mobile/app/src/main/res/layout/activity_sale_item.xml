@@ -6,7 +6,8 @@
     android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
         android:orientation="vertical"
         android:padding="20dp">
         <TextView
@@ -33,106 +34,144 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_item_sale_item"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="0dp"
+        android:layout_weight="0.5"/>
 
     <View
         style="@style/style_divider"/>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        style="@style/style_divider_margin"
-        android:padding="10dp"
-        >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Total"
-            style="@style/style_text_black"
-            />
-
-        <TextView
-            android:id="@+id/tv_sale_item_total_end"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.3"
+        android:orientation="vertical">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="end"
-            tools:text="IDR50,000"
-            style="@style/style_text_black"
-            />
-    </LinearLayout>
+            android:orientation="horizontal"
+            style="@style/style_divider_margin"
+            android:padding="10dp"
+            >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        style="@style/style_divider_margin"
-        android:padding="10dp"
-        >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total"
+                style="@style/style_text_black"
+                />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cash"
-            style="@style/style_text_normal"
-            />
+            <TextView
+                android:id="@+id/tv_sale_item_total_end"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                tools:text="IDR50,000"
+                style="@style/style_text_black"
+                />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_sale_item_cash"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="end"
-            tools:text="IDR50,000"
-            style="@style/style_text_normal"
-            />
-    </LinearLayout>
+            android:orientation="horizontal"
+            android:id="@+id/ll_sale_item_cash"
+            style="@style/style_divider_margin"
+            android:padding="10dp"
+            >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        style="@style/style_divider_margin"
-        android:padding="10dp"
-        >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cash"
+                style="@style/style_text_normal"
+                />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Change"
-            style="@style/style_text_normal"
-            />
+            <TextView
+                android:id="@+id/tv_sale_item_cash"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                tools:text="IDR50,000"
+                style="@style/style_text_normal"
+                />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_sale_item_change"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="end"
-            tools:text="IDR0"
-            style="@style/style_text_normal"
-            />
-    </LinearLayout>
+            android:orientation="horizontal"
+            style="@style/style_divider_margin"
+            android:id="@+id/ll_sale_item_change"
+            android:padding="10dp"
+            >
 
-    <View
-        style="@style/style_divider"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Change"
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        style="@style/style_divider_margin"
-        android:padding="10dp"
-        >
+                style="@style/style_text_normal"
+                />
 
-        <TextView
-            android:id="@+id/tv_sale_item_date_time"
+            <TextView
+                android:id="@+id/tv_sale_item_change"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                tools:text="IDR0"
+                style="@style/style_text_normal"
+                />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            style="@style/style_divider_margin"
+            android:id="@+id/ll_sale_item_sayur"
+            android:padding="10dp"
+            >
 
-            tools:text="Wed, 25 December 2022 06:00:00"
-            style="@style/style_text_normal"
-            />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sayur"
+
+                style="@style/style_text_black"
+                />
+
+            <TextView
+                android:id="@+id/tv_sale_item_sayur"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                tools:text="IDR0"
+                style="@style/style_text_black"
+                />
+        </LinearLayout>
+
+        <View
+            style="@style/style_divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            style="@style/style_divider_margin"
+            android:padding="10dp"
+            >
+
+            <TextView
+                android:id="@+id/tv_sale_item_date_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                tools:text="Wed, 25 December 2022 06:00:00"
+                style="@style/style_text_normal"
+                />
+        </LinearLayout>
     </LinearLayout>
+
 
 
 </LinearLayout>

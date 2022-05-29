@@ -75,6 +75,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="View More"
+                    android:id="@+id/tv_home_view_more"
                     style="@style/style_text_normal"
                     android:textColor="@color/purple_700"
                     android:textAlignment="center"

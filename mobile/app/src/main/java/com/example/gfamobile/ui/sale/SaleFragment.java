@@ -1,6 +1,7 @@
 package com.example.gfamobile.ui.sale;
 
 import static com.example.gfamobile.util.Intent.SALE_ITEM;
+import static com.example.gfamobile.util.Intent.SALE_ITEM_ID;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -147,7 +148,8 @@ public class SaleFragment extends DaggerFragment implements DatePickerDialog.OnD
     @Override
     public void onItemClick(View view, int position) {
         Intent intent = new Intent(getActivity(), SaleItemActivity.class);
-        intent.putExtra(SALE_ITEM, saleAdapter.getId(position).toString());
+        intent.putExtra(SALE_ITEM,true);
+        intent.putExtra(SALE_ITEM_ID, saleAdapter.getId(position).toString());
         startActivity(intent);
     }
 }

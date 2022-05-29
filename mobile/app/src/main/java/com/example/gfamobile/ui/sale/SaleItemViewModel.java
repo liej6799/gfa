@@ -5,6 +5,10 @@ import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.ViewModel;
 
 
+import com.example.gfamobile.data.model.Date;
+
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -31,7 +35,7 @@ public class SaleItemViewModel extends ViewModel {
 
     public void getSaleItem(UUID saleId)
     {
-        List<GfaWebSalesSaleItemDto> saleItemList = new ArrayList<>();
+
         Needle.onBackgroundThread().execute(() -> {
             try {
                 List<GfaWebSalesSaleItemDto> result = saleItemApi.apiAppSaleItemNoPagedGet(saleId,
@@ -42,7 +46,19 @@ public class SaleItemViewModel extends ViewModel {
                 e.printStackTrace();
             }
         });
+    }
 
+    public void getSaleItemDateSummary(DateTime fromDate, DateTime toDate)
+    {
+        Needle.onBackgroundThread().execute(() -> {
+            try {
+                List<GfaWebSalesSaleItemDto> result = saleItemApi.apiAppSaleItemNoPagedDateSummaryGet(fromDate, toDate);
+
+                saleItemMediatorLiveData.postValue(result);
+            } catch (ApiException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public LiveData<List<GfaWebSalesSaleItemDto>> observeSaleItem() {

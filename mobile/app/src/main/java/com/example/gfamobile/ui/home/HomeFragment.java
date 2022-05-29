@@ -1,5 +1,11 @@
 package com.example.gfamobile.ui.home;
 
+import static com.example.gfamobile.util.Intent.SALE_ITEM;
+import static com.example.gfamobile.util.Intent.SALE_SUMMARY;
+import static com.example.gfamobile.util.Intent.SALE_SUMMARY_END_DATE;
+import static com.example.gfamobile.util.Intent.SALE_SUMMARY_START_DATE;
+
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -18,6 +24,7 @@ import com.example.gfamobile.R;
 import com.example.gfamobile.data.model.Date;
 import com.example.gfamobile.ui.sale.SaleAdapter;
 import com.example.gfamobile.ui.sale.SaleFragment;
+import com.example.gfamobile.ui.sale.SaleItemActivity;
 import com.example.gfamobile.ui.sale.SaleViewModel;
 import com.example.gfamobile.util.Helper;
 import com.example.gfamobile.util.ViewModelProviderFactory;
@@ -59,6 +66,8 @@ public class HomeFragment extends DaggerFragment implements OnChartGestureListen
     @BindView(R.id.tv_home_total_sales)
     TextView tv_home_total_sales;
 
+    @BindView(R.id.tv_home_view_more)
+    TextView tv_home_view_more;
 
     private SaleViewModel saleViewModel;
 
@@ -104,7 +113,13 @@ public class HomeFragment extends DaggerFragment implements OnChartGestureListen
 
         });
 
-
+        tv_home_view_more.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), SaleItemActivity.class);
+            intent.putExtra(SALE_SUMMARY, true);
+            intent.putExtra(SALE_SUMMARY_START_DATE, date.getStartCalendar().toString());
+            intent.putExtra(SALE_SUMMARY_END_DATE, date.getEndCalendar().toString());
+            startActivity(intent);
+        });
 
         et_sale_summary_start_date.setOnClickListener(v -> {
 
