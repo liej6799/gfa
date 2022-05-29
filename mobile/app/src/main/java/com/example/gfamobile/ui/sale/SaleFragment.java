@@ -74,9 +74,10 @@ public class SaleFragment extends DaggerFragment implements DatePickerDialog.OnD
                 linearLayoutManager.getOrientation());
         rv_item_sale.addItemDecoration(dividerItemDecoration);
 
-        et_sale_start_date.setText(String.format("%d/%d/%d", date.getStartDayOfMonth(), date.getStartMonth(), date.getStartYear()));
-        et_sale_end_date.setText(String.format("%d/%d/%d", date.getEndDayOfMonth(), date.getEndMonth(), date.getEndYear()));
 
+        et_sale_start_date.setText(String.format("%d/%d/%d", date.getStartCalendar().getDayOfMonth(), date.getStartCalendar().getMonthOfYear(), date.getStartCalendar().getYear()));
+        et_sale_end_date.setText(String.format("%d/%d/%d", date.getEndCalendar().getDayOfMonth(), date.getEndCalendar().getMonthOfYear(), date.getEndCalendar().getYear()));
+        
         saleViewModel.getSales(date);
         listener();
         return view;
@@ -97,9 +98,9 @@ public class SaleFragment extends DaggerFragment implements DatePickerDialog.OnD
         et_sale_start_date.setOnClickListener(v -> {
             DatePickerDialog dpd = DatePickerDialog.newInstance(
                     SaleFragment.this,
-                    date.getStartYear(), // Initial year selection
-                    date.getStartMonth(), // Initial month selection
-                    date.getStartDayOfMonth() // Inital day selection
+                    date.getStartCalendar().getYear(),
+                    date.getStartCalendar().getMonthOfYear() - 1,
+                    date.getStartCalendar().getDayOfMonth()// Inital day selection
             );
 
             dpd.show(getFragmentManager(), "Datepickerdialog");
@@ -110,9 +111,9 @@ public class SaleFragment extends DaggerFragment implements DatePickerDialog.OnD
         et_sale_end_date.setOnClickListener(v -> {
             DatePickerDialog dpd = DatePickerDialog.newInstance(
                     SaleFragment.this,
-                    date.getEndYear(), // Initial year selection
-                    date.getEndMonth(), // Initial month selection
-                    date.getEndDayOfMonth() // Inital day selection
+                    date.getEndCalendar().getYear(),
+                    date.getEndCalendar().getMonthOfYear() - 1,
+                    date.getEndCalendar().getDayOfMonth()// Inital day selection
             );
 
             dpd.show(getFragmentManager(), "Datepickerdialog");
@@ -130,19 +131,15 @@ public class SaleFragment extends DaggerFragment implements DatePickerDialog.OnD
         if (isStartDateSelected)
         {
             isStartDateSelected = false;
-            date.setStartDayOfMonth(dayOfMonth);
-            date.setStartMonth(monthOfYear);
-            date.setStartYear(year);
-            et_sale_start_date.setText(String.format("%d/%d/%d", date.getStartDayOfMonth(), date.getStartMonth(), date.getStartYear()));
+            date.setStartCalendar(year, monthOfYear + 1, dayOfMonth);
+            et_sale_start_date.setText(String.format("%d/%d/%d", date.getStartCalendar().getDayOfMonth(), date.getStartCalendar().getMonthOfYear(), date.getStartCalendar().getYear()));
             saleViewModel.getSales(date);
         }
         else if (isEndDateSelected)
         {
             isEndDateSelected = false;
-            date.setEndDayOfMonth(dayOfMonth);
-            date.setEndMonth(monthOfYear);
-            date.setEndYear(year);
-            et_sale_end_date.setText(String.format("%d/%d/%d", date.getEndDayOfMonth(), date.getEndMonth(), date.getEndYear()));
+            date.setEndCalendar(year, monthOfYear + 1, dayOfMonth);
+            et_sale_end_date.setText(String.format("%d/%d/%d", date.getEndCalendar().getDayOfMonth(), date.getEndCalendar().getMonthOfYear(), date.getEndCalendar().getYear()));
             saleViewModel.getSales(date);
         }
     }

@@ -89,7 +89,7 @@ public class SaleItemActivity extends PortraitDaggerAppCompatActivity {
 
         saleViewModel.observeSaleId().observe(this, saleId -> {
             if (saleId != null) {
-                tv_sale_item_total.setText(String.valueOf(Helper.GetCurrencyHelper().format(saleId.getTotalAmount())));
+                tv_sale_item_total.setText(String.valueOf(Helper.GetCurrencyHelper().format(saleId.getTotalCash())));
                 tv_sale_item_cash.setText(String.valueOf(Helper.GetCurrencyHelper().format(saleId.getTotalCash())));
                 tv_sale_item_change.setText(String.valueOf(Helper.GetCurrencyHelper().format(saleId.getTotalChange())));
                 tv_sale_item_total_end.setText(String.valueOf(Helper.GetCurrencyHelper().format(saleId.getTotalAmount())));

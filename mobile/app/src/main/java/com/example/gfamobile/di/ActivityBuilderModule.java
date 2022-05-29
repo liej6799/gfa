@@ -12,6 +12,7 @@ import com.example.gfamobile.ui.item.ItemFragment;
 import com.example.gfamobile.ui.item.ItemViewModel;
 import com.example.gfamobile.ui.sale.SaleFragment;
 import com.example.gfamobile.ui.sale.SaleItemActivity;
+import com.example.gfamobile.ui.sale.SaleViewModel;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -34,7 +35,7 @@ public abstract class ActivityBuilderModule {
     abstract ItemFragment contributeItemFragment();
 
     @ContributesAndroidInjector(
-            modules = {HomeViewModelsModule.class}
+            modules = {SaleViewModelsModule.class}
     )
     abstract HomeFragment contributeHomeFragment();
 
