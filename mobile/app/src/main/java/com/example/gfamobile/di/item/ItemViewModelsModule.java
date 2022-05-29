@@ -15,6 +15,6 @@ public abstract class ItemViewModelsModule {
     @Binds
     @IntoMap
     @ViewModelKey(ItemViewModel.class)
-    public abstract ViewModel bindItemViewModel(ItemViewModel itemViewModel);
+    public abstract ViewModel bindItemVieModel(ItemViewModel itemViewModel);
 
 }

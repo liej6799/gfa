@@ -66,18 +66,49 @@ namespace gfa_web.Sales
             );
         }
 
-        public async Task<List<CreateUpdateSaleDto>> GetListNoPaged(GetSaleInput input)
+        public async Task<List<SaleDto>> GetListNoPaged(GetSaleInputNoPaged input)
         {
             var queryable = await Repository.GetQueryableAsync();
             
             var query = from sale in queryable
                 select new {sale};
-            
+
+            var baseQuery = query.Where(x =>
+                x.sale.DateSales.Date >= input.StartDate.Date && x.sale.DateSales.Date <= input.EndDate.Date);
+
+            var orderedListQuery = await baseQuery
+               .OrderBy(NormalizeSorting(input.Sorting))
+               .ToListAsync();
+
+            List<SaleDto> result = orderedListQuery.Select(x =>
+            {
+                var saleDto = new SaleDto
+                {
+                    Id = x.sale.Id,
+                    SourceId = x.sale.SourceId,
+                    DateSales = x.sale.DateSales,
+                    TotalAmount = x.sale.TotalAmount,
+                };
+                return saleDto;
+            }).ToList();
+
+            return new List<SaleDto>(
+                result
+            );
+        }
+
+        public async Task<List<CreateUpdateSaleDto>> GetListNoPagedDate(GetSaleDateInput input)
+        {
+            var queryable = await Repository.GetQueryableAsync();
+
+            var query = from sale in queryable
+                        select new { sale };
+
             var baseQuery = query.Where(x =>
                 x.sale.DateSales.Date >= input.StartDate.Date && x.sale.DateSales.Date <= input.EndDate.Date);
 
             var queryResult = await AsyncExecuter.ToListAsync(baseQuery);
-            
+
             return queryResult.Select(x =>
             {
                 var saleDto = ObjectMapper.Map<Sale, CreateUpdateSaleDto>(x.sale);
@@ -85,9 +116,78 @@ namespace gfa_web.Sales
             }).ToList();
         }
 
-        
-    
-        
+        public async Task<List<CreateUpdateSaleDto>> GetListNoPagedDateGroup(GetSaleDateGroupInput input)
+        {
+            var queryable = await Repository.GetQueryableAsync();
+
+            var query = from sale in queryable
+                        select new { sale };
+
+            var baseQuery = query.Where(x =>
+                x.sale.DateSales.Date >= input.StartDate.Date && x.sale.DateSales.Date <= input.EndDate.Date);
+            
+            List<CreateUpdateSaleDto> result;
+
+            switch (input.GroupBy)
+            {
+                case SaleGroup.Daily:
+                    var dailySaleQuery = await baseQuery
+                        .GroupBy(x => new { x.sale.DateSales.Date })
+                        .Select(x => new
+                        {
+                            Source = x.Key,
+                            TotalAmount = x.Sum(y => y.sale.TotalAmount),
+                            Count = x.Count()
+                        })
+                        .ToListAsync();
+
+
+                    result = dailySaleQuery.Select(x =>
+                    {
+                        var saleDto = new CreateUpdateSaleDto
+                        {
+                            DateSales = x.Source.Date,
+                            TotalAmount = x.TotalAmount
+                        };
+                        return saleDto;
+                    }).ToList();
+
+                    break;
+                case SaleGroup.Hourly:
+                    var hourlySaleQuery = await baseQuery
+                        .GroupBy(x => new { x.sale.DateSales.Date, x.sale.DateSales.Hour })
+                        .Select(x => new
+                        {
+                            Source = x.Key,
+                            TotalAmount = x.Sum(y => y.sale.TotalAmount),
+                            Count = x.Count()
+                        })
+                        .ToListAsync();
+
+
+                    result = hourlySaleQuery.Select(x =>
+                    {
+                        var saleDto = new CreateUpdateSaleDto
+                        {
+                            DateSales = x.Source.Date.AddHours(x.Source.Hour),
+                            TotalAmount = x.TotalAmount
+                        };
+                        return saleDto;
+                    }).ToList();
+
+                    break;
+                default:
+                    result = new List<CreateUpdateSaleDto>();
+                    break;
+
+            }
+
+            return new List<CreateUpdateSaleDto>(
+             result
+            );
+        }
+
+
         public void BatchInsert(List<CreateUpdateSaleDto> createUpdateSaleDtos)
         {
             Repository.InsertManyAsync(ObjectMapper.Map<List<CreateUpdateSaleDto>, List<Sale>>(createUpdateSaleDtos));

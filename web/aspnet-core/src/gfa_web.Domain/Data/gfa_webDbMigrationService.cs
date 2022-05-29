@@ -128,16 +128,16 @@ namespace gfa_web.Data
                     isMonthly:false,
                     isYearly:false,
                     isAll:true,
-                    timerInMs:10000
+                    timerInMs:30000
                 ),
                 new Config(
                     id:_guidGenerator.Create(),
                     name: "PurchaseWorker",
-                    isDaily:true,
+                    isDaily:false,
                     isMonthly:false,
                     isYearly:false,
-                    isAll:false,
-                    timerInMs:10000
+                    isAll:true,
+                    timerInMs:30000
                 ),
                 new Config(
                     id:_guidGenerator.Create(),
@@ -146,7 +146,7 @@ namespace gfa_web.Data
                     isMonthly:false,
                     isYearly:false,
                     isAll:true,
-                    timerInMs:10000
+                    timerInMs:30000
                 ),new Config(
                     id:_guidGenerator.Create(),
                     name: "SalesWorker",
@@ -154,7 +154,7 @@ namespace gfa_web.Data
                     isMonthly:false,
                     isYearly:false,
                     isAll:true,
-                    timerInMs:10000
+                    timerInMs:30000
                 )
             };
             

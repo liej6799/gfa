@@ -18,30 +18,37 @@ namespace gfa_worker_sales
         private readonly SalesNetwork _salesNetwork;
         private GfaWebConfigsConfigDto _gfaWebConfigsConfigDto;
 
-        public Worker(ILogger<Worker> logger)
+        private IHostApplicationLifetime _hostApplicationLifetime;
+      
+
+        public Worker(ILogger<Worker> logger, IHostApplicationLifetime hostApplicationLifetime)
         {
             CredsHelper.GetCreds();
             _logger = logger;
             _configNetwork = new ConfigNetwork();
             _salesNetwork = new SalesNetwork();
-
+            _hostApplicationLifetime = hostApplicationLifetime;
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        protected async override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            while (!stoppingToken.IsCancellationRequested)
-            {
-                _gfaWebConfigsConfigDto = _configNetwork.Run(gfa_worker_common.Worker.SalesWorker);
-                if (_gfaWebConfigsConfigDto == null) return;
+            _gfaWebConfigsConfigDto = _configNetwork.Run(gfa_worker_common.Worker.SalesWorker);
+            if (_gfaWebConfigsConfigDto == null) _hostApplicationLifetime.StopApplication();
 
-                Normal();
-                //Test();
-                _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-                await Task.Delay(_gfaWebConfigsConfigDto.TimerInMs, stoppingToken);
-            }
+            Normal();
+            _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+            _hostApplicationLifetime.StopApplication();
         }
 
-        private void Test()
+
+        public virtual async Task StopAsync(CancellationToken cancellationToken)
+        {
+
+                return;
+            
+
+        }
+            private void Test()
         {
             BaseSales baseSales =  ParseHelper.TestBaseSalesParser();
             _salesNetwork.Run(baseSales.Records, DateTime.Now, DateTime.Now);

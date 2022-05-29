@@ -17,13 +17,15 @@ namespace gfa_worker_vendor
         private readonly ConfigNetwork _configNetwork;
         private readonly VendorNetwork _vendorNetwork;
         private GfaWebConfigsConfigDto _gfaWebConfigsConfigDto;
+        private IHostApplicationLifetime _hostApplicationLifetime;
 
-        public Worker(ILogger<Worker> logger)
+        public Worker(ILogger<Worker> logger, IHostApplicationLifetime hostApplicationLifetime)
         {
             CredsHelper.GetCreds();
             _logger = logger;
             _configNetwork = new ConfigNetwork();
             _vendorNetwork = new VendorNetwork();
+            _hostApplicationLifetime = hostApplicationLifetime;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -31,12 +33,11 @@ namespace gfa_worker_vendor
             while (!stoppingToken.IsCancellationRequested)
             {
                 _gfaWebConfigsConfigDto = _configNetwork.Run(gfa_worker_common.Worker.VendorWorker);
-                if (_gfaWebConfigsConfigDto == null) return;
-                
+                if (_gfaWebConfigsConfigDto == null) _hostApplicationLifetime.StopApplication();
+
                 Normal();
-                //Test();
                 _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-                await Task.Delay(_gfaWebConfigsConfigDto.TimerInMs, stoppingToken);
+                _hostApplicationLifetime.StopApplication();
             }
         }
 

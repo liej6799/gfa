@@ -15,6 +15,7 @@ namespace gfa_worker_common.Network
         
         public GfaWebConfigsConfigDto Run(string workerName)
         {
+            var data = _configApi.ApiAppConfigGet().Items;
             return  _configApi.ApiAppConfigGet().Items.FirstOrDefault(x => x.Name.Equals(workerName));
         }
     }

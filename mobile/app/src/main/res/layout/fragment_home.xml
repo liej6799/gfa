@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+
+        android:padding="10dp">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:orientation="vertical"
+            android:padding="5dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/purple_700"
+                android:text="Date"
+
+                style="@style/style_text_normal"/>
+            <EditText
+                android:id="@+id/et_sale_summary_start_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+
+                style="@style/style_edit_text_as_button"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+    <View
+        style="@style/style_divider"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp">
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Total Sales"
+                    style="@style/style_text_black"
+                    android:padding="10dp"
+                    android:textAlignment="center"
+                    />
+                <TextView
+                    android:id="@+id/tv_home_total_sales"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="IDR 20,000,00"
+                    style="@style/style_text_black_bold_large"
+                    android:textAlignment="center"
+                    android:padding="10dp"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="View More"
+                    android:id="@+id/tv_home_view_more"
+                    style="@style/style_text_normal"
+                    android:textColor="@color/purple_700"
+                    android:textAlignment="center"
+                    android:padding="10dp"
+                    />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <com.github.mikephil.charting.charts.BarChart
+
+            android:id="@+id/fragment_verticalbarchart_chart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
