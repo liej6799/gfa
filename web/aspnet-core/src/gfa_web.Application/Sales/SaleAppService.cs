@@ -103,7 +103,7 @@ namespace gfa_web.Sales
             );
         }
 
-        public async Task<List<CreateUpdateSaleDto>> GetListNoPagedDate(GetSaleDateInput input)
+        public async Task<List<CreateUpdateSaleDto>> GetListNoPagedDate(GetSaleInputNoPaged input)
         {
             var queryable = await Repository.GetQueryableAsync();
 
@@ -113,9 +113,12 @@ namespace gfa_web.Sales
             var baseQuery = query.Where(x =>
                 x.sale.DateSales.Date >= input.StartDate.Date && x.sale.DateSales.Date <= input.EndDate.Date);
 
-            var queryResult = await AsyncExecuter.ToListAsync(baseQuery);
+            var orderedListQuery = await baseQuery
+               .OrderBy(NormalizeSorting(input.Sorting))
+               .ToListAsync();
 
-            return queryResult.Select(x =>
+
+            return orderedListQuery.Select(x =>
             {
                 var saleDto = ObjectMapper.Map<Sale, CreateUpdateSaleDto>(x.sale);
                 var shortName = String.Empty;
