@@ -18,15 +18,31 @@ public class Date {
         return startCalendar;
     }
 
-    public void setStartCalendar(int year, int month, int day) {
-        this.startCalendar = new DateTime(year, month, day, 0, 0, 0, 0,  DateTimeZone.UTC);
+    public void setStartCalendar(long millis) {
+        this.startCalendar = new DateTime().withMillis(millis);
     }
 
     public DateTime getEndCalendar() {
         return endCalendar;
     }
 
-    public void setEndCalendar(int year, int month, int day) {
-        this.endCalendar = new DateTime(year, month, day, 0, 0, 0, 0, DateTimeZone.UTC);
+    public void setEndCalendar(long millis) {
+        this.endCalendar = new DateTime().withMillis(millis);
     }
+
+
+    public void setNextDay() {
+        if (this.startCalendar.plusDays(1).isBeforeNow())
+        {
+            this.startCalendar =  this.startCalendar.plusDays(1);
+            this.endCalendar =  this.endCalendar.plusDays(1);
+        }
+
+    }
+    public void setPrevDay() {
+        this.startCalendar =  this.startCalendar.minusDays(1);
+        this.endCalendar =  this.endCalendar.minusDays(1);
+    }
+
+
 }
