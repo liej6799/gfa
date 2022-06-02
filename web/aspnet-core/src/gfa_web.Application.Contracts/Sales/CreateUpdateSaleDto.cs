@@ -14,5 +14,7 @@ namespace gfa_web.Sales
         public Double TotalCash { get; set; }
 
         public Double TotalChange { get; set; }
+
+        public String  ShortName { get; set; }
     }
 }
