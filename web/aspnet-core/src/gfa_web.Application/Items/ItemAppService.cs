@@ -49,7 +49,7 @@ namespace gfa_web.Items
 
         public List<CreateUpdateItemDto> GetListNoPagedFilter(GetItemInputFilter input)
         {
-            return ObjectMapper.Map<List<Item>, List<CreateUpdateItemDto>>(Repository.Where(x => x.Name.Contains(input.Filter)).ToList());
+            return ObjectMapper.Map<List<Item>, List<CreateUpdateItemDto>>(Repository.Where(x => x.Name.Contains(input.Filter)).Take(100).ToList());
         }
 
         public void BatchInsert(List<CreateUpdateItemDto> createUpdateItemDto)
