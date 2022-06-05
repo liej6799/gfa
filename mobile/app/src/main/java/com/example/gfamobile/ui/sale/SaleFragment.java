@@ -61,7 +61,6 @@ public class SaleFragment extends DaggerFragment implements SaleAdapter.SaleItem
 
         saleViewModel = new ViewModelProvider(this, viewModelProviderFactory).get(SaleViewModel.class);
 
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rv_item_sale.setLayoutManager(linearLayoutManager);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rv_item_sale.getContext(),

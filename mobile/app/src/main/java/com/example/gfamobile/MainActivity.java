@@ -3,10 +3,14 @@ package com.example.gfamobile;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.MenuItemCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -43,7 +47,9 @@ public class MainActivity extends PortraitDaggerAppCompatActivity implements Bot
     private SaleFragment saleFragment = new SaleFragment();
     private HomeFragment homeFragment = new HomeFragment();
 
-
+    private MenuInflater menuInflater;
+    private MenuItem searchItem;
+    private SearchView searchView;
     private static Date date = new Date();
 
     @BindView(R.id.cl_activity_main_header)
@@ -120,6 +126,64 @@ public class MainActivity extends PortraitDaggerAppCompatActivity implements Bot
             }
         });
 
+
+
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menuInflater = getMenuInflater();
+
+        menuInflater.inflate(R.menu.menu_search, menu);
+        searchItem = menu.findItem(R.id.action_search);
+
+        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // perform query here
+
+                // workaround to avoid issues with some emulators and keyboard devices firing twice if a keyboard enter is used
+                // see https://code.google.com/p/android/issues/detail?id=24599
+                if (selectedFragment == R.id.item)
+                {
+                    ItemFragment fragment = (ItemFragment) getSupportFragmentManager().findFragmentById(R.id.flFragment);
+                    fragment.setSearchQuery(query);
+                }
+                searchView.clearFocus();
+
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (selectedFragment == R.id.item)
+                {
+                    ItemFragment fragment = (ItemFragment) getSupportFragmentManager().findFragmentById(R.id.flFragment);
+                    fragment.setSearchQuery(newText);
+                }
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    private void hideSearch()
+    {
+        if (searchItem != null)
+            searchItem.setVisible(false);
+        if (searchView != null)
+            searchView.setVisibility(View.GONE);
+    }
+
+    private void showSearch()
+    {
+        if (searchItem != null)
+            searchItem.setVisible(true);
+        if (searchView != null)
+            searchView.setVisibility(View.VISIBLE);
     }
 
     private void updateFragment()
@@ -146,6 +210,7 @@ public class MainActivity extends PortraitDaggerAppCompatActivity implements Bot
             selectedFragment = R.id.home;
             getSupportFragmentManager().beginTransaction().replace(R.id.flFragment, homeFragment).commit();
             Objects.requireNonNull(getSupportActionBar()).setTitle("Home");
+            hideSearch();
             return true;
         }
 
@@ -154,6 +219,7 @@ public class MainActivity extends PortraitDaggerAppCompatActivity implements Bot
             selectedFragment = R.id.item;
             getSupportFragmentManager().beginTransaction().replace(R.id.flFragment, itemFragment).commit();
             Objects.requireNonNull(getSupportActionBar()).setTitle("Item");
+            showSearch();
             return true;
         }
 
@@ -162,6 +228,7 @@ public class MainActivity extends PortraitDaggerAppCompatActivity implements Bot
             selectedFragment = R.id.sale;
             getSupportFragmentManager().beginTransaction().replace(R.id.flFragment, saleFragment).commit();
             Objects.requireNonNull(getSupportActionBar()).setTitle("Sale");
+            hideSearch();
             return true;
         }
         return false;
