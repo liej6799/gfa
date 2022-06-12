@@ -7,8 +7,12 @@ namespace gfa_web.Items
     {
         public string Filter { get; set; }
     }
-    
-    
+
+    public class GetItemInputFilter
+    {
+        public string Filter { get; set; }
+    }
+
     public class GetQuantityTrackerInput : PagedAndSortedResultRequestDto
     {
         public Guid ItemId { get; set; }

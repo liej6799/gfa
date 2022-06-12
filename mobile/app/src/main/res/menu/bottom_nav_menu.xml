@@ -13,6 +13,6 @@
 
     <item
         android:id="@+id/sale"
-        android:icon="@drawable/ic_baseline_view_list_24"
+        android:icon="@drawable/ic_baseline_compare_arrows_24"
         android:title="Sale" />
 </menu>

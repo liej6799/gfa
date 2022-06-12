@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
+using gfa_web.Items;
 using gfa_web.Vendors;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Application.Dtos;
@@ -21,11 +22,16 @@ namespace gfa_web.Sales
         ISaleAppService //implement the IBookAppService
     {
         private readonly IVendorRepository _vendorRepository;
-        
+        private readonly IItemRepository _itemRepository;
+        private readonly ISaleItemRepository _saleItemRepository;
         public SaleAppService(IRepository<Sale, Guid> repository,
-            IVendorRepository vendorRepository) : base(repository)
+            IVendorRepository vendorRepository,
+            ISaleItemRepository saleItemsRepository,
+            IItemRepository itemRepository) : base(repository)
         {
             _vendorRepository = vendorRepository;
+            _itemRepository = itemRepository;
+            _saleItemRepository = saleItemsRepository;
         }
 
 
@@ -97,7 +103,7 @@ namespace gfa_web.Sales
             );
         }
 
-        public async Task<List<CreateUpdateSaleDto>> GetListNoPagedDate(GetSaleDateInput input)
+        public async Task<List<CreateUpdateSaleDto>> GetListNoPagedDate(GetSaleInputNoPaged input)
         {
             var queryable = await Repository.GetQueryableAsync();
 
@@ -107,11 +113,24 @@ namespace gfa_web.Sales
             var baseQuery = query.Where(x =>
                 x.sale.DateSales.Date >= input.StartDate.Date && x.sale.DateSales.Date <= input.EndDate.Date);
 
-            var queryResult = await AsyncExecuter.ToListAsync(baseQuery);
+            var orderedListQuery = await baseQuery
+               .OrderBy(NormalizeSorting(input.Sorting))
+               .ToListAsync();
 
-            return queryResult.Select(x =>
+
+            return orderedListQuery.Select(x =>
             {
                 var saleDto = ObjectMapper.Map<Sale, CreateUpdateSaleDto>(x.sale);
+                var shortName = String.Empty;
+                foreach (var saleItem in _saleItemRepository.Where(x => x.SaleId == saleDto.Id).ToList())
+                {
+                    foreach(var item in _itemRepository.Where(x => x.Id == saleItem.ItemId).ToList())
+                    {
+                        shortName += saleItem.Quantity + "x " + item.Name + " "; 
+                    }
+                    
+                }
+                saleDto.ShortName = shortName.Trim();
                 return saleDto;
             }).ToList();
         }

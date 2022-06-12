@@ -26,7 +26,7 @@ public class SaleViewModel extends ViewModel
 {
 
     private SaleApi saleApi = new SaleApi();
-    private MediatorLiveData<List<GfaWebSalesSaleDto>> saleListMediatorLiveData = new MediatorLiveData<>();
+    private MediatorLiveData<List<GfaWebSalesCreateUpdateSaleDto>> saleListMediatorLiveData = new MediatorLiveData<>();
     private MediatorLiveData<GfaWebSalesSaleDto> saleMediatorLiveData = new MediatorLiveData<>();
     private MediatorLiveData<List<GfaWebSalesCreateUpdateSaleDto>> saleGroupGraphsMediatorLiveDate = new MediatorLiveData<>();
     private MediatorLiveData<List<GfaWebSalesCreateUpdateSaleDto>> saleGroupSummaryTotalMediatorLiveDate = new MediatorLiveData<>();
@@ -43,7 +43,7 @@ public class SaleViewModel extends ViewModel
         DateTime toDate = date.getEndCalendar();
         Needle.onBackgroundThread().execute(() -> {
             try {
-                List<GfaWebSalesSaleDto> result = saleApi.apiAppSaleNoPagedGet(fromDate, toDate,
+                List<GfaWebSalesCreateUpdateSaleDto> result = saleApi.apiAppSaleNoPagedDateGet(fromDate, toDate,
                         "dateSales desc");
 
                 saleListMediatorLiveData.postValue(result);
@@ -83,7 +83,7 @@ public class SaleViewModel extends ViewModel
         });
     }
 
-    public LiveData<List<GfaWebSalesSaleDto>> observeSaleList() {
+    public LiveData<List<GfaWebSalesCreateUpdateSaleDto>> observeSaleList() {
 
         return saleListMediatorLiveData;
     }

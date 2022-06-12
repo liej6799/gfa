@@ -8,7 +8,19 @@
     style="@style/style_card_view_ripple">
 
     <TextView
-        android:id="@+id/tv_item_sale_short_name"
+        android:id="@+id/tv_item_name"
+        style="@style/style_text_black"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toStartOf="@+id/tv_item_qty"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="RINSO AWDAUFUEFUI AWUDHAWHDIUWAW DHAWUOHDUI" />
+
+    <TextView
+        android:id="@+id/tv_item_code"
         android:maxLength="20"
         style="@style/style_text_normal"
         android:layout_width="wrap_content"
@@ -17,11 +29,11 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_item_sale_total"
-        tools:text="ROKOK SAMPOERNA 3x, ESKRAWDAWUYFAEUHDFAIWFGHI" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_item_name"
+        tools:text="888008877847" />
 
     <TextView
-        android:id="@+id/tv_item_sale_time"
+        android:id="@+id/tv_item_qty"
         style="@style/style_text_normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,18 +41,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="14:00" />
+        tools:text="2 pc" />
 
-    <TextView
-        android:id="@+id/tv_item_sale_total"
-        style="@style/style_text_black"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="50,000.00" />
+
 
     <ImageView
         android:id="@+id/imageView"

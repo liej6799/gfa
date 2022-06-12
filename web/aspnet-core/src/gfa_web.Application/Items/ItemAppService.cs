@@ -46,7 +46,22 @@ namespace gfa_web.Items
         {
             return ObjectMapper.Map<List<Item>, List<CreateUpdateItemDto>>(Repository.ToList());
         }
-        
+
+        public List<CreateUpdateItemDto> GetListNoPagedFilter(GetItemInputFilter input)
+        {
+            var result = new List<Item>();
+            if (String.IsNullOrEmpty(input.Filter))
+            {
+                result = Repository.Take(200).ToList();               
+            }
+            else
+            {
+                result = Repository.Where(x => x.Name.Contains(input.Filter)).Take(200).ToList();
+            }
+
+            return ObjectMapper.Map<List<Item>, List<CreateUpdateItemDto>>(result);
+        }
+
         public void BatchInsert(List<CreateUpdateItemDto> createUpdateItemDto)
         {
             Repository.InsertManyAsync(ObjectMapper.Map<List<CreateUpdateItemDto>, List<Item>>(createUpdateItemDto));

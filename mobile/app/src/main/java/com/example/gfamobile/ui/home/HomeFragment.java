@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -34,10 +35,15 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.squareup.okhttp.internal.Util;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
@@ -53,25 +59,29 @@ import butterknife.ButterKnife;
 import dagger.android.support.DaggerFragment;
 import io.swagger.client.model.GfaWebSalesCreateUpdateSaleDto;
 
-public class HomeFragment extends DaggerFragment implements OnChartGestureListener, DatePickerDialog.OnDateSetListener {
+public class HomeFragment extends DaggerFragment implements OnChartGestureListener, OnChartValueSelectedListener {
 
     private static final ArrayList<String> HOUR = new ArrayList<>();
 
 
     @BindView(R.id.fragment_verticalbarchart_chart)
     BarChart chart;
-    @BindView(R.id.et_sale_summary_start_date)
-    EditText et_sale_summary_start_date;
 
     @BindView(R.id.tv_home_total_sales)
     TextView tv_home_total_sales;
 
-    @BindView(R.id.tv_home_view_more)
-    TextView tv_home_view_more;
+    @BindView(R.id.tv_fragment_home_no_of_sales)
+    TextView tv_fragment_home_no_of_sales;
+
+
+    @BindView(R.id.tv_fragment_home_today_sales)
+    TextView tv_fragment_home_today_sales;
+
+    @BindView(R.id.tv_fragment_home_today_sales_header)
+    TextView tv_fragment_home_today_sales_header;
+
 
     private SaleViewModel saleViewModel;
-
-    private Date date = new Date();
 
     private boolean isStartDateSelected = false;
 
@@ -85,12 +95,14 @@ public class HomeFragment extends DaggerFragment implements OnChartGestureListen
         ButterKnife.bind(this, view);
         HOUR.clear();
         saleViewModel = new ViewModelProvider(this, viewModelProviderFactory).get(SaleViewModel.class);
-
-
-        et_sale_summary_start_date.setText(String.format("%d/%d/%d", date.getStartCalendar().getDayOfMonth(), date.getStartCalendar().getMonthOfYear(), date.getStartCalendar().getYear()));
-        saleViewModel.getSalesSumamry(date);
+        saleViewModel.getSalesSumamry(MainActivity.getDate());
         listener();
         return view;
+    }
+
+    public void setDate(Date date)
+    {
+        saleViewModel.getSalesSumamry(date);
     }
     private void listener()
     {
@@ -108,32 +120,13 @@ public class HomeFragment extends DaggerFragment implements OnChartGestureListen
                 if (saleList.size() > 0)
                 {
                     tv_home_total_sales.setText(String.valueOf(Helper.GetCurrencyHelper().format(saleList.get(0).getTotalAmount())));
+                    tv_fragment_home_today_sales_header.setText("Today");
+                    tv_fragment_home_today_sales.setText(tv_home_total_sales.getText());
                 }
             }
 
         });
 
-        tv_home_view_more.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), SaleItemActivity.class);
-            intent.putExtra(SALE_SUMMARY, true);
-            intent.putExtra(SALE_SUMMARY_START_DATE, date.getStartCalendar().toString());
-            intent.putExtra(SALE_SUMMARY_END_DATE, date.getEndCalendar().toString());
-            startActivity(intent);
-        });
-
-        et_sale_summary_start_date.setOnClickListener(v -> {
-
-            DatePickerDialog dpd = DatePickerDialog.newInstance(
-                    HomeFragment.this,
-                    date.getStartCalendar().getYear(),
-                    date.getStartCalendar().getMonthOfYear() - 1,
-                    date.getStartCalendar().getDayOfMonth()// Inital day selection
-            );
-
-            dpd.show(getFragmentManager(), "Datepickerdialog");
-            dpd.setAccentColor(getResources().getColor(R.color.mdtp_accent_color_dark));
-            isStartDateSelected = true;
-        });
     }
     private BarData createChartData(List<GfaWebSalesCreateUpdateSaleDto> saleDtos) {
         ArrayList<BarEntry> values = new ArrayList<>();
@@ -147,6 +140,7 @@ public class HomeFragment extends DaggerFragment implements OnChartGestureListen
         BarDataSet set1 = new BarDataSet(values, "Sales");
 
         ArrayList<IBarDataSet> dataSets = new ArrayList<>();
+        set1.setDrawValues(false);
         dataSets.add(set1);
 
         BarData data = new BarData(dataSets);
@@ -157,8 +151,8 @@ public class HomeFragment extends DaggerFragment implements OnChartGestureListen
     private void configureChartAppearance() {
         chart.getLegend().setEnabled(false);
         chart.getDescription().setEnabled(false);
+        chart.setScaleEnabled(false);
 
-        chart.setOnChartGestureListener(this);
         XAxis xAxis = chart.getXAxis();
         xAxis.setValueFormatter(new ValueFormatter() {
             @Override
@@ -166,7 +160,8 @@ public class HomeFragment extends DaggerFragment implements OnChartGestureListen
                 return HOUR.get((int) value);
             }
         });
-
+        chart.setOnChartValueSelectedListener(this);
+        chart.setOnChartGestureListener(this);
         chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
 
         YAxis axisLeft = chart.getAxisLeft();
@@ -188,13 +183,29 @@ public class HomeFragment extends DaggerFragment implements OnChartGestureListen
     }
 
     @Override
+    public void onValueSelected(Entry e, Highlight h) {
+        float x=e.getX();
+        float y=e.getY();
+        Log.d("HomeFragment", "onValueSelected x = " + x + " y = " + y);
+        tv_fragment_home_today_sales_header.setText("Today, " + HOUR.get((int)x));
+        tv_fragment_home_today_sales.setText(Helper.GetCurrencyHelper().format(y));
+        //tv_home_total_sales.setText(String.valueOf(Helper.GetCurrencyHelper().format(y)));
+        chart.highlightValues( null );
+    }
+
+    @Override
+    public void onNothingSelected() {
+    }
+
+    @Override
     public void onChartGestureStart(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
 
     }
 
     @Override
     public void onChartGestureEnd(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
-
+        tv_fragment_home_today_sales_header.setText("Today");
+        tv_fragment_home_today_sales.setText(tv_home_total_sales.getText());
     }
 
     @Override
@@ -225,18 +236,5 @@ public class HomeFragment extends DaggerFragment implements OnChartGestureListen
     @Override
     public void onChartTranslate(MotionEvent me, float dX, float dY) {
 
-    }
-
-    @Override
-    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        if (isStartDateSelected)
-        {
-            isStartDateSelected = false;
-
-            date.setStartCalendar(year, monthOfYear + 1, dayOfMonth);
-            date.setEndCalendar(year, monthOfYear + 1, dayOfMonth);
-            et_sale_summary_start_date.setText(String.format("%d/%d/%d", date.getStartCalendar().getDayOfMonth(), date.getStartCalendar().getMonthOfYear(), date.getStartCalendar().getYear()));
-            saleViewModel.getSalesSumamry(date);
-        }
     }
 }
