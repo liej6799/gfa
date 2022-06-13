@@ -166,7 +166,8 @@ namespace gfa_web.Sales
                         var saleDto = new CreateUpdateSaleDto
                         {
                             DateSales = x.Source.Date,
-                            TotalAmount = x.TotalAmount
+                            TotalAmount = x.TotalAmount,
+                            Count = x.Count
                         };
                         return saleDto;
                     }).ToList();
@@ -189,7 +190,8 @@ namespace gfa_web.Sales
                         var saleDto = new CreateUpdateSaleDto
                         {
                             DateSales = x.Source.Date.AddHours(x.Source.Hour),
-                            TotalAmount = x.TotalAmount
+                            TotalAmount = x.TotalAmount,
+                            Count = x.Count
                         };
                         return saleDto;
                     }).ToList();

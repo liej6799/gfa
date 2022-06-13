@@ -96,7 +96,7 @@ namespace gfa_worker_sales
             }
             else if (_gfaWebConfigsConfigDto.IsMonthly)
             {
-                startDate = DateTime.Now.AddMonths(-1);
+                startDate = DateTime.Now.AddMonths(-3);
                 endDate = DateTime.Now;
                 args = "/TGL:" + startDate.ToString("yyyyMMdd") + CommonHelper.tab +
                        "/TGL2:" + endDate.ToString("yyyyMMdd");
