@@ -121,6 +121,7 @@ public class MainActivity extends PortraitDaggerAppCompatActivity implements Bot
                         date.setStartCalendar(Long.parseLong(selection.toString()));
                         date.setEndCalendar(Long.parseLong(selection.toString()));
                         tv_activity_main_date.setText(date.getStartCalendar().toString("MMM d"));
+                        updateFragment();
                     }
                 });
             }

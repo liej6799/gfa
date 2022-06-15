@@ -45,6 +45,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         GfaWebItemsCreateUpdateItemDto item = mData.get(position);
         holder.name.setText(item.getName());
         holder.code.setText(item.getCode());
+        holder.qty.setText(item.getQuantity() + " pcs");
     }
 
     @Override
