@@ -70,8 +70,6 @@ public class HomeFragment extends DaggerFragment implements OnChartGestureListen
     @BindView(R.id.tv_home_total_sales)
     TextView tv_home_total_sales;
 
-    @BindView(R.id.tv_fragment_home_no_of_sales)
-    TextView tv_fragment_home_no_of_sales;
 
 
     @BindView(R.id.tv_fragment_home_today_sales)
@@ -80,10 +78,10 @@ public class HomeFragment extends DaggerFragment implements OnChartGestureListen
     @BindView(R.id.tv_fragment_home_today_sales_header)
     TextView tv_fragment_home_today_sales_header;
 
-
+    @BindView(R.id.tv_home_no_of_sales)
+    TextView tv_home_no_of_sales;
     private SaleViewModel saleViewModel;
 
-    private boolean isStartDateSelected = false;
 
     @Inject
     ViewModelProviderFactory viewModelProviderFactory;
@@ -94,6 +92,7 @@ public class HomeFragment extends DaggerFragment implements OnChartGestureListen
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
         HOUR.clear();
+
         saleViewModel = new ViewModelProvider(this, viewModelProviderFactory).get(SaleViewModel.class);
         saleViewModel.getSalesSumamry(MainActivity.getDate());
         listener();
@@ -117,16 +116,26 @@ public class HomeFragment extends DaggerFragment implements OnChartGestureListen
 
         saleViewModel.observeSaleGroupSummaryTotal().observe(getViewLifecycleOwner(), saleList -> {
             if (saleList != null) {
+                Reset();
                 if (saleList.size() > 0)
                 {
                     tv_home_total_sales.setText(String.valueOf(Helper.GetCurrencyHelper().format(saleList.get(0).getTotalAmount())));
                     tv_fragment_home_today_sales_header.setText("Today");
                     tv_fragment_home_today_sales.setText(tv_home_total_sales.getText());
+                    tv_home_no_of_sales.setText(String.valueOf(saleList.get(0).getCount()));
                 }
             }
 
         });
 
+    }
+
+    private void Reset()
+    {
+        tv_home_total_sales.setText(String.valueOf(0));
+        tv_fragment_home_today_sales_header.setText("Today");
+        tv_fragment_home_today_sales.setText(String.valueOf(0));
+        tv_home_no_of_sales.setText(String.valueOf(0));
     }
     private BarData createChartData(List<GfaWebSalesCreateUpdateSaleDto> saleDtos) {
         ArrayList<BarEntry> values = new ArrayList<>();

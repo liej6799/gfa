@@ -8,6 +8,7 @@ import com.example.gfamobile.di.sale.SaleViewModelsModule;
 import com.example.gfamobile.di.saleitem.SaleItemViewModelsModule;
 import com.example.gfamobile.ui.auth.LoginActivity;
 import com.example.gfamobile.ui.home.HomeFragment;
+import com.example.gfamobile.ui.item.ItemDetailsActivity;
 import com.example.gfamobile.ui.item.ItemFragment;
 import com.example.gfamobile.ui.item.ItemViewModel;
 import com.example.gfamobile.ui.sale.SaleFragment;
@@ -50,5 +51,9 @@ public abstract class ActivityBuilderModule {
     )
     abstract SaleItemActivity contributeSaleItemActivity();
 
+    @ContributesAndroidInjector(
+            modules = {ItemViewModelsModule.class}
+    )
+    abstract ItemDetailsActivity contributeItemDetailsActivity();
 
 }

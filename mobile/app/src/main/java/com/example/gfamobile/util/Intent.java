@@ -7,4 +7,8 @@ public class Intent {
     public static final String SALE_SUMMARY = "SALE_SUMMARY";
     public static final String SALE_SUMMARY_START_DATE = "SALE_SUMMARY_START_DATE";
     public static final String SALE_SUMMARY_END_DATE = "SALE_SUMMARY_END_DATE";
+
+    public static final String ITEM_DETAIL = "ITEM_DETAIL";
+    public static final String ITEM_DETAIL_ID = "ITEM_DETAIL_ID";
+
 }
